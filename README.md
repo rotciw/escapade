@@ -1,4 +1,4 @@
-# react-ts-baseline
+# Escapade
 React baseline with typescript and linting
 =======
 # Getting Started with Create React App
