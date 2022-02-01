@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../firebase';
 import { child, get, onValue, ref } from 'firebase/database';
-
-interface IFirebase {
-  lobbyId: number;
-  name: string;
-  uid: string;
-}
+import { IFirebase } from '../types';
 
 const FirebaseTest: React.FC = () => {
   const [lobby, setLobbies] = useState<IFirebase>({ lobbyId: 0, name: '', uid: '' });
