@@ -1,5 +1,6 @@
-export interface IFirebase {
-  lobbyId: number;
-  name: string;
-  uid: string;
+export interface IGame {
+  created: number;
+  finished: boolean;
+  participants: [string];
+  round: number;
 }
