@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-import { DocumentSnapshot, getFirestore, QueryDocumentSnapshot } from 'firebase/firestore';
-import { IGame } from '../types';
+import { getFirestore } from 'firebase/firestore';
 
 // Initialize Firebase
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -15,7 +14,7 @@ const firebaseConfig = {
   measurementId: 'G-Q1HLVD0Q9F',
 };
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+getAnalytics(app);
 const database = getFirestore();
 
 export const db = database;

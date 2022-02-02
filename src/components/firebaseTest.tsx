@@ -24,7 +24,7 @@ const FirebaseTest: React.FC = () => {
 
   const writeDataWithCode = async (code: string) => {
     try {
-      const docRef = await setDoc(doc(db, 'games', code), {
+      await setDoc(doc(db, 'games', code), {
         created: Date.now(),
         finished: false,
         round: 1,
