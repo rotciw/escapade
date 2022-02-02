@@ -38,12 +38,16 @@ const FirebaseTest: React.FC = () => {
   };
 
   const readSingleGame = async () => {
-    const docRef = doc(db, 'games', gameCode);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      console.log(docSnap.data());
+    if (gameCode) {
+      const docRef = doc(db, 'games', gameCode);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        console.log(docSnap.data());
+      } else {
+        console.log('no data');
+      }
     } else {
-      console.log('no data');
+      return;
     }
   };
 
@@ -55,10 +59,11 @@ const FirebaseTest: React.FC = () => {
   //   });
   // };
 
-  const realTimeListener = () => {
-    // const q = query(collection(db, 'games'), where('lobbyCode', '==', '0'));
+  let listener: () => void;
+
+  const subscribeToListener = () => {
     const docRef = doc(db, 'games', gameCode);
-    const unsubscribe = onSnapshot(docRef, (gameDoc) => {
+    listener = onSnapshot(docRef, (gameDoc) => {
       const gameData = gameDoc.data() as IGame;
       if (gameData) {
         console.log('Current data: ' + gameData.round);
@@ -66,6 +71,12 @@ const FirebaseTest: React.FC = () => {
         console.log('no data');
       }
     });
+  };
+
+  const detachListener = () => {
+    if (listener != null) {
+      listener();
+    }
   };
 
   useEffect(() => {
@@ -86,8 +97,11 @@ const FirebaseTest: React.FC = () => {
         <button type='button' onClick={() => readSingleGame()}>
           Join
         </button>
-        <button type='button' onClick={() => realTimeListener()}>
+        <button type='button' onClick={() => subscribeToListener()}>
           Listen
+        </button>
+        <button type='button' onClick={() => detachListener()}>
+          Unsubscribe
         </button>
       </form>
     </>
