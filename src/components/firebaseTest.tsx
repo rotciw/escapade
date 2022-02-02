@@ -1,7 +1,8 @@
-import { addDoc, collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, onSnapshot, setDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { db } from '../helpers/firebase';
 import { generateGameCode } from '../helpers/lobbyHelpers';
+import { IGame } from '../types';
 
 const FirebaseTest: React.FC = () => {
   const [gameCode, setGameCode] = useState('');
@@ -46,16 +47,30 @@ const FirebaseTest: React.FC = () => {
     }
   };
 
-  const readMultipleGameFromCode = async (lobbyCode: number) => {
-    const gameRef = query(collection(db, 'games'), where('lobbyCode', '==', lobbyCode));
-    const querySnapshot = await getDocs(gameRef);
-    querySnapshot.forEach((game) => {
-      console.log(`${game.id} => ${game.data()}`);
+  // const readMultipleGameFromCode = async (lobbyCode: number) => {
+  //   const gameRef = query(collection(db, 'games'), where('lobbyCode', '==', lobbyCode));
+  //   const querySnapshot = await getDocs(gameRef);
+  //   querySnapshot.forEach((game) => {
+  //     console.log(`${game.id} => ${game.data()}`);
+  //   });
+  // };
+
+  const realTimeListener = () => {
+    // const q = query(collection(db, 'games'), where('lobbyCode', '==', '0'));
+    const docRef = doc(db, 'games', gameCode);
+    const unsubscribe = onSnapshot(docRef, (gameDoc) => {
+      const gameData = gameDoc.data() as IGame;
+      if (gameData) {
+        console.log('Current data: ' + gameData.round);
+      } else {
+        console.log('no data');
+      }
     });
   };
 
   useEffect(() => {
-    readMultipleGameFromCode(0);
+    // readMultipleGameFromCode(0);
+    // realTimeListener();
   }, []);
 
   const onInputChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -70,6 +85,9 @@ const FirebaseTest: React.FC = () => {
         <input type='text' value={gameCode} onChange={onInputChange} />
         <button type='button' onClick={() => readSingleGame()}>
           Join
+        </button>
+        <button type='button' onClick={() => realTimeListener()}>
+          Listen
         </button>
       </form>
     </>
