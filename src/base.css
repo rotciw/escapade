@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .btn-primary {
+    @apply px-8 py-2 font-bold transition-all border rounded shadow-lg hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cameo-pink-hover border-independence bg-cameo-pink;
+  }
+}
+
 @layer base {
   @font-face {
     font-family: 'Inter';
