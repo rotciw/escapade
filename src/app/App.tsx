@@ -1,12 +1,12 @@
 import React from 'react';
 import FirebaseTest from '../components/firebaseTest';
+import '../base.css';
 
 const App: React.FC = () => {
   return (
-    <>
-      <div>Congratz, the baseline is set up!</div>
+    <div className='font-inter'>
       <FirebaseTest />
-    </>
+    </div>
   );
 };
 
