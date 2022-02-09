@@ -4,9 +4,10 @@ import '../base.css';
 
 const App: React.FC = () => {
   return (
-    <div className='text-black font-inter'>
+    <div className='min-h-screen text-black font-inter bg-colorful-blue'>
       <FirebaseTest />
-      <button className='btn-primary'>Send inn svar</button>
+      <button className='btn-lg'>Send inn svar</button>
+      <button className='btn-sm'>Start</button>
     </div>
   );
 };
