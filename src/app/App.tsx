@@ -1,11 +1,22 @@
 import React from 'react';
-import FirebaseTest from '../components/firebaseTest';
+import { Route, Routes } from 'react-router-dom';
 import '../base.css';
+import { GameContextProvider } from '../contexts/gameContext';
+import CreatingGameView from '../views/host/creatingGameView';
+import BaseGameView from '../views/player/baseGameView';
+import UserCreationView from '../views/player/userCreationView';
 
 const App: React.FC = () => {
   return (
-    <div className='font-inter'>
-      <FirebaseTest />
+    <div className='min-h-screen text-alice-blue font-inter bg-colorful-blue'>
+      <GameContextProvider>
+        <Routes>
+          <Route path='/' element={<BaseGameView />} />
+          {/* can be an unique string path later on */}
+          <Route path='/customize' element={<UserCreationView />} />
+          <Route path='/create' element={<CreatingGameView />} />
+        </Routes>
+      </GameContextProvider>
     </div>
   );
 };
