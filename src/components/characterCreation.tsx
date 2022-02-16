@@ -43,6 +43,13 @@ const CharacterCreation: React.FC = () => {
     setColorNumber(previousNumber);
   };
 
+  const randomizeCharacter = () => {
+    // event.preventDefault
+    setHeadNumber(Math.ceil(Math.random() * totalHeads));
+    setBodyNumber(Math.ceil(Math.random() * totalBodies));
+    setColorNumber(Math.ceil(Math.random() * totalColors));
+  };
+
   return (
     <form className='box-border flex flex-col max-w-md px-20 py-8 mx-auto border border-black rounded bg-alice-blue'>
       <input
@@ -92,7 +99,13 @@ const CharacterCreation: React.FC = () => {
           </tr>
         </tbody>
       </table>
-      <button className='mb-10 font-bold'>Tilfeldig</button>
+      <div
+        className='mx-auto mb-10 font-bold cursor-pointer select-none'
+        onClick={() => randomizeCharacter()}
+      >
+        <RefreshCw className='inline mr-3' />
+        Tilfeldig
+      </div>
       <button className='border border-black rounded bg-cameo-pink shadow-magic-mint shadow-[4px_4px_0] font-bold py-3 text-xl'>
         Bli med
       </button>
