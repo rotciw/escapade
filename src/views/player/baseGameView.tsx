@@ -48,7 +48,8 @@ const BaseGameView: React.FC = () => {
           </button>
           {errorMessage ? <p>{errorMessage}</p> : <p>&nbsp;</p>}
         </div>
-        <div className='flex items-center justify-center'>
+        <div className='flex flex-col items-center justify-center'>
+          <p className='mb-2'>Lag din egen Escapade</p>
           <button className='btn-lg' onClick={() => navigate('/create')}>
             Lag et spill
           </button>

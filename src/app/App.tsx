@@ -4,6 +4,7 @@ import '../base.css';
 import { GameContextProvider } from '../contexts/gameContext';
 import CreatingGameView from '../views/host/creatingGameView';
 import BaseGameView from '../views/player/baseGameView';
+import LobbyView from '../views/player/lobbyView';
 import UserCreationView from '../views/player/userCreationView';
 
 const App: React.FC = () => {
@@ -15,6 +16,7 @@ const App: React.FC = () => {
           {/* can be an unique string path later on */}
           <Route path='/customize' element={<UserCreationView />} />
           <Route path='/create' element={<CreatingGameView />} />
+          <Route path='/lobby' element={<LobbyView />} />
         </Routes>
       </GameContextProvider>
     </div>
