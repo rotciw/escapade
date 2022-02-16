@@ -1,6 +1,12 @@
 export interface IGame {
   created: number;
   finished: boolean;
-  participants: [string];
+  participants: IPlayer[];
   round: number;
+}
+
+export interface IPlayer {
+  id: string;
+  name: string;
+  isReady: boolean;
 }
