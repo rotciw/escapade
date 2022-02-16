@@ -4,6 +4,7 @@ import { arrayRemove, arrayUnion, collection, doc, setDoc, updateDoc } from 'fir
 import { db } from '../../helpers/firebase';
 import { generatePlayerId } from '../../helpers/lobbyHelpers';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import CharacterCreation from '../../components/characterCreation';
 
 const UserCreationView: React.FC = () => {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ const UserCreationView: React.FC = () => {
       <div className='flex flex-col items-center justify-evenly'>
         <div className='my-4 text-center'>
           <h1 className='my-12 text-6xl font-bold text-center text-alice-blue'>Escapade</h1>
+          <CharacterCreation />
           <input
             className='px-4 py-2 text-black uppercase transition-all border rounded placeholder-normal border-independence focus:outline-none focus:shadow-sm focus:ring-magic-mint outline-colorful-blue'
             type='text'
