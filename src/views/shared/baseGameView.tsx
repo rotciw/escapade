@@ -19,7 +19,7 @@ const BaseGameView: React.FC = () => {
     if (gameCode) {
       const docRef = doc(db, 'games', gameCode);
       const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
+      if (docSnap.exists() && docSnap.data().canJoin) {
         setLocalStorageValue(gameCode);
         navigate('/customize');
       } else {

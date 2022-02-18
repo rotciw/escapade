@@ -3,8 +3,8 @@ import { Route, Routes } from 'react-router-dom';
 import '../base.css';
 import { GameContextProvider } from '../contexts/gameContext';
 import CreatingGameView from '../views/host/creatingGameView';
-import BaseGameView from '../views/player/baseGameView';
-import LobbyView from '../views/player/lobbyView';
+import BaseGameView from '../views/shared/baseGameView';
+import LobbyView from '../views/shared/lobbyView';
 import UserCreationView from '../views/player/userCreationView';
 
 const App: React.FC = () => {
