@@ -1,67 +1,81 @@
-import React, { useState } from 'react';
+import React, { MouseEventHandler, useEffect } from 'react';
 import { ArrowRight, ArrowLeft, RefreshCw } from 'react-feather';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
-const CharacterCreation: React.FC = () => {
-  const [headNumber, setHeadNumber] = useState(1);
-  const [bodyNumber, setBodyNumber] = useState(1);
-  const [colorNumber, setColorNumber] = useState(1);
+const CharacterCreation: React.FC<{
+  joinFunction: MouseEventHandler;
+  nameSetter: React.Dispatch<React.SetStateAction<string>>;
+  headSetter: React.Dispatch<React.SetStateAction<number>>;
+  bodySetter: React.Dispatch<React.SetStateAction<number>>;
+  colorSetter: React.Dispatch<React.SetStateAction<number>>;
+}> = ({ joinFunction, nameSetter, headSetter, bodySetter, colorSetter }) => {
+  const [headNumber, setHeadNumber] = useLocalStorage('playerHead', '1');
+  const [bodyNumber, setBodyNumber] = useLocalStorage('playerBody', '1');
+  const [colorNumber, setColorNumber] = useLocalStorage('playerColor', '1');
+  const [playerName, setPlayerName] = useLocalStorage('playerName', '');
 
   // Total number of options for heads, bodies and colors
   const totalHeads = 5;
   const totalBodies = 5;
   const totalColors = 5;
 
-  // Onclick functions that go to the next or previous head, body or color
-
-  const nextHead = () => {
-    const nextNumber = headNumber < totalHeads ? headNumber + 1 : 1;
-    setHeadNumber(nextNumber);
+  // Helper functions that assist with wraparound numbers (ie. option nr 5 -> option nr 1)
+  const findNextNumber = (currentNumber: number, maxNumber: number) => {
+    return +currentNumber < maxNumber ? +currentNumber + 1 : 1;
   };
 
-  const previousHead = () => {
-    const previousNumber = headNumber > 1 ? headNumber - 1 : totalHeads;
-    setHeadNumber(previousNumber);
-  };
-
-  const nextBody = () => {
-    const nextNumber = bodyNumber < totalBodies ? bodyNumber + 1 : 1;
-    setBodyNumber(nextNumber);
-  };
-
-  const previousBody = () => {
-    const previousNumber = bodyNumber > 1 ? bodyNumber - 1 : totalBodies;
-    setBodyNumber(previousNumber);
-  };
-
-  const nextColor = () => {
-    const nextNumber = colorNumber < totalColors ? colorNumber + 1 : 1;
-    setColorNumber(nextNumber);
-  };
-
-  const previousColor = () => {
-    const previousNumber = colorNumber > 1 ? colorNumber - 1 : totalColors;
-    setColorNumber(previousNumber);
+  const findPreviousNumber = (currentNumber: number, maxNumber: number) => {
+    return +currentNumber > 1 ? +currentNumber - 1 : maxNumber;
   };
 
   const randomizeCharacter = () => {
-    // event.preventDefault
-    setHeadNumber(Math.ceil(Math.random() * totalHeads));
-    setBodyNumber(Math.ceil(Math.random() * totalBodies));
-    setColorNumber(Math.ceil(Math.random() * totalColors));
+    setHeadNumber(Math.ceil(Math.random() * totalHeads).toString());
+    setBodyNumber(Math.ceil(Math.random() * totalBodies).toString());
+    setColorNumber(Math.ceil(Math.random() * totalColors).toString());
   };
 
+  const onInputChange = (event: React.FormEvent<HTMLInputElement>) => {
+    setPlayerName(event.currentTarget.value);
+  };
+
+  // Updates state of parent whenever character is changed (inc. name). Needed since parent sends data to db based on own state, not localstorage
+  // Might be better to just have parent retreive data from localstorage when sending join game request
+  useEffect(() => {
+    console.log('updated parent');
+    nameSetter(playerName);
+    headSetter(+headNumber);
+    bodySetter(+bodyNumber);
+    colorSetter(+colorNumber);
+  }, [
+    bodyNumber,
+    bodySetter,
+    colorNumber,
+    colorSetter,
+    headNumber,
+    headSetter,
+    playerName,
+    nameSetter,
+  ]);
+
   return (
-    <form className='box-border flex flex-col max-w-md px-20 py-8 mx-auto border border-black rounded bg-alice-blue'>
+    <div className='box-border flex flex-col max-w-md px-20 py-8 mx-auto text-black border border-black rounded bg-alice-blue'>
       <input
-        className='p-1 text-xl text-center border border-black rounded'
+        className='p-2 text-center text-black uppercase transition-all border rounded placeholder-normal border-independence focus:shadow-sm focus:ring-magic-mint'
         type='text'
         placeholder='Skriv inn navn'
+        value={playerName}
+        onChange={onInputChange}
       />
       <table className='my-8'>
         <tbody>
           <tr>
             <td>
-              <ArrowLeft className='float-right cursor-pointer' onClick={() => previousHead()} />
+              <ArrowLeft
+                className='float-right cursor-pointer'
+                onClick={() =>
+                  setHeadNumber(findPreviousNumber(+headNumber, totalHeads).toString())
+                }
+              />
             </td>
             <td className='relative w-24 h-48 align-top' rowSpan={3}>
               <img
@@ -78,23 +92,42 @@ const CharacterCreation: React.FC = () => {
               />
             </td>
             <td>
-              <ArrowRight className='cursor-pointer' onClick={() => nextHead()} />
+              <ArrowRight
+                className='cursor-pointer'
+                onClick={() => setHeadNumber(findNextNumber(+headNumber, totalHeads).toString())}
+              />
             </td>
           </tr>
           <tr>
             <td>
-              <ArrowLeft className='float-right cursor-pointer' onClick={() => previousBody()} />
+              <ArrowLeft
+                className='float-right cursor-pointer'
+                onClick={() =>
+                  setBodyNumber(findPreviousNumber(+bodyNumber, totalBodies).toString())
+                }
+              />
             </td>
             <td>
-              <ArrowRight className='cursor-pointer' onClick={() => nextBody()} />
+              <ArrowRight
+                className='cursor-pointer'
+                onClick={() => setBodyNumber(findNextNumber(+bodyNumber, totalBodies).toString())}
+              />
             </td>
           </tr>
           <tr>
             <td>
-              <ArrowLeft className='float-right cursor-pointer' onClick={() => previousColor()} />
+              <ArrowLeft
+                className='float-right cursor-pointer'
+                onClick={() =>
+                  setColorNumber(findPreviousNumber(+colorNumber, totalColors).toString())
+                }
+              />
             </td>
             <td>
-              <ArrowRight className='cursor-pointer' onClick={() => nextColor()} />
+              <ArrowRight
+                className='cursor-pointer'
+                onClick={() => setColorNumber(findNextNumber(+colorNumber, totalColors).toString())}
+              />
             </td>
           </tr>
         </tbody>
@@ -106,10 +139,10 @@ const CharacterCreation: React.FC = () => {
         <RefreshCw className='inline mr-3' />
         Tilfeldig
       </div>
-      <button className='border border-black rounded bg-cameo-pink shadow-magic-mint shadow-[4px_4px_0] font-bold py-3 text-xl'>
+      <button className='btn-lg' onClick={(event) => joinFunction(event)}>
         Bli med
       </button>
-    </form>
+    </div>
   );
 };
 
