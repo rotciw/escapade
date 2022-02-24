@@ -41,7 +41,6 @@ const CharacterCreation: React.FC<{
   // Updates state of parent whenever character is changed (inc. name). Needed since parent sends data to db based on own state, not localstorage
   // Might be better to just have parent retreive data from localstorage when sending join game request
   useEffect(() => {
-    console.log('updated parent');
     nameSetter(playerName);
     headSetter(+headNumber);
     bodySetter(+bodyNumber);
