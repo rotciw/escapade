@@ -21,9 +21,6 @@ const UserCreationView: React.FC = () => {
     await setDoc(doc(db, 'players', newPlayerId), {
       name: playerName,
       id: newPlayerId,
-      head: playerHead,
-      body: playerBody,
-      color: playerColor,
     });
     await updateDoc(doc(db, 'games', value), {
       [`participants.${newPlayerId}`]: {
@@ -31,6 +28,9 @@ const UserCreationView: React.FC = () => {
         name: playerName,
         teamId: 0,
         isReady: false,
+        head: playerHead,
+        body: playerBody,
+        color: playerColor,
       },
     });
     navigate('/lobby');
