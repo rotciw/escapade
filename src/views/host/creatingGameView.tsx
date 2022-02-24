@@ -1,37 +1,54 @@
 import { doc, setDoc } from 'firebase/firestore';
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Header from '../../components/header';
 import { db } from '../../helpers/firebase';
-import { generateGameCode } from '../../helpers/lobbyHelpers';
+import { generateGameCode, generatePlayerId } from '../../helpers/lobbyHelpers';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 const CreatingGameView: React.FC = () => {
-  const [gameCode, setGameCode] = useState('');
-  const createGame = async (code: string) => {
+  const navigate = useNavigate();
+  const [creatorGameCode, setCreatorGameCode] = useLocalStorage('gameCode', '');
+  const [gameHostId, setGameHostId] = useLocalStorage('hostId', '');
+
+  const createGame = async () => {
+    const gameCode = generateGameCode(6);
+    const hostId = generatePlayerId();
     try {
-      await setDoc(doc(db, 'games', code), {
+      await setDoc(doc(db, 'games', gameCode), {
         created: Date.now(),
         finished: false,
         round: 1,
         participants: [],
         theme: 0,
+        canJoin: true,
+        hostId: hostId,
+        selectionStep: 0,
       });
-      console.log('Document written with ID: ', code);
-      setGameCode(code);
+      setCreatorGameCode(gameCode);
+      setGameHostId(hostId);
+      navigate('/lobby');
     } catch (e) {
       console.error('Error', e);
     }
   };
 
   return (
-    <div className='flex flex-col items-center justify-center h-screen font-semibold'>
-      <button
-        disabled={gameCode !== ''}
-        className='my-2 btn-lg'
-        onClick={() => createGame(generateGameCode(6))}
-      >
-        Lag et spill
-      </button>
-      {gameCode ? <p>Koden til spillet er {gameCode}</p> : <></>}
-    </div>
+    <>
+      <Header />
+      {/* Choose a theme */}
+      <div className='flex flex-col items-center justify-center h-screen font-semibold'>
+        <h1>Velg et tema</h1>
+        <button className='btn-lg'>Intro til Escapade</button>
+        {/* More options */}
+        <div>
+          <h1>Flere innstillinger</h1>
+        </div>
+        <button className='my-2 btn-lg' onClick={() => createGame()}>
+          Fortsett
+        </button>
+      </div>
+    </>
   );
 };
 
