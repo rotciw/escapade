@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { arrayRemove, arrayUnion, collection, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../helpers/firebase';
 import { generatePlayerId } from '../../helpers/lobbyHelpers';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
@@ -19,19 +19,27 @@ const UserCreationView: React.FC = () => {
     const newPlayerId = generatePlayerId();
     setPlayerId(newPlayerId);
     await setDoc(doc(db, 'players', newPlayerId), {
-      ready: false,
       name: playerName,
       id: newPlayerId,
       head: playerHead,
       body: playerBody,
       color: playerColor,
     });
-    await updateDoc(doc(db, 'games', value), { participants: arrayUnion(newPlayerId) });
+    await updateDoc(doc(db, 'games', value), {
+      [`participants.${newPlayerId}`]: {
+        id: newPlayerId,
+        name: playerName,
+        teamId: 0,
+        isReady: false,
+      },
+    });
     navigate('/lobby');
   };
 
   const leaveGame = async () => {
-    await updateDoc(doc(db, 'games', value), { participants: arrayRemove(playerId) });
+    await updateDoc(doc(db, 'games', value), {
+      participants: arrayRemove({ id: playerId, teamId: 0 }),
+    });
   };
 
   return (
