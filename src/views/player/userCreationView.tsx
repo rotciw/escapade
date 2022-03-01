@@ -18,10 +18,6 @@ const UserCreationView: React.FC = () => {
   const joinGame = async () => {
     const newPlayerId = generatePlayerId();
     setPlayerId(newPlayerId);
-    await setDoc(doc(db, 'players', newPlayerId), {
-      name: playerName,
-      id: newPlayerId,
-    });
     await updateDoc(doc(db, 'games', value), {
       [`participants.${newPlayerId}`]: {
         id: newPlayerId,
@@ -33,6 +29,7 @@ const UserCreationView: React.FC = () => {
         color: playerColor,
       },
     });
+    await updateDoc(doc(db, 'games', value), { selectionStep: 1, canJoin: false });
     navigate('/lobby');
   };
 
