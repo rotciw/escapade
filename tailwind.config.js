@@ -5,6 +5,7 @@ module.exports = {
       white: '#FFFFFF',
       black: '#2B2F3B',
       'alice-blue': '#F1F3F9',
+      'alice-blue-hover': '#E2E6F3',
       'cameo-pink': '#EFBCD5',
       'cameo-pink-hover': '#EBADCC',
       'colorful-blue': '#5170ED',

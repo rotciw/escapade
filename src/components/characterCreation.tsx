@@ -70,29 +70,35 @@ const CharacterCreation: React.FC<{
           <tr>
             <td>
               <ArrowLeft
-                className='float-right cursor-pointer'
+                className='float-right icon-clickable'
+                size={36}
                 onClick={() =>
                   setHeadNumber(findPreviousNumber(+headNumber, totalHeads).toString())
                 }
               />
             </td>
-            <td className='relative w-24 h-48 align-top' rowSpan={3}>
+            <td className='relative w-32 h-48 align-top' rowSpan={3}>
               <img
                 className='absolute select-none t-0'
-                src={`../../images/characters/colors/${colorNumber}.png`}
+                src={`../../images/characters/body_bg/${colorNumber}.svg`}
               />
               <img
                 className='absolute select-none t-0'
-                src={`../../images/characters/heads/${headNumber}.png`}
+                src={`../../images/characters/head_bg/${colorNumber}.svg`}
               />
               <img
                 className='absolute select-none t-0'
-                src={`../../images/characters/bodies/${bodyNumber}.png`}
+                src={`../../images/characters/head_fg/${headNumber}.svg`}
+              />
+              <img
+                className='absolute select-none t-0'
+                src={`../../images/characters/body_fg/${bodyNumber}.svg`}
               />
             </td>
             <td>
               <ArrowRight
-                className='cursor-pointer'
+                className='icon-clickable'
+                size={36}
                 onClick={() => setHeadNumber(findNextNumber(+headNumber, totalHeads).toString())}
               />
             </td>
@@ -100,7 +106,8 @@ const CharacterCreation: React.FC<{
           <tr>
             <td>
               <ArrowLeft
-                className='float-right cursor-pointer'
+                className='float-right icon-clickable'
+                size={36}
                 onClick={() =>
                   setBodyNumber(findPreviousNumber(+bodyNumber, totalBodies).toString())
                 }
@@ -108,7 +115,8 @@ const CharacterCreation: React.FC<{
             </td>
             <td>
               <ArrowRight
-                className='cursor-pointer'
+                className='icon-clickable'
+                size={36}
                 onClick={() => setBodyNumber(findNextNumber(+bodyNumber, totalBodies).toString())}
               />
             </td>
@@ -116,7 +124,8 @@ const CharacterCreation: React.FC<{
           <tr>
             <td>
               <ArrowLeft
-                className='float-right cursor-pointer'
+                className='float-right icon-clickable'
+                size={36}
                 onClick={() =>
                   setColorNumber(findPreviousNumber(+colorNumber, totalColors).toString())
                 }
@@ -124,7 +133,8 @@ const CharacterCreation: React.FC<{
             </td>
             <td>
               <ArrowRight
-                className='cursor-pointer'
+                className='icon-clickable'
+                size={36}
                 onClick={() => setColorNumber(findNextNumber(+colorNumber, totalColors).toString())}
               />
             </td>
