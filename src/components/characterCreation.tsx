@@ -148,7 +148,7 @@ const CharacterCreation: React.FC<{
         <RefreshCw className='inline mr-3' />
         Tilfeldig
       </div>
-      <button className='btn-lg' onClick={(event) => joinFunction(event)}>
+      <button className='btn-sm' onClick={(event) => joinFunction(event)}>
         Bli med
       </button>
     </div>
