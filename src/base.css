@@ -9,6 +9,9 @@
   .btn-sm {
     @apply px-4 py-2 font-bold text-black transition-all border rounded shadow-sm hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cameo-pink-hover border-independence bg-cameo-pink;
   }
+  .icon-clickable {
+    @apply transition-all rounded-full cursor-pointer hover:bg-alice-blue-hover;
+  }
 }
 
 @layer utilities {
