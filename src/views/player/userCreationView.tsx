@@ -4,20 +4,20 @@ import { arrayRemove, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../helpers/firebase';
 import { generatePlayerId } from '../../helpers/lobbyHelpers';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import CharacterCreation from '../../components/characterCreation';
 
 const UserCreationView: React.FC = () => {
   const navigate = useNavigate();
   const [playerName, setPlayerName] = useState('');
+  const [playerHead, setPlayerHead] = useState(1);
+  const [playerBody, setPlayerBody] = useState(1);
+  const [playerColor, setPlayerColor] = useState(1);
   const [value, setValue] = useLocalStorage('gameCode', '');
   const [playerId, setPlayerId] = useLocalStorage('playerId', '');
 
   const joinGame = async () => {
     const newPlayerId = generatePlayerId();
     setPlayerId(newPlayerId);
-    await setDoc(doc(db, 'players', newPlayerId), {
-      name: playerName,
-      id: newPlayerId,
-    });
     await updateDoc(doc(db, 'games', value), {
       [`participants.${newPlayerId}`]: {
         id: newPlayerId,
@@ -25,8 +25,12 @@ const UserCreationView: React.FC = () => {
         teamId: 0,
         isReady: false,
         role: 0,
+        head: playerHead,
+        body: playerBody,
+        color: playerColor,
       },
     });
+    await updateDoc(doc(db, 'games', value), { selectionStep: 1, canJoin: false });
     navigate('/lobby');
   };
 
@@ -36,21 +40,17 @@ const UserCreationView: React.FC = () => {
     });
   };
 
-  const onInputChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setPlayerName(event.currentTarget.value);
-  };
-
   return (
     <>
       <div className='flex flex-col items-center justify-evenly'>
         <div className='my-4 text-center'>
           <h1 className='my-12 text-6xl font-bold text-center text-alice-blue'>Escapade</h1>
-          <input
-            className='px-4 py-2 text-black uppercase transition-all border rounded placeholder-normal border-independence focus:outline-none focus:shadow-sm focus:ring-magic-mint outline-colorful-blue'
-            type='text'
-            value={playerName}
-            onChange={onInputChange}
-            placeholder='Skriv inn navn'
+          <CharacterCreation
+            joinFunction={joinGame}
+            nameSetter={setPlayerName}
+            headSetter={setPlayerHead}
+            bodySetter={setPlayerBody}
+            colorSetter={setPlayerColor}
           />
         </div>
         <button
@@ -61,9 +61,6 @@ const UserCreationView: React.FC = () => {
           }}
         >
           Gå tilbake
-        </button>
-        <button className='btn-sm' onClick={() => joinGame()}>
-          Bli med
         </button>
       </div>
     </>
