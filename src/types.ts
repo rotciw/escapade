@@ -19,6 +19,9 @@ export interface ICurrentGamePlayer {
   teamId: number;
   isReady: boolean;
   role: number;
+  head: number;
+  body: number;
+  color: number;
 }
 
 export interface ITeam {

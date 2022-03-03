@@ -55,8 +55,8 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
                 .map((participant) => (
                   <div key={participant.id}>
                     <AvatarHead
-                      head={1}
-                      color={1}
+                      head={participant.head}
+                      color={participant.color}
                       name={participant.name}
                       currentPlayer={playerId === participant.id}
                       key={participant.id}
@@ -74,8 +74,8 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
             .filter((player) => player.teamId === 0)
             .map((player) => (
               <AvatarHead
-                head={1}
-                color={1}
+                head={player.head}
+                color={player.color}
                 name={player.name}
                 currentPlayer={playerId === player.id}
                 key={player.id}
