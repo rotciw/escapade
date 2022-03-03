@@ -9,10 +9,11 @@ import { ICurrentGamePlayer, ITeam } from '../types';
 interface IProps {
   participants: ICurrentGamePlayer[];
   numberOfTeams: number;
+  isHost: boolean;
 }
 
 const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
-  const { participants, numberOfTeams } = props;
+  const { participants, numberOfTeams, isHost } = props;
   const [value, setValue] = useLocalStorage('gameCode', '');
   const [playerId, setPlayerId] = useLocalStorage('playerId', '');
   const [teams, setTeams] = useState<ITeam[]>([]);
@@ -40,9 +41,13 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
         {teams.map((team) => (
           <div key={team.id}>
             <h1 className='text-xl font-bold text-independence'>Lag {team.id}</h1>;
-            <button className='btn-lg' onClick={() => chooseTeam(team.id)}>
-              Velg lag {team.id}
-            </button>
+            {!isHost ? (
+              <button className='btn-lg' onClick={() => chooseTeam(team.id)}>
+                Velg lag {team.id}
+              </button>
+            ) : (
+              <></>
+            )}
             <div className='flex flex-row'>
               {Object.values(participants)
                 .filter((participant) => participant.teamId === team.id)

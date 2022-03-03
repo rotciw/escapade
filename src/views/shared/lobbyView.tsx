@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header';
 import LobbyComponent from '../../components/lobbyComponent';
 import TeamSelectionComponent from '../../components/teamSelectionComponent';
+import RoleSelectionComponent from '../../components/roleSelection/roleSelectionComponent';
 
 const LobbyView: React.FC = () => {
   const navigate = useNavigate();
@@ -37,7 +38,11 @@ const LobbyView: React.FC = () => {
   };
 
   const handleNextStep = async () => {
-    await updateDoc(doc(db, 'games', value), { selectionStep: 1, canJoin: false });
+    if (step === 0) {
+      await updateDoc(doc(db, 'games', value), { selectionStep: 1, canJoin: false });
+    } else if (step === 1) {
+      await updateDoc(doc(db, 'games', value), { selectionStep: 2 });
+    }
   };
 
   useEffect(() => {
@@ -50,15 +55,19 @@ const LobbyView: React.FC = () => {
       <Header />
       <div className='flex flex-col items-center mt-16 justify-evenly'>
         {step === 0 && <LobbyComponent participants={participants} />}
-        {step === 1 && <TeamSelectionComponent participants={participants} numberOfTeams={2} />}
+        {step === 1 && (
+          <TeamSelectionComponent participants={participants} numberOfTeams={2} isHost={isHost} />
+        )}
+        {step >= 2 && !isHost && <RoleSelectionComponent participants={participants} />}
         <div className='mt-4'>
-          {isHost ? (
+          {isHost && (
             <button className='btn-lg' onClick={() => handleNextStep()}>
               Fortsett
             </button>
-          ) : (
-            <p>Vent på at verten starter spillet..</p>
           )}
+          {!isHost && step < 2 && <p>Vent på at verten starter spillet..</p>}
+          {!isHost && step === 2 && <p>Venter på at alle spillere har valgt en rolle..</p>}
+          {!isHost && step === 3 && <button className='btn-lg'>Start spillet </button>}
         </div>
       </div>
     </>

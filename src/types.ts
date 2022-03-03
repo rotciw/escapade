@@ -18,9 +18,21 @@ export interface ICurrentGamePlayer {
   name: string;
   teamId: number;
   isReady: boolean;
+  role: number;
 }
 
 export interface ITeam {
   id: number;
   participants: ICurrentGamePlayer[];
+}
+
+export interface IRole {
+  id: number;
+  playerId: '';
+}
+
+export interface IRoleInfo {
+  title: string;
+  subtitle: string;
+  description: string;
 }
