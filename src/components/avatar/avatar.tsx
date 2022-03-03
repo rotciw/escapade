@@ -10,10 +10,19 @@ const Avatar: React.FC<{
   return (
     <div className='flex flex-col items-center w-min'>
       <div className={`relative object-cover w-24`}>
-        <img className='' src={`./images/characters/head_bg/${color}.svg`} />
-        <img className='absolute top-0' src={`./images/characters/body_bg/${color}.svg`} />
-        <img className='absolute top-0' src={`./images/characters/head_fg/${head}.svg`} />
-        <img className='absolute top-0' src={`./images/characters/body_fg/${body}.svg`} />
+        <img className='select-none' src={`./images/characters/head_bg/${color}.svg`} />
+        <img
+          className='absolute top-0 select-none'
+          src={`./images/characters/body_bg/${color}.svg`}
+        />
+        <img
+          className='absolute top-0 select-none'
+          src={`./images/characters/head_fg/${head}.svg`}
+        />
+        <img
+          className='absolute top-0 select-none'
+          src={`./images/characters/body_fg/${body}.svg`}
+        />
       </div>
       <p className='w-full mt-2 font-bold text-center text-independence'>{name}</p>
       <p className='text-center text-independence'>{currentPlayer ? '(deg)' : ''}</p>

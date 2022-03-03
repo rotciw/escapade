@@ -41,9 +41,9 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
       <div className='w-5/6 p-5 rounded bg-alice-blue h-5/6'>
         {teams.map((team) => (
           <div key={team.id}>
-            <h1 className='text-xl font-bold text-independence'>Lag {team.id}</h1>;
+            <h1 className='text-xl font-bold text-independence'>Lag {team.id}</h1>
             {!isHost ? (
-              <button className='btn-lg' onClick={() => chooseTeam(team.id)}>
+              <button className='mt-1 mb-4 btn-lg' onClick={() => chooseTeam(team.id)}>
                 Velg lag {team.id}
               </button>
             ) : (
