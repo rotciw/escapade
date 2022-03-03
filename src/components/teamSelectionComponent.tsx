@@ -24,6 +24,10 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
     });
   };
 
+  const handleTeam = (teamId: number) => {
+    return Object.values(participants).filter((participant) => participant.teamId === teamId);
+  };
+
   useEffect(() => {
     const placeholderTeams = [];
     for (let i = 1; i <= numberOfTeams; i++) {
@@ -40,8 +44,11 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
       <div className='w-5/6 p-5 rounded bg-alice-blue h-5/6'>
         {teams.map((team) => (
           <div key={team.id}>
-            <h1 className='text-xl font-bold text-independence'>Lag {team.id}</h1>;
-            {!isHost ? (
+            <h1 className='text-xl font-bold text-independence'>
+              Lag {team.id} ({handleTeam(team.id).length} spillere)
+            </h1>
+            ;
+            {!isHost && handleTeam(team.id).length !== 5 ? (
               <button className='btn-lg' onClick={() => chooseTeam(team.id)}>
                 Velg lag {team.id}
               </button>
@@ -49,15 +56,13 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
               <></>
             )}
             <div className='flex flex-row'>
-              {Object.values(participants)
-                .filter((participant) => participant.teamId === team.id)
-                .map((participant) => (
-                  <div className='mx-5 my-3 text-md' key={participant.id}>
-                    <p className='text-independence'>
-                      {participant.name} {playerId === participant.id ? '(deg)' : ''}
-                    </p>
-                  </div>
-                ))}
+              {handleTeam(team.id).map((participant) => (
+                <div className='mx-5 my-3 text-md' key={participant.id}>
+                  <p className='text-independence'>
+                    {participant.name} {playerId === participant.id ? '(deg)' : ''}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         ))}
@@ -65,15 +70,13 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
       <div className='p-5 mt-8 rounded bg-alice-blue'>
         <h1 className='text-xl font-bold text-center text-independence'>Ikke valgt lag</h1>
         <div className='flex flex-row'>
-          {Object.values(participants)
-            .filter((player) => player.teamId === 0)
-            .map((player) => (
-              <div className='mx-5 my-3 text-md' key={player.id}>
-                <p className='text-independence'>
-                  {player.name} {playerId === player.id ? '(deg)' : ''}
-                </p>
-              </div>
-            ))}
+          {handleTeam(0).map((player) => (
+            <div className='mx-5 my-3 text-md' key={player.id}>
+              <p className='text-independence'>
+                {player.name} {playerId === player.id ? '(deg)' : ''}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </>

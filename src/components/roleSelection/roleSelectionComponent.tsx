@@ -75,13 +75,11 @@ const RoleSelectionComponent: React.FC<IProps> = (props: IProps) => {
             .filter((player) => player.teamId === teamId && player.role === 0)
             .sort((a, b) => (a.id > b.id ? 1 : -1))
             .map((player) => (
-              <>
-                <div className='mx-5 my-3 text-md' key={player.id}>
-                  <p className='text-independence'>
-                    {player.name} {playerId === player.id ? '(deg)' : ''}
-                  </p>
-                </div>
-              </>
+              <div className='mx-5 my-3 text-md' key={player.id}>
+                <p className='text-independence'>
+                  {player.name} {playerId === player.id ? '(deg)' : ''}
+                </p>
+              </div>
             ))}
         </div>
       </div>

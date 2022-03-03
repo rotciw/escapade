@@ -10,10 +10,6 @@ const BaseGameView: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [localStorageValue, setLocalStorageValue] = useLocalStorage('gameCode', '');
 
-  const onInputChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setGameCode(event.currentTarget.value);
-  };
-
   const joinGameLobby = async () => {
     // Join a lobby only if code exists
     if (gameCode) {
@@ -31,6 +27,16 @@ const BaseGameView: React.FC = () => {
     }
   };
 
+  const onInputChange = (event: React.FormEvent<HTMLInputElement>) => {
+    setGameCode(event.currentTarget.value);
+  };
+
+  const handleEnterPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key == 'Enter') {
+      joinGameLobby();
+    }
+  };
+
   return (
     <>
       <div className='flex flex-col items-center h-screen justify-evenly'>
@@ -40,6 +46,7 @@ const BaseGameView: React.FC = () => {
             className='px-4 py-2 mr-2 text-black uppercase transition-all border rounded placeholder-normal border-independence focus:outline-none focus:shadow-sm focus:ring-magic-mint outline-colorful-blue'
             type='text'
             value={gameCode}
+            onKeyPress={handleEnterPress}
             onChange={onInputChange}
             placeholder='Kode for spillet'
           />
