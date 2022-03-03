@@ -83,14 +83,6 @@ const RoleSelectionComponent: React.FC<IProps> = (props: IProps) => {
                 </div>
               </>
             ))}
-          {/* <button
-            className='btn-lg'
-            onClick={() => {
-              handleRoleChange(0);
-            }}
-          >
-            Velg rolle
-          </button> */}
         </div>
       </div>
     </>
