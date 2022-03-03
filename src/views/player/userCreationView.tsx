@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { arrayRemove, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../helpers/firebase';
 import { generatePlayerId } from '../../helpers/lobbyHelpers';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
@@ -14,24 +14,28 @@ const UserCreationView: React.FC = () => {
   const [playerColor, setPlayerColor] = useState(1);
   const [value, setValue] = useLocalStorage('gameCode', '');
   const [playerId, setPlayerId] = useLocalStorage('playerId', '');
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const joinGame = async () => {
-    const newPlayerId = generatePlayerId();
-    setPlayerId(newPlayerId);
-    await updateDoc(doc(db, 'games', value), {
-      [`participants.${newPlayerId}`]: {
-        id: newPlayerId,
-        name: playerName,
-        teamId: 0,
-        isReady: false,
-        role: 0,
-        head: playerHead,
-        body: playerBody,
-        color: playerColor,
-      },
-    });
-    await updateDoc(doc(db, 'games', value), { selectionStep: 1, canJoin: false });
-    navigate('/lobby');
+  const joinGame = async (name: string) => {
+    if (name !== '') {
+      const newPlayerId = generatePlayerId();
+      setPlayerId(newPlayerId);
+      await updateDoc(doc(db, 'games', value), {
+        [`participants.${newPlayerId}`]: {
+          id: newPlayerId,
+          name: playerName,
+          teamId: 0,
+          isReady: false,
+          role: 0,
+          head: playerHead,
+          body: playerBody,
+          color: playerColor,
+        },
+      });
+      navigate('/lobby');
+    } else {
+      setErrorMsg('Navnet kan ikke stå tomt.');
+    }
   };
 
   const leaveGame = async () => {
@@ -51,6 +55,7 @@ const UserCreationView: React.FC = () => {
             headSetter={setPlayerHead}
             bodySetter={setPlayerBody}
             colorSetter={setPlayerColor}
+            errorMsg={errorMsg}
           />
         </div>
         <button
