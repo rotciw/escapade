@@ -80,19 +80,19 @@ const CharacterCreation: React.FC<{
             <td className='relative w-32 h-48 align-top' rowSpan={3}>
               <img
                 className='absolute select-none t-0'
-                src={`./dist/images/characters/body_bg/${colorNumber}.svg`}
+                src={`./images/characters/body_bg/${colorNumber}.svg`}
               />
               <img
                 className='absolute select-none t-0'
-                src={`./dist/images/characters/head_bg/${colorNumber}.svg`}
+                src={`./images/characters/head_bg/${colorNumber}.svg`}
               />
               <img
                 className='absolute select-none t-0'
-                src={`./dist/images/characters/head_fg/${headNumber}.svg`}
+                src={`./images/characters/head_fg/${headNumber}.svg`}
               />
               <img
                 className='absolute select-none t-0'
-                src={`./dist/images/characters/body_fg/${bodyNumber}.svg`}
+                src={`./images/characters/body_fg/${bodyNumber}.svg`}
               />
             </td>
             <td>

@@ -1,10 +1,10 @@
 {
-  "short_name": "Escapade Game",
+  "short_name": "Escapade",
   "name": "Escapade",
   "icons": [
     {
-      "src": "./favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "favicon.ico",
+      "sizes": "48x48",
       "type": "image/x-icon"
     },
     {
@@ -19,6 +19,7 @@
     }
   ],
   "start_url": ".",
+  "id": "/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
