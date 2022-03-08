@@ -11,6 +11,9 @@ export interface IGame {
 export interface IPlayer {
   id: string;
   name: string;
+  head: number;
+  body: number;
+  color: number;
 }
 
 export interface ICurrentGamePlayer {
