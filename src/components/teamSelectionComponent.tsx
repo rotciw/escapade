@@ -5,6 +5,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../helpers/firebase';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { ICurrentGamePlayer, ITeam } from '../types';
+import AvatarHead from './avatar/avatarHead';
 
 interface IProps {
   participants: ICurrentGamePlayer[];
@@ -57,11 +58,13 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
             )}
             <div className='flex flex-row'>
               {handleTeam(team.id).map((participant) => (
-                <div className='mx-5 my-3 text-md' key={participant.id}>
-                  <p className='text-independence'>
-                    {participant.name} {playerId === participant.id ? '(deg)' : ''}
-                  </p>
-                </div>
+                <AvatarHead
+                  head={participant.head}
+                  color={participant.color}
+                  name={participant.name}
+                  currentPlayer={playerId === participant.id}
+                  key={participant.id}
+                />
               ))}
             </div>
           </div>
@@ -71,11 +74,13 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
         <h1 className='text-xl font-bold text-center text-independence'>Ikke valgt lag</h1>
         <div className='flex flex-row'>
           {handleTeam(0).map((player) => (
-            <div className='mx-5 my-3 text-md' key={player.id}>
-              <p className='text-independence'>
-                {player.name} {playerId === player.id ? '(deg)' : ''}
-              </p>
-            </div>
+            <AvatarHead
+              head={player.head}
+              color={player.color}
+              name={player.name}
+              currentPlayer={playerId === player.id}
+              key={player.id}
+            />
           ))}
         </div>
       </div>

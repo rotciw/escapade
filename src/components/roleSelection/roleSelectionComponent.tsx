@@ -6,6 +6,7 @@ import { db } from '../../helpers/firebase';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { ICurrentGamePlayer, IRole } from '../../types';
 import RoleComponent from './roleComponent';
+import AvatarHead from '../avatar/avatarHead';
 
 interface IProps {
   participants: ICurrentGamePlayer[];
@@ -53,9 +54,9 @@ const RoleSelectionComponent: React.FC<IProps> = (props: IProps) => {
 
   return (
     <>
-      <h1 className='mb-2 text-xl font-bold'>Lag {teamId}</h1>
-      <h1 className='mb-2 text-xl'>Velg din rolle</h1>
-      <div className='flex flex-row flex-wrap justify-center w-5/6 p-5 rounded h-5/6'>
+      <h1 className='mb-1 text-xl font-bold'>Lag {teamId}</h1>
+      <h1 className='text-xl'>Velg din rolle</h1>
+      <div className='flex flex-row flex-wrap justify-center p-5'>
         {roles.map((role, index) => (
           <div key={index}>
             <RoleComponent
@@ -67,20 +68,22 @@ const RoleSelectionComponent: React.FC<IProps> = (props: IProps) => {
           </div>
         ))}
       </div>
-      <div className='p-5 mt-8 rounded bg-alice-blue'>
+      <div className='p-5 mt-2 rounded bg-alice-blue'>
         <h1 className='text-xl font-bold text-center text-independence'>
           Disse spillerne har ikke valgt rolle
         </h1>
-        <div className='flex flex-row'>
+        <div className='flex flex-row mt-2'>
           {currentTeam
             .filter((player) => player.teamId === teamId && player.role === 0)
             .sort((a, b) => (a.id > b.id ? 1 : -1))
             .map((player) => (
-              <div className='mx-5 my-3 text-md' key={player.id}>
-                <p className='text-independence'>
-                  {player.name} {playerId === player.id ? '(deg)' : ''}
-                </p>
-              </div>
+              <AvatarHead
+                head={player.head}
+                color={player.color}
+                name={player.name}
+                currentPlayer={playerId === player.id}
+                key={player.id}
+              />
             ))}
         </div>
       </div>
