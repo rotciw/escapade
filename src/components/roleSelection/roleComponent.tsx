@@ -3,6 +3,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../helpers/firebase';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { ICurrentGamePlayer, IRoleInfo } from '../../types';
+import AvatarHead from '../avatar/avatarHead';
 
 interface IProps {
   team: ICurrentGamePlayer[];
@@ -67,17 +68,17 @@ const RoleComponent: React.FC<IProps> = (props: IProps) => {
 
   return (
     <>
-      <div className='flex flex-col p-5 m-1 border rounded h-96 w-60 border-independence text-independence bg-alice-blue'>
+      <div className='flex flex-col items-center h-[400px] p-5 m-1 border rounded w-60 border-independence text-independence bg-alice-blue'>
         <h1 className='text-xl font-bold text-center'>{roleInfo.title}</h1>
         <h2 className='mb-2 italic text-center text-l'>{roleInfo.subtitle}</h2>
         <p className='mb-4'>{roleInfo.description}</p>
         {currentPlayer ? (
-          <div className='text-center'>
-            <p className='my-2 font-bold'>
-              {currentPlayer.name}
-              {currentPlayer.id === playerId ? ' (deg)' : ''}
-            </p>
-          </div>
+          <AvatarHead
+            head={currentPlayer.head}
+            color={currentPlayer.color}
+            name={currentPlayer.name}
+            currentPlayer={playerId === currentPlayer.id}
+          />
         ) : (
           <>
             <button
