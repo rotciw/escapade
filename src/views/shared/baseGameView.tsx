@@ -43,7 +43,7 @@ const BaseGameView: React.FC = () => {
         <div className='my-4'>
           <h1 className='my-12 text-6xl font-bold text-center text-alice-blue'>Escapade</h1>
           <input
-            className='px-4 py-2 mr-2 text-black uppercase transition-all border rounded placeholder-normal border-independence focus:outline-none focus:shadow-sm focus:ring-magic-mint outline-colorful-blue'
+            className='input-main'
             type='text'
             value={gameCode}
             onKeyPress={handleEnterPress}
