@@ -48,7 +48,8 @@ const RoleSelectionComponent: React.FC<IProps> = (props: IProps) => {
     });
   };
 
-  if (!currentTeam || currentTeam.length < 4) return <>Not enough members</>;
+  // if (!currentTeam || currentTeam.length < 4) return <>Not enough members</>;
+  if (!currentTeam) return <>Not enough members</>;
 
   return (
     <>

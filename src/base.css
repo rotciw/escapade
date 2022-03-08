@@ -12,6 +12,9 @@
   .icon-clickable {
     @apply transition-all rounded-full cursor-pointer hover:bg-alice-blue-hover;
   }
+  .input-main {
+    @apply px-4 py-2 mr-2 text-black uppercase transition-all border rounded placeholder-normal border-independence focus:outline-none focus:shadow-sm focus:ring-magic-mint outline-colorful-blue;
+  }
 }
 
 @layer utilities {
