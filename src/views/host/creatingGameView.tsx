@@ -12,6 +12,7 @@ const CreatingGameView: React.FC = () => {
   const [creatorGameCode, setCreatorGameCode] = useLocalStorage('gameCode', '');
   const [gameHostId, setGameHostId] = useLocalStorage('hostId', '');
   const [showSettings, setShowSettings] = useState(true);
+  const [selectedTheme, setSelectedTheme] = useState(1);
 
   const createGame = async () => {
     const gameCode = generateGameCode(6);
@@ -41,11 +42,46 @@ const CreatingGameView: React.FC = () => {
       <div className='flex flex-col w-2/3 max-w-2xl m-auto items-left '>
         <h1 className='my-3 text-2xl font-bold'>Velg et tema</h1>
         <div className='flex justify-between w-full pr-1'>
-          <button className='btn-sq'>Intro til Escapade</button>
-          <button className='btn-sq'>Revolu-sjonene</button>
-          <button className='btn-sq'>1800-tallet</button>
-          <button className='btn-sq'>Verdens-kriger</button>
-          <button className='btn-sq'>Den Kalde Krigen</button>
+          <button
+            className={`btn-theme-choice ${
+              selectedTheme == 1 && 'bg-cameo-pink hover:bg-cameo-pink-hover'
+            }`}
+            onClick={() => setSelectedTheme(1)}
+          >
+            Intro til Escapade
+          </button>
+          <button
+            className={`btn-theme-choice ${
+              selectedTheme == 2 && 'bg-cameo-pink hover:bg-cameo-pink-hover'
+            }`}
+            onClick={() => setSelectedTheme(2)}
+          >
+            Revolu-sjonene
+          </button>
+          <button
+            className={`btn-theme-choice ${
+              selectedTheme == 3 && 'bg-cameo-pink hover:bg-cameo-pink-hover'
+            }`}
+            onClick={() => setSelectedTheme(3)}
+          >
+            1800-tallet
+          </button>
+          <button
+            className={`btn-theme-choice ${
+              selectedTheme == 4 && 'bg-cameo-pink hover:bg-cameo-pink-hover'
+            }`}
+            onClick={() => setSelectedTheme(4)}
+          >
+            Verdens-kriger
+          </button>
+          <button
+            className={`btn-theme-choice ${
+              selectedTheme == 5 && 'bg-cameo-pink hover:bg-cameo-pink-hover'
+            }`}
+            onClick={() => setSelectedTheme(5)}
+          >
+            Den Kalde Krigen
+          </button>
         </div>
         <h2 className='mt-8'>Bilder som vil vises</h2>
         <div className='flex w-full p-2 mb-3 border-base bg-alice-blue'>
@@ -77,6 +113,7 @@ const CreatingGameView: React.FC = () => {
                 <h2 className='text-lg font-semibold'>Tid per runde</h2>
                 <p className='pb-2'>Velg varigheten på hver runde</p>
                 <select
+                  disabled
                   name='time'
                   id='timeDropdown'
                   className='p-1 mt-auto shadow-lg w-36 h-7 border-base'
@@ -94,6 +131,8 @@ const CreatingGameView: React.FC = () => {
                 </p>
                 <input
                   type='checkbox'
+                  checked
+                  disabled
                   id='randomTeamsCheckbox'
                   className='mt-auto shadow-lg h-7 w-7 border-base'
                 />
@@ -106,6 +145,7 @@ const CreatingGameView: React.FC = () => {
                   Velg størrelsen på lag, eller la det styres automatisk av spillet
                 </p>
                 <select
+                  disabled
                   name='time'
                   id='timeDropdown'
                   className='p-1 mt-auto shadow-lg w-36 h-7 border-base'
@@ -121,6 +161,8 @@ const CreatingGameView: React.FC = () => {
                   Velg om spillerene kan velge rollene sine eller om de skal velges tilfeldig
                 </p>
                 <input
+                  checked
+                  disabled
                   type='checkbox'
                   id='randomRolesCheckbox'
                   className='mt-auto shadow-lg h-7 w-7 border-base'
