@@ -21,17 +21,13 @@ const LobbyComponent: React.FC<IProps> = (props: IProps) => {
         <h1 className='text-xl font-bold text-center text-independence'>Disse spillerne er inne</h1>
         <div className='flex flex-row flex-wrap'>
           {Object.values(participants).map((player) => (
-            <div className='mx-5 my-3 text-md' key={player.id}>
-              <p className='text-independence'>
-                <AvatarHead
-                  head={player.head}
-                  color={player.color}
-                  name={player.name}
-                  currentPlayer={playerId === player.id}
-                  key={player.id}
-                />
-              </p>
-            </div>
+            <AvatarHead
+              head={player.head}
+              color={player.color}
+              name={player.name}
+              currentPlayer={playerId === player.id}
+              key={player.id}
+            />
           ))}
         </div>
       </div>
