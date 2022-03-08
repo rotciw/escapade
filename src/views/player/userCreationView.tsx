@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../helpers/firebase';
 import { generatePlayerId } from '../../helpers/lobbyHelpers';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import CharacterCreation from '../../components/characterCreation';
+import Header from '~/components/header';
 
 const UserCreationView: React.FC = () => {
   const navigate = useNavigate();
@@ -38,30 +39,21 @@ const UserCreationView: React.FC = () => {
     }
   };
 
-  const leaveGame = async () => {
-    await updateDoc(doc(db, 'games', value), {
-      participants: arrayRemove({ id: playerId, teamId: 0 }),
-    });
-  };
-
   return (
     <>
-      <div className='flex flex-col items-center justify-evenly'>
-        <div className='my-4 text-center'>
-          <h1 className='my-12 text-6xl font-bold text-center text-alice-blue'>Escapade</h1>
-          <CharacterCreation
-            joinFunction={joinGame}
-            nameSetter={setPlayerName}
-            headSetter={setPlayerHead}
-            bodySetter={setPlayerBody}
-            colorSetter={setPlayerColor}
-            errorMsg={errorMsg}
-          />
-        </div>
+      <Header />
+      <div className='flex flex-col items-center mt-8 justify-evenly'>
+        <CharacterCreation
+          joinFunction={joinGame}
+          nameSetter={setPlayerName}
+          headSetter={setPlayerHead}
+          bodySetter={setPlayerBody}
+          colorSetter={setPlayerColor}
+          errorMsg={errorMsg}
+        />
         <button
-          className='btn-sm'
+          className='mt-3 btn-sm'
           onClick={() => {
-            leaveGame();
             navigate('/');
           }}
         >

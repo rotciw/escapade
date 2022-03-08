@@ -8,7 +8,9 @@ const Header: React.FC = () => {
       <header className='top-0 flex justify-center '>
         <h1
           className='py-2 mt-5 text-5xl font-bold text-alice-blue hover:cursor-pointer w-fit'
-          onClick={() => navigate('/')}
+          onClick={() => {
+            // navigate('/');
+          }}
         >
           Escapade
         </h1>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { deleteField, doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '../../helpers/firebase';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { ICurrentGamePlayer, IGame } from '../../types';
@@ -15,8 +15,10 @@ const LobbyView: React.FC = () => {
   const [value, setValue] = useLocalStorage('gameCode', '');
   const [gameHostId, setGameHostId] = useLocalStorage('hostId', '');
   const [participants, setParticipants] = useState<ICurrentGamePlayer[]>([]);
+  const [playerId, setPlayerId] = useLocalStorage('playerId', '');
   const [step, setStep] = useState(0);
   const [isHost, setIsHost] = useState(false);
+  const [leaving, setIsLeaving] = useState(false);
   let listener: () => void;
 
   const subscribeToListener = () => {
@@ -47,6 +49,13 @@ const LobbyView: React.FC = () => {
 
   useEffect(() => {
     subscribeToListener();
+    return function onLeave() {
+      if (step <= 3) {
+        updateDoc(doc(db, 'games', value), {
+          [`participants.${playerId}`]: deleteField(),
+        });
+      }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
