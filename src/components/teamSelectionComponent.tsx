@@ -25,6 +25,10 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
     });
   };
 
+  const handleTeam = (teamId: number) => {
+    return Object.values(participants).filter((participant) => participant.teamId === teamId);
+  };
+
   useEffect(() => {
     const placeholderTeams = [];
     for (let i = 1; i <= numberOfTeams; i++) {
@@ -41,28 +45,27 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
       <div className='w-5/6 p-5 rounded bg-alice-blue h-5/6'>
         {teams.map((team) => (
           <div key={team.id}>
-            <h1 className='text-xl font-bold text-independence'>Lag {team.id}</h1>
-            {!isHost ? (
-              <button className='mt-1 mb-4 btn-lg' onClick={() => chooseTeam(team.id)}>
+            <h1 className='text-xl font-bold text-independence'>
+              Lag {team.id} ({handleTeam(team.id).length} spillere)
+            </h1>
+            ;
+            {!isHost && handleTeam(team.id).length !== 5 ? (
+              <button className='btn-lg' onClick={() => chooseTeam(team.id)}>
                 Velg lag {team.id}
               </button>
             ) : (
               <></>
             )}
             <div className='flex flex-row'>
-              {Object.values(participants)
-                .filter((participant) => participant.teamId === team.id)
-                .map((participant) => (
-                  <div key={participant.id}>
-                    <AvatarHead
-                      head={participant.head}
-                      color={participant.color}
-                      name={participant.name}
-                      currentPlayer={playerId === participant.id}
-                      key={participant.id}
-                    />
-                  </div>
-                ))}
+              {handleTeam(team.id).map((participant) => (
+                <AvatarHead
+                  head={participant.head}
+                  color={participant.color}
+                  name={participant.name}
+                  currentPlayer={playerId === participant.id}
+                  key={participant.id}
+                />
+              ))}
             </div>
           </div>
         ))}
@@ -70,17 +73,15 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
       <div className='p-5 mt-8 rounded bg-alice-blue'>
         <h1 className='text-xl font-bold text-center text-independence'>Ikke valgt lag</h1>
         <div className='flex flex-row'>
-          {Object.values(participants)
-            .filter((player) => player.teamId === 0)
-            .map((player) => (
-              <AvatarHead
-                head={player.head}
-                color={player.color}
-                name={player.name}
-                currentPlayer={playerId === player.id}
-                key={player.id}
-              />
-            ))}
+          {handleTeam(0).map((player) => (
+            <AvatarHead
+              head={player.head}
+              color={player.color}
+              name={player.name}
+              currentPlayer={playerId === player.id}
+              key={player.id}
+            />
+          ))}
         </div>
       </div>
     </>

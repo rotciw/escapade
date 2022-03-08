@@ -65,7 +65,7 @@ const LobbyView: React.FC = () => {
               Fortsett
             </button>
           )}
-          {!isHost && step < 2 && <p>Vent på at verten starter spillet..</p>}
+          {!isHost && step < 2 && <p>Venter på at verten starter spillet..</p>}
           {!isHost && step === 2 && <p>Venter på at alle spillere har valgt en rolle..</p>}
           {!isHost && step === 3 && <button className='btn-lg'>Start spillet </button>}
         </div>

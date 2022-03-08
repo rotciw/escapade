@@ -1,14 +1,15 @@
-import React, { MouseEventHandler, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ArrowRight, ArrowLeft, RefreshCw } from 'react-feather';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 const CharacterCreation: React.FC<{
-  joinFunction: MouseEventHandler;
+  joinFunction: (playerName: string) => void;
   nameSetter: React.Dispatch<React.SetStateAction<string>>;
   headSetter: React.Dispatch<React.SetStateAction<number>>;
   bodySetter: React.Dispatch<React.SetStateAction<number>>;
   colorSetter: React.Dispatch<React.SetStateAction<number>>;
-}> = ({ joinFunction, nameSetter, headSetter, bodySetter, colorSetter }) => {
+  errorMsg: string;
+}> = ({ joinFunction, nameSetter, headSetter, bodySetter, colorSetter, errorMsg }) => {
   const [headNumber, setHeadNumber] = useLocalStorage('playerHead', '1');
   const [bodyNumber, setBodyNumber] = useLocalStorage('playerBody', '1');
   const [colorNumber, setColorNumber] = useLocalStorage('playerColor', '1');
@@ -148,9 +149,11 @@ const CharacterCreation: React.FC<{
         <RefreshCw className='inline mr-3' />
         Tilfeldig
       </div>
-      <button className='btn-sm' onClick={(event) => joinFunction(event)}>
+      <button className='btn-lg' onClick={() => joinFunction(playerName)}>
         Bli med
       </button>
+
+      <p className='mt-2 text-sm'>{errorMsg} &nbsp;</p>
     </div>
   );
 };
