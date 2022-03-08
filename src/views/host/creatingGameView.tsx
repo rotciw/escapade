@@ -37,10 +37,21 @@ const CreatingGameView: React.FC = () => {
     <>
       <Header />
       {/* Choose a theme */}
-      <div className='flex flex-col items-center justify-center h-screen font-semibold'>
+      <div className='flex flex-col items-center'>
         <h1>Velg et tema</h1>
-        <button className='btn-lg'>Intro til Escapade</button>
-        {/* More options */}
+        <div className='flex'>
+          <button className='btn-sq'>Intro til Escapade</button>
+          <button className='btn-sq'>Revolu-sjonene</button>
+          <button className='btn-sq'>1800-tallet</button>
+          <button className='btn-sq'>Verdens-kriger</button>
+          <button className='btn-sq'>Den Kalde Krigen</button>
+          {/* More options */}
+        </div>
+
+        <h2>Bilder som vil vises</h2>
+        <div className='flex'>
+          <img src='' />
+        </div>
         <div>
           <h1>Flere innstillinger</h1>
         </div>
