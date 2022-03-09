@@ -19,7 +19,7 @@
     @apply border rounded border-independence;
   }
   .input-main {
-    @apply px-4 py-2 mr-2 text-black uppercase transition-all border rounded placeholder-normal border-independence focus:outline-none focus:shadow-sm focus:ring-magic-mint outline-colorful-blue;
+    @apply px-4 py-2 mr-2 text-black uppercase transition-all border-base placeholder-normal focus:outline-none focus:shadow-sm focus:ring-magic-mint outline-colorful-blue;
   }
 }
 
