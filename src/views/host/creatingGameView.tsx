@@ -1,18 +1,22 @@
 import { doc, setDoc } from 'firebase/firestore';
-import React, { useState } from 'react';
-import { ChevronDown } from 'react-feather';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import sanityClient from '~/sanityClient';
+import { SanityMapData } from '~/types';
 import Header from '../../components/header';
 import { db } from '../../helpers/firebase';
 import { generateGameCode, generatePlayerId } from '../../helpers/lobbyHelpers';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
 
 const CreatingGameView: React.FC = () => {
   const navigate = useNavigate();
   const [creatorGameCode, setCreatorGameCode] = useLocalStorage('gameCode', '');
   const [gameHostId, setGameHostId] = useLocalStorage('hostId', '');
-  const [showSettings, setShowSettings] = useState(true);
-  const [selectedTheme, setSelectedTheme] = useState(1);
+  // const [showSettings, setShowSettings] = useState(true);
+  const [selectedTheme, setSelectedTheme] = useState(0);
+  const [maps, setMaps] = useState<SanityMapData[]>();
 
   const createGame = async () => {
     const gameCode = generateGameCode(6);
@@ -23,7 +27,7 @@ const CreatingGameView: React.FC = () => {
         finished: false,
         round: 1,
         participants: [],
-        theme: 0,
+        theme: selectedTheme,
         canJoin: true,
         hostId: hostId,
         selectionStep: 0,
@@ -36,69 +40,86 @@ const CreatingGameView: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `*[_type == "gameMaps"] | order(id){
+        title,
+        id,
+        questions1,
+        image1 {
+          alt,
+          asset -> {
+          _id,
+          url
+          }
+        },
+        answer1,
+        questions2,
+        image2 {
+          alt,
+          asset -> {
+          _id,
+          url
+          }
+        },
+        answer2,
+      }
+      `,
+      )
+      .then((data) => {
+        console.log(data);
+        setMaps(data);
+      });
+  }, []);
+
+  if (!maps) return <>No data</>;
+
   return (
     <>
       <Header />
       <div className='flex flex-col w-2/3 max-w-2xl m-auto items-left '>
         <h1 className='my-3 text-2xl font-bold'>Velg et tema</h1>
-        <div className='flex justify-between w-full pr-1'>
-          <button
-            className={`btn-theme-choice ${
-              selectedTheme == 1 && 'bg-cameo-pink hover:bg-cameo-pink-hover'
-            }`}
-            onClick={() => setSelectedTheme(1)}
-          >
-            Intro til Escapade
-          </button>
-          <button
-            className={`btn-theme-choice ${
-              selectedTheme == 2 && 'bg-cameo-pink hover:bg-cameo-pink-hover'
-            }`}
-            onClick={() => setSelectedTheme(2)}
-          >
-            Revolu-sjonene
-          </button>
-          <button
-            className={`btn-theme-choice ${
-              selectedTheme == 3 && 'bg-cameo-pink hover:bg-cameo-pink-hover'
-            }`}
-            onClick={() => setSelectedTheme(3)}
-          >
-            1800-tallet
-          </button>
-          <button
-            className={`btn-theme-choice ${
-              selectedTheme == 4 && 'bg-cameo-pink hover:bg-cameo-pink-hover'
-            }`}
-            onClick={() => setSelectedTheme(4)}
-          >
-            Verdens-kriger
-          </button>
-          <button
-            className={`btn-theme-choice ${
-              selectedTheme == 5 && 'bg-cameo-pink hover:bg-cameo-pink-hover'
-            }`}
-            onClick={() => setSelectedTheme(5)}
-          >
-            Den Kalde Krigen
-          </button>
+        <div className='flex flex-wrap justify-start w-full gap-4 pr-1'>
+          {maps.map((map, index) => {
+            return (
+              <button
+                key={index}
+                className={`btn-theme-choice w-28 flex-grow  ${
+                  selectedTheme == index && 'bg-cameo-pink hover:bg-cameo-pink-hover'
+                }`}
+                onClick={() => setSelectedTheme(index)}
+              >
+                {map.title}
+              </button>
+            );
+          })}
+          <div className='flex-grow w-28 lg:hidden'></div>
+          <div className='flex-grow w-28 lg:hidden'></div>
+          <div className='flex-grow w-28 lg:hidden'></div>
+          <div className='flex-grow w-28 lg:hidden'></div>
         </div>
-        <h2 className='mt-8'>Bilder som vil vises</h2>
-        <div className='flex w-full p-2 mb-3 border-base bg-alice-blue'>
-          <img
-            src='https://i.imgur.com/22HFZBt.png'
-            className='box-border object-cover w-1/3 m-2 border-base h-28'
-          />
-          <img
-            src='https://i.imgur.com/22HFZBt.png'
-            className='box-border object-cover w-1/3 m-2 border-base h-28'
-          />
-          <img
-            src='https://i.imgur.com/22HFZBt.png'
-            className='box-border object-cover w-1/3 m-2 border-base h-28'
-          />
+        <h2 className='mt-8 text-xl font-medium'>Bilder som vil vises</h2>
+        <div className='flex flex-wrap w-full p-2 mb-3 border-base bg-alice-blue'>
+          <div className='box-border flex-grow w-32 h-32 m-2 overflow-hidden border-base'>
+            <Zoom>
+              <img src={maps[selectedTheme].image1.asset.url} />
+            </Zoom>
+          </div>
+          <div className='box-border flex-grow w-32 h-32 m-2 overflow-hidden border-base'>
+            <Zoom>
+              <img src={maps[selectedTheme].image2.asset.url} />
+            </Zoom>
+          </div>
+          <div className='box-border flex-grow w-32 h-32 m-2 overflow-hidden border-base'>
+            <Zoom>
+              <img src={maps[selectedTheme].image1.asset.url} />
+            </Zoom>
+          </div>
+
+          <div className='flex-grow w-32 mx-2 md:hidden'></div>
         </div>
-        <div className='flex items-center'>
+        {/* <div className='flex items-center'>
           <h1 className='my-4 text-2xl font-bold'>Flere innstillinger</h1>
           <ChevronDown
             size={36}
@@ -170,7 +191,7 @@ const CreatingGameView: React.FC = () => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
         <button className='m-auto mt-8 btn-lg w-44' onClick={() => createGame()}>
           Fortsett
         </button>

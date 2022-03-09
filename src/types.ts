@@ -42,3 +42,24 @@ export interface IRoleInfo {
   subtitle: string;
   description: string;
 }
+
+export interface SanityMapData {
+  title: string;
+  description: string;
+  questions1: string[];
+  image1: Image;
+  answer1: string;
+  questions2: string[];
+  image2: Image;
+  answer2: string;
+}
+
+interface Image {
+  asset: Asset;
+  alt: string;
+}
+
+type Asset = {
+  url: string;
+  _id: string;
+};
