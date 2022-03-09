@@ -23,7 +23,7 @@ const BaseGameView: React.FC = () => {
         setErrorMessage('Koden er ikke gyldig.');
       }
     } else {
-      return;
+      setErrorMessage('Du må oppgi en kode.');
     }
   };
 
