@@ -4,16 +4,22 @@
 
 @layer components {
   .btn-lg {
-    @apply px-8 py-2 font-bold text-black transition-all border rounded shadow-lg hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cameo-pink-hover border-independence bg-cameo-pink;
+    @apply px-8 py-2 font-bold text-black transition-all shadow-lg border-base hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cameo-pink-hover bg-cameo-pink;
   }
   .btn-sm {
-    @apply px-4 py-2 font-bold text-black transition-all border rounded shadow-sm hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cameo-pink-hover border-independence bg-cameo-pink;
+    @apply px-4 py-2 font-bold text-black transition-all shadow-sm border-base hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cameo-pink-hover bg-cameo-pink;
+  }
+  .btn-theme-choice {
+    @apply p-2 font-bold text-black break-words transition-all shadow-lg border-base w-28 h-28 hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cameo-pink bg-alice-blue;
   }
   .icon-clickable {
     @apply transition-all rounded-full cursor-pointer hover:bg-alice-blue-hover;
   }
+  .border-base {
+    @apply border rounded border-independence;
+  }
   .input-main {
-    @apply px-4 py-2 mr-2 text-black uppercase transition-all border rounded placeholder-normal border-independence focus:outline-none focus:shadow-sm focus:ring-magic-mint outline-colorful-blue;
+    @apply px-4 py-2 mr-2 text-black uppercase transition-all border-base placeholder-normal focus:outline-none focus:shadow-sm focus:ring-magic-mint outline-colorful-blue;
   }
 }
 

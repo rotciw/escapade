@@ -11,6 +11,13 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'id',
+      title: 'Id',
+      type: 'number',
+      description: 'Rekkefølge',
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: 'description',
       title: 'Description',
       description: 'Beskrivelse av teamet',
@@ -91,5 +98,11 @@ export default {
       validation: (Rule) => Rule.required(),
     },
   ],
-  orderings: [],
+  orderings: [
+    {
+      title: 'Id order, asc',
+      name: 'orderAsc',
+      by: [{ field: 'id', direction: 'asc' }],
+    },
+  ],
 };

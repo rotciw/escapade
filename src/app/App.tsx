@@ -10,7 +10,7 @@ import InGameView from '~/views/player/inGameView';
 
 const App: React.FC = () => {
   return (
-    <div className='min-h-screen text-alice-blue font-inter bg-colorful-blue'>
+    <div className='min-h-screen text-alice-blue font-inter bg-colorful-blue selection:bg-[#6BDBA5]'>
       <GameContextProvider>
         <Routes>
           <Route path='/' element={<BaseGameView />} />
