@@ -11,7 +11,7 @@ const CreatingGameView: React.FC = () => {
   const navigate = useNavigate();
   const [creatorGameCode, setCreatorGameCode] = useLocalStorage('gameCode', '');
   const [gameHostId, setGameHostId] = useLocalStorage('hostId', '');
-  const [showSettings, setShowSettings] = useState(true);
+  const [showSettings, setShowSettings] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState(1);
 
   const createGame = async () => {
@@ -98,7 +98,8 @@ const CreatingGameView: React.FC = () => {
             className='box-border object-cover w-1/3 m-2 border-base h-28'
           />
         </div>
-        <div className='flex items-center'>
+        {/* Settings tray */}
+        {/* <div className='flex items-center'>
           <h1 className='my-4 text-2xl font-bold'>Flere innstillinger</h1>
           <ChevronDown
             size={36}
@@ -170,7 +171,7 @@ const CreatingGameView: React.FC = () => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
         <button className='m-auto mt-8 btn-lg w-44' onClick={() => createGame()}>
           Fortsett
         </button>
