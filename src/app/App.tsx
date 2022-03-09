@@ -6,6 +6,7 @@ import CreatingGameView from '../views/host/creatingGameView';
 import BaseGameView from '../views/shared/baseGameView';
 import LobbyView from '../views/shared/lobbyView';
 import UserCreationView from '../views/player/userCreationView';
+import InGameView from '~/views/player/inGameView';
 
 const App: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
           <Route path='/customize' element={<UserCreationView />} />
           <Route path='/create' element={<CreatingGameView />} />
           <Route path='/lobby' element={<LobbyView />} />
+          <Route path='/game' element={<InGameView />} />
         </Routes>
       </GameContextProvider>
     </div>

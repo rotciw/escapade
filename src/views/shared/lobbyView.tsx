@@ -47,14 +47,17 @@ const LobbyView: React.FC = () => {
     }
   };
 
+  const removePlayer = async () => {
+    await updateDoc(doc(db, 'games', value), {
+      [`participants.${playerId}`]: deleteField(),
+    });
+  };
+
   useEffect(() => {
     subscribeToListener();
     return function onLeave() {
-      if (step <= 3) {
-        updateDoc(doc(db, 'games', value), {
-          [`participants.${playerId}`]: deleteField(),
-        });
-      }
+      listener();
+      // removePlayer(); Doesn't work as intended now
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -76,7 +79,11 @@ const LobbyView: React.FC = () => {
           )}
           {!isHost && step < 2 && <p>Venter på at verten starter spillet..</p>}
           {!isHost && step === 2 && <p>Venter på at alle spillere har valgt en rolle..</p>}
-          {!isHost && step === 3 && <button className='btn-lg'>Start spillet </button>}
+          {!isHost && step === 3 && (
+            <button className='btn-lg' onClick={() => navigate('/game')}>
+              Start spillet
+            </button>
+          )}
         </div>
       </div>
     </>
