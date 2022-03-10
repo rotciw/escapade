@@ -6,6 +6,7 @@ export interface IGame {
   hostId: string;
   canJoin: boolean;
   selectionStep: number;
+  theme: number;
 }
 
 export interface IPlayer {
@@ -45,6 +46,7 @@ export interface IRoleInfo {
 
 export interface SanityMapData {
   title: string;
+  id: number;
   description: string;
   questions1: string[];
   image1: Image;
