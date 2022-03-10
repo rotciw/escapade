@@ -10,8 +10,8 @@ import Header from '~/components/header';
 const UserCreationView: React.FC = () => {
   const navigate = useNavigate();
   const [playerName, setPlayerName] = useState('');
-  const [playerHead, setPlayerHead] = useState(1);
-  const [playerBody, setPlayerBody] = useState(1);
+  const [playerEyes, setPlayerEyes] = useState(1);
+  const [playerMouth, setPlayerMouth] = useState(1);
   const [playerColor, setPlayerColor] = useState(1);
   const [value, setValue] = useLocalStorage('gameCode', '');
   const [playerId, setPlayerId] = useLocalStorage('playerId', '');
@@ -28,8 +28,8 @@ const UserCreationView: React.FC = () => {
           teamId: 0,
           isReady: false,
           role: 0,
-          head: playerHead,
-          body: playerBody,
+          eyes: playerEyes,
+          mouth: playerMouth,
           color: playerColor,
         },
       });
@@ -46,8 +46,8 @@ const UserCreationView: React.FC = () => {
         <CharacterCreation
           joinFunction={joinGame}
           nameSetter={setPlayerName}
-          headSetter={setPlayerHead}
-          bodySetter={setPlayerBody}
+          eyeSetter={setPlayerEyes}
+          mouthSetter={setPlayerMouth}
           colorSetter={setPlayerColor}
           errorMsg={errorMsg}
         />

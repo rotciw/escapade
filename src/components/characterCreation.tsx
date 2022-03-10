@@ -5,19 +5,19 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 const CharacterCreation: React.FC<{
   joinFunction: (playerName: string) => void;
   nameSetter: React.Dispatch<React.SetStateAction<string>>;
-  headSetter: React.Dispatch<React.SetStateAction<number>>;
-  bodySetter: React.Dispatch<React.SetStateAction<number>>;
+  eyeSetter: React.Dispatch<React.SetStateAction<number>>;
+  mouthSetter: React.Dispatch<React.SetStateAction<number>>;
   colorSetter: React.Dispatch<React.SetStateAction<number>>;
   errorMsg: string;
-}> = ({ joinFunction, nameSetter, headSetter, bodySetter, colorSetter, errorMsg }) => {
-  const [headNumber, setHeadNumber] = useLocalStorage('playerHead', '1');
-  const [bodyNumber, setBodyNumber] = useLocalStorage('playerBody', '1');
+}> = ({ joinFunction, nameSetter, eyeSetter, mouthSetter, colorSetter, errorMsg }) => {
+  const [eyeNumber, setEyeNumber] = useLocalStorage('playerEyes', '1');
+  const [mouthNumber, setMouthNumber] = useLocalStorage('playerMouth', '1');
   const [colorNumber, setColorNumber] = useLocalStorage('playerColor', '1');
   const [playerName, setPlayerName] = useLocalStorage('playerName', '');
 
   // Total number of options for heads, bodies and colors
-  const totalHeads = 5;
-  const totalBodies = 5;
+  const totalEyes = 5;
+  const totalMouths = 5;
   const totalColors = 5;
 
   // Helper functions that assist with wraparound numbers (ie. option nr 5 -> option nr 1)
@@ -30,8 +30,8 @@ const CharacterCreation: React.FC<{
   };
 
   const randomizeCharacter = () => {
-    setHeadNumber(Math.ceil(Math.random() * totalHeads).toString());
-    setBodyNumber(Math.ceil(Math.random() * totalBodies).toString());
+    setEyeNumber(Math.ceil(Math.random() * totalEyes).toString());
+    setMouthNumber(Math.ceil(Math.random() * totalMouths).toString());
     setColorNumber(Math.ceil(Math.random() * totalColors).toString());
   };
 
@@ -43,16 +43,16 @@ const CharacterCreation: React.FC<{
   // Might be better to just have parent retreive data from localstorage when sending join game request
   useEffect(() => {
     nameSetter(playerName);
-    headSetter(+headNumber);
-    bodySetter(+bodyNumber);
+    eyeSetter(+eyeNumber);
+    mouthSetter(+mouthNumber);
     colorSetter(+colorNumber);
   }, [
-    bodyNumber,
-    bodySetter,
+    mouthNumber,
+    mouthSetter,
     colorNumber,
     colorSetter,
-    headNumber,
-    headSetter,
+    eyeNumber,
+    eyeSetter,
     playerName,
     nameSetter,
   ]);
@@ -73,34 +73,28 @@ const CharacterCreation: React.FC<{
               <ArrowLeft
                 className='float-right icon-clickable'
                 size={36}
-                onClick={() =>
-                  setHeadNumber(findPreviousNumber(+headNumber, totalHeads).toString())
-                }
+                onClick={() => setEyeNumber(findPreviousNumber(+eyeNumber, totalEyes).toString())}
               />
             </td>
-            <td className='relative w-32 h-48 align-top' rowSpan={3}>
+            <td className='relative h-40 align-top w-36' rowSpan={3}>
               <img
                 className='absolute select-none t-0'
-                src={`./images/characters/body_bg/${colorNumber}.svg`}
+                src={`./images/characters/color/${colorNumber}.svg`}
               />
               <img
                 className='absolute select-none t-0'
-                src={`./images/characters/head_bg/${colorNumber}.svg`}
+                src={`./images/characters/eyes/${eyeNumber}.svg`}
               />
               <img
                 className='absolute select-none t-0'
-                src={`./images/characters/head_fg/${headNumber}.svg`}
-              />
-              <img
-                className='absolute select-none t-0'
-                src={`./images/characters/body_fg/${bodyNumber}.svg`}
+                src={`./images/characters/mouth/${mouthNumber}.svg`}
               />
             </td>
             <td>
               <ArrowRight
                 className='icon-clickable'
                 size={36}
-                onClick={() => setHeadNumber(findNextNumber(+headNumber, totalHeads).toString())}
+                onClick={() => setEyeNumber(findNextNumber(+eyeNumber, totalEyes).toString())}
               />
             </td>
           </tr>
@@ -110,7 +104,7 @@ const CharacterCreation: React.FC<{
                 className='float-right icon-clickable'
                 size={36}
                 onClick={() =>
-                  setBodyNumber(findPreviousNumber(+bodyNumber, totalBodies).toString())
+                  setMouthNumber(findPreviousNumber(+mouthNumber, totalMouths).toString())
                 }
               />
             </td>
@@ -118,7 +112,7 @@ const CharacterCreation: React.FC<{
               <ArrowRight
                 className='icon-clickable'
                 size={36}
-                onClick={() => setBodyNumber(findNextNumber(+bodyNumber, totalBodies).toString())}
+                onClick={() => setMouthNumber(findNextNumber(+mouthNumber, totalMouths).toString())}
               />
             </td>
           </tr>
