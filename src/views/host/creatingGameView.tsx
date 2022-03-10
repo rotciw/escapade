@@ -79,7 +79,7 @@ const CreatingGameView: React.FC = () => {
     <>
       <Header />
       <div className='flex flex-col w-2/3 max-w-2xl m-auto items-left '>
-        <h1 className='my-3 text-2xl font-bold'>Velg et tema</h1>
+        <h1 className='my-3 text-xl font-medium'>Velg et tema</h1>
         <div className='flex flex-wrap justify-start w-full gap-4 pr-1'>
           {maps.map((map, index) => {
             return (
@@ -99,7 +99,7 @@ const CreatingGameView: React.FC = () => {
           <div className='flex-grow w-28 lg:hidden'></div>
           <div className='flex-grow w-28 lg:hidden'></div>
         </div>
-        <h2 className='mt-8 text-xl font-medium'>Bilder som vil vises</h2>
+        <h2 className='mt-8 mb-2 text-xl font-medium'>Bilder som vil vises</h2>
         <div className='flex flex-wrap w-full p-2 mb-3 border-base bg-alice-blue'>
           <div className='box-border flex-grow w-32 h-32 m-2 overflow-hidden border-base'>
             <Zoom>
@@ -192,9 +192,19 @@ const CreatingGameView: React.FC = () => {
             </div>
           </div>
         )} */}
-        <button className='m-auto mt-8 btn-lg w-44' onClick={() => createGame()}>
-          Fortsett
-        </button>
+        <div className='mt-8 text-center'>
+          <button
+            className='mx-4 btn-lg w-44'
+            onClick={() => {
+              navigate('/');
+            }}
+          >
+            Gå tilbake
+          </button>
+          <button className='mx-4 btn-lg w-44' onClick={() => createGame()}>
+            Fortsett
+          </button>
+        </div>
       </div>
     </>
   );

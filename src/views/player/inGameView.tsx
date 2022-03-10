@@ -16,6 +16,7 @@ const InGameView: React.FC = () => {
   const [teamPlayers, setTeamPlayers] = useState<ICurrentGamePlayer[]>();
   const [player, setCurrentPlayer] = useState<ICurrentGamePlayer>();
   const [gameData, setGameData] = useState<SanityMapData>();
+  const [theme, setTheme] = useState(0);
   let listener: () => void;
 
   const subscribeToGameListener = () => {
@@ -33,6 +34,7 @@ const InGameView: React.FC = () => {
             (player) => player.teamId == currentPlayer.teamId,
           ),
         );
+        setTheme(gameData.theme);
       } else {
         console.error('no data');
       }
@@ -41,12 +43,18 @@ const InGameView: React.FC = () => {
 
   useEffect(() => {
     subscribeToGameListener();
+    return function unsubscribe() {
+      listener();
+    };
+  }, []);
 
+  useEffect(() => {
     sanityClient
       .fetch(
-        `*[_type == "gameMaps" && title == "Tutorial"]{
+        `*[_type == "gameMaps" && id == ${theme}]{
         title,
         questions1,
+        id,
         image1 {
           alt,
           asset -> {
@@ -70,7 +78,7 @@ const InGameView: React.FC = () => {
       .then((data) => {
         setGameData(data[0]);
       });
-  }, []);
+  }, [theme]);
 
   if (!gameData) return <>No data</>;
 
