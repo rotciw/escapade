@@ -11,8 +11,8 @@ export interface IGame {
 export interface IPlayer {
   id: string;
   name: string;
-  head: number;
-  body: number;
+  eyes: number;
+  mouth: number;
   color: number;
 }
 
@@ -22,7 +22,8 @@ export interface ICurrentGamePlayer {
   teamId: number;
   isReady: boolean;
   role: number;
-  head: number;
+  eyes: number;
+  mouth: number;
   body: number;
   color: number;
 }

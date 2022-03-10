@@ -3,7 +3,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../helpers/firebase';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { ICurrentGamePlayer, IRoleInfo } from '../../types';
-import AvatarHead from '../avatar/avatarHead';
+import Avatar from '../avatar';
 
 interface IProps {
   team: ICurrentGamePlayer[];
@@ -73,8 +73,9 @@ const RoleComponent: React.FC<IProps> = (props: IProps) => {
         <h2 className='mb-2 italic text-center text-l'>{roleInfo.subtitle}</h2>
         <p className='mb-4'>{roleInfo.description}</p>
         {currentPlayer ? (
-          <AvatarHead
-            head={currentPlayer.head}
+          <Avatar
+            eyes={currentPlayer.eyes}
+            mouth={currentPlayer.mouth}
             color={currentPlayer.color}
             name={currentPlayer.name}
             currentPlayer={playerId === currentPlayer.id}

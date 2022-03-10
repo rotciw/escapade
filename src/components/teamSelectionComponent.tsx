@@ -5,7 +5,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../helpers/firebase';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { ICurrentGamePlayer, ITeam } from '../types';
-import AvatarHead from './avatar/avatarHead';
+import Avatar from './avatar';
 
 interface IProps {
   participants: ICurrentGamePlayer[];
@@ -58,8 +58,9 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
             )}
             <div className='flex flex-row'>
               {handleTeam(team.id).map((participant) => (
-                <AvatarHead
-                  head={participant.head}
+                <Avatar
+                  eyes={participant.eyes}
+                  mouth={participant.mouth}
                   color={participant.color}
                   name={participant.name}
                   currentPlayer={playerId === participant.id}
@@ -74,8 +75,9 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
         <h1 className='text-xl font-bold text-center text-independence'>Ikke valgt lag</h1>
         <div className='flex flex-row'>
           {handleTeam(0).map((player) => (
-            <AvatarHead
-              head={player.head}
+            <Avatar
+              eyes={player.eyes}
+              mouth={player.mouth}
               color={player.color}
               name={player.name}
               currentPlayer={playerId === player.id}
