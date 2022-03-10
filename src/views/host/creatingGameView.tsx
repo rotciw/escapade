@@ -7,8 +7,13 @@ import Header from '../../components/header';
 import { db } from '../../helpers/firebase';
 import { generateGameCode, generatePlayerId } from '../../helpers/lobbyHelpers';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import Zoom from 'react-medium-image-zoom';
-import 'react-medium-image-zoom/dist/styles.css';
+import imageUrlBuilder from '@sanity/image-url';
+
+const builder = imageUrlBuilder(sanityClient);
+
+function urlFor(source: any) {
+  return builder.image(source);
+}
 
 const CreatingGameView: React.FC = () => {
   const navigate = useNavigate();
@@ -46,24 +51,8 @@ const CreatingGameView: React.FC = () => {
         `*[_type == "gameMaps"] | order(id){
         title,
         id,
-        questions1,
-        image1 {
-          alt,
-          asset -> {
-          _id,
-          url
-          }
-        },
-        answer1,
-        questions2,
-        image2 {
-          alt,
-          asset -> {
-          _id,
-          url
-          }
-        },
-        answer2,
+        description,
+        questionSet,
       }
       `,
       )
@@ -100,23 +89,17 @@ const CreatingGameView: React.FC = () => {
           <div className='flex-grow w-28 lg:hidden'></div>
         </div>
         <h2 className='mt-8 mb-2 text-xl font-medium'>Bilder som vil vises</h2>
-        <div className='flex flex-wrap w-full p-2 mb-3 border-base bg-alice-blue'>
-          <div className='box-border flex-grow w-32 h-32 m-2 overflow-hidden border-base'>
-            <Zoom>
-              <img src={maps[selectedTheme].image1.asset.url} />
-            </Zoom>
-          </div>
-          <div className='box-border flex-grow w-32 h-32 m-2 overflow-hidden border-base'>
-            <Zoom>
-              <img src={maps[selectedTheme].image2.asset.url} />
-            </Zoom>
-          </div>
-          <div className='box-border flex-grow w-32 h-32 m-2 overflow-hidden border-base'>
-            <Zoom>
-              <img src={maps[selectedTheme].image1.asset.url} />
-            </Zoom>
-          </div>
-
+        <div className='flex flex-wrap w-full p-2 mb-3 bg-alice-blue'>
+          {maps[selectedTheme].questionSet.map((map, index) => {
+            return (
+              <div
+                key={index}
+                className='box-border flex-grow w-32 m-2 overflow-hidden border-base'
+              >
+                <img className='object-cover w-64 h-32' src={urlFor(map.images[0].asset).url()} />
+              </div>
+            );
+          })}
           <div className='flex-grow w-32 mx-2 md:hidden'></div>
         </div>
         {/* <div className='flex items-center'>

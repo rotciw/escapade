@@ -4,6 +4,7 @@ import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '../../helpers/firebase';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Header from '~/components/header';
+import imageUrlBuilder from '@sanity/image-url';
 import sanityClient from '~/sanityClient';
 import { ICurrentGamePlayer, IGame, SanityMapData } from '~/types';
 import Zoom from 'react-medium-image-zoom';
@@ -17,7 +18,14 @@ const InGameView: React.FC = () => {
   const [player, setCurrentPlayer] = useState<ICurrentGamePlayer>();
   const [gameData, setGameData] = useState<SanityMapData>();
   const [theme, setTheme] = useState(0);
+  const [round, setRound] = useState(0);
   let listener: () => void;
+
+  const builder = imageUrlBuilder(sanityClient);
+
+  function urlFor(source: any) {
+    return builder.image(source);
+  }
 
   const subscribeToGameListener = () => {
     const docRef = doc(db, 'games', value);
@@ -52,27 +60,11 @@ const InGameView: React.FC = () => {
     sanityClient
       .fetch(
         `*[_type == "gameMaps" && id == ${theme}]{
-        title,
-        questions1,
-        id,
-        image1 {
-          alt,
-          asset -> {
-          _id,
-          url
+            title,
+            id,
+            description,
+            questionSet,
           }
-        },
-        answer1,
-        questions2,
-        image2 {
-          alt,
-          asset -> {
-          _id,
-          url
-          }
-        },
-        answer2,
-      }
       `,
       )
       .then((data) => {
@@ -89,19 +81,32 @@ const InGameView: React.FC = () => {
       <div className='flex flex-row flex-wrap pb-8 mt-8 justify-evenly'>
         <div className='w-3/5 p-2 text-center rounded h-fit bg-alice-blue'>
           <Zoom>
-            <img src={gameData.image1.asset.url} />
+            <img src={urlFor(gameData.questionSet[round].images[0].asset).url()} />
           </Zoom>
           <p className='text-black'>Klikk på bildet for å zoome!</p>
         </div>
         <div className='flex flex-col w-2/6 h-full p-4 text-black rounded bg-alice-blue'>
-          {gameData.questions1.map((question, index) => {
-            return (
-              <div className='flex flex-col pb-4' key={index}>
-                <label>{question}</label>
-                <input className='input-main' type='text' placeholder='Svar til spørsmål' />
-              </div>
-            );
-          })}
+          <div className='flex flex-col pb-4'>
+            <label>{gameData.questionSet[round].multipleChoiceQuestion.question}</label>
+            {gameData.questionSet[round].multipleChoiceQuestion.choices.map((choice, index) => {
+              return (
+                <div
+                  key={index}
+                  className='px-2 py-1 my-1 bg-white border rounded hover:bg-cameo-pink-hover border-independence hover:cursor-pointer'
+                >
+                  {choice.alternative}
+                </div>
+              );
+            })}
+          </div>
+          <div className='flex flex-col pb-4'>
+            <label>{gameData.questionSet[round].stringDateQuestion.question}</label>
+            <input className='input-main' type='text' placeholder='Svar til spørsmål' />
+          </div>
+          <div className='flex flex-col pb-4'>
+            <label>{gameData.questionSet[round].mapPointerQuestion.question}</label>
+            <input className='input-main' type='text' placeholder='Svar til spørsmål' />
+          </div>
           <button className='btn-lg'>Send svar</button>
         </div>
       </div>
