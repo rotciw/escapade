@@ -18,7 +18,7 @@ const Avatar: React.FC<{
         />
       </div>
       <p className='w-full mt-2 font-bold text-center text-independence'>{name}</p>
-      <p className='text-center text-independence'>{currentPlayer ? '(deg)' : ''}</p>
+      <p className='text-center text-independence'>{currentPlayer ? '(deg)' : <br />}</p>
     </div>
   );
 };

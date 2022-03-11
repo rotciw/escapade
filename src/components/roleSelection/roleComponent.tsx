@@ -26,14 +26,28 @@ const RoleComponent: React.FC<IProps> = (props: IProps) => {
     title: 'Utforsker',
     subtitle: 'Tid og sted',
     description:
-      'Din rolle som utforsker vil være å gjøre dette og dette og dette og dette og dette. Samt dette og dette og dette og dette. Passer godt for deg som liker dette.',
+      'Du vil beskrive bilder til ekspertene på laget ditt så dere sammen kan finne ut av hva bildene skildrer. Passer dersom du er flink til å se detaljer.',
   };
 
-  const expert = {
+  const geographyExpert = {
     title: 'Ekspert',
-    subtitle: 'noe og noe',
+    subtitle: 'Geografi og flagg',
     description:
-      'Din rolle som utforsker vil være å gjøre dette og dette og dette og dette og dette. Samt dette og dette og dette og dette. Passer godt for deg som liker dette.',
+      'Du vil ha tilgang til alt du måtte trenge av flagg og kart. Dersom laget trenger å vite hvor et sted er eller hvilket land et flagg tilhører så bør de spørre deg.',
+  };
+
+  const politicsExpert = {
+    title: 'Ekspert',
+    subtitle: 'Politikk og mote',
+    description:
+      'Du får oversikt over viktige historiske hendelser. I tillegg kan du gi informasjon om antrekk og uniformer som man finner i bildene.',
+  };
+
+  const technologyExpert = {
+    title: 'Ekspert',
+    subtitle: 'Teknologi og fotografi',
+    description:
+      'Du vil kunne tid- og stedfeste forskjellige oppfinnelser og produkter som finnes i bildene. I tillegg vil du kunne bruke tekniske kjennetegn til å tidfeste bilder.',
   };
 
   const determineRole = () => {
@@ -42,13 +56,13 @@ const RoleComponent: React.FC<IProps> = (props: IProps) => {
         setRoleInfo(explorer);
         break;
       case 2:
-        setRoleInfo(expert);
+        setRoleInfo(geographyExpert);
         break;
       case 3:
-        setRoleInfo(expert);
+        setRoleInfo(politicsExpert);
         break;
       case 4:
-        setRoleInfo(expert);
+        setRoleInfo(technologyExpert);
         break;
       case 5:
         setRoleInfo(explorer);
@@ -68,10 +82,10 @@ const RoleComponent: React.FC<IProps> = (props: IProps) => {
 
   return (
     <>
-      <div className='flex flex-col items-center h-[400px] p-5 m-1 border rounded w-60 border-independence text-independence bg-alice-blue'>
+      <div className='flex flex-col items-center h-[420px] p-5 m-1 border rounded w-60 border-independence text-independence bg-alice-blue'>
         <h1 className='text-xl font-bold text-center'>{roleInfo.title}</h1>
         <h2 className='mb-2 italic text-center text-l'>{roleInfo.subtitle}</h2>
-        <p className='mb-4'>{roleInfo.description}</p>
+        <p className='mb-4 grow'>{roleInfo.description}</p>
         {currentPlayer ? (
           <Avatar
             eyes={currentPlayer.eyes}

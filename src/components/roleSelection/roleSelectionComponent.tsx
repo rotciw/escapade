@@ -56,7 +56,7 @@ const RoleSelectionComponent: React.FC<IProps> = (props: IProps) => {
     <>
       <h1 className='mb-1 text-xl font-bold'>Lag {teamId}</h1>
       <h1 className='text-xl'>Velg din rolle</h1>
-      <div className='flex flex-row flex-wrap justify-center p-5'>
+      <div className='flex flex-row flex-wrap justify-center p-1'>
         {roles.map((role, index) => (
           <div key={index}>
             <RoleComponent
