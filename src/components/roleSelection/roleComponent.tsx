@@ -40,7 +40,7 @@ const RoleComponent: React.FC<IProps> = (props: IProps) => {
     title: 'Ekspert',
     subtitle: 'Politikk og mote',
     description:
-      'Du får oversikt over viktige historiske hendelser. I tillegg kan du gi informasjon om antrekk og uniformer som man finner i bildene.',
+      'Du får oversikt over viktige historiske hendelser. I tillegg kan du gi informasjon om antrekk og mote gjennom tiårene.',
   };
 
   const technologyExpert = {
