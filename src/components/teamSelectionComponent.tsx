@@ -45,18 +45,19 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
       <div className='w-5/6 p-5 rounded bg-alice-blue h-5/6'>
         {teams.map((team) => (
           <div key={team.id}>
-            <h1 className='text-xl font-bold text-independence'>
-              Lag {team.id} ({handleTeam(team.id).length} spillere)
+            <h1 className='mb-2 text-xl font-bold text-independence'>
+              Lag {team.id} ({handleTeam(team.id).length}{' '}
+              {handleTeam(team.id).length === 1 ? 'spiller' : 'spillere'})
             </h1>
             ;
             {!isHost && handleTeam(team.id).length !== 5 ? (
-              <button className='btn-lg' onClick={() => chooseTeam(team.id)}>
+              <button className='mb-2 btn-lg' onClick={() => chooseTeam(team.id)}>
                 Velg lag {team.id}
               </button>
             ) : (
               <></>
             )}
-            <div className='flex flex-row'>
+            <div className='flex flex-row gap-3 mb-4'>
               {handleTeam(team.id).map((participant) => (
                 <Avatar
                   eyes={participant.eyes}
@@ -73,7 +74,7 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
       </div>
       <div className='p-5 mt-8 rounded bg-alice-blue'>
         <h1 className='text-xl font-bold text-center text-independence'>Ikke valgt lag</h1>
-        <div className='flex flex-row'>
+        <div className='flex flex-row gap-3'>
           {handleTeam(0).map((player) => (
             <Avatar
               eyes={player.eyes}
