@@ -10,8 +10,10 @@ module.exports = {
       'cameo-pink-hover': '#EBADCC',
       'colorful-blue': '#5170ED',
       independence: '#4B5267',
+      'independence-hover': '#A0A7BA',
       'magic-mint': '#BCEFD6',
       'magic-mint-hover': '#ADEBCD',
+      red: '#FF0000',
     },
     boxShadow: {
       lg: '4px 4px 0px 0px rgba(188, 239, 214, 1)',
