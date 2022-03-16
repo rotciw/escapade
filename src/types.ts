@@ -49,12 +49,40 @@ export interface SanityMapData {
   title: string;
   id: number;
   description: string;
-  questions1: string[];
-  image1: Image;
-  answer1: string;
-  questions2: string[];
-  image2: Image;
-  answer2: string;
+  questionSet: QuestionSet[];
+}
+
+interface QuestionSet {
+  images: Image[];
+  multipleChoiceQuestion: MultipleChoiceQuestion;
+  stringDateQuestion: StringDateQuestion;
+  mapPointerQuestion: MapPointerQuestion;
+}
+
+interface MultipleChoiceQuestion {
+  choices: Choice[];
+  question: string;
+}
+
+interface Choice {
+  alternative: string;
+  isCorrect?: boolean;
+}
+
+interface StringDateQuestion {
+  question: string;
+  answer: string;
+}
+
+interface MapPointerQuestion {
+  question: string;
+  answer: MapData;
+}
+
+interface MapData {
+  alt: number;
+  lat: number;
+  lng: number;
 }
 
 interface Image {
