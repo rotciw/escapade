@@ -9,7 +9,7 @@ export default {
       name: 'title',
       title: 'Tema',
       type: 'string',
-      description: 'Temaet må være unik',
+      description: 'Temaet må være unikt',
       validation: (Rule) => Rule.required(),
     },
     {

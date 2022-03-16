@@ -101,11 +101,11 @@ const InGameView: React.FC = () => {
           </div>
           <div className='flex flex-col pb-4'>
             <label>{gameData.questionSet[round].stringDateQuestion.question}</label>
-            <input className='input-main' type='text' placeholder='Svar til spørsmål' />
+            <input className='input-main' type='text' placeholder='Svar på spørsmål' />
           </div>
           <div className='flex flex-col pb-4'>
             <label>{gameData.questionSet[round].mapPointerQuestion.question}</label>
-            <input className='input-main' type='text' placeholder='Svar til spørsmål' />
+            <input className='input-main' type='text' placeholder='Svar på spørsmål' />
           </div>
           <button className='btn-lg'>Send svar</button>
         </div>
