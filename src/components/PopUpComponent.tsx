@@ -29,7 +29,7 @@ const PopUpComponent = ({ isOpen, openFunction, children }: IPopUp) => {
             {children}
             <div className='mt-4 text-center'>
               <button
-                className='px-4 py-2 font-bold text-black transition all; rounded hover:bg-cameo-pink mr-2'
+                className='px-4 py-2 font-bold text-black transition-all rounded hover:bg-cameo-pink mr-2'
                 onClick={() => openFunction(false)}
               >
                 Gå tilbake
