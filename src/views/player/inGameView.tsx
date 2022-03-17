@@ -172,6 +172,7 @@ const InGameView: React.FC = () => {
                 } text-center cursor-text text-independence input-main`}
                 type='date'
                 onChange={(e) => handleDate(e)}
+                value={chosenDate}
                 max='2022-04-14'
               />
               {dateErrorMsg ? <p className='italic text-red'>{dateErrorMsg}</p> : <p>&nbsp;</p>}
