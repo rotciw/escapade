@@ -66,7 +66,6 @@ const LobbyView: React.FC = () => {
   };
 
   const startTime = async () => {
-    console.log('started timer');
     const batch = writeBatch(db);
     console.log(teamPlayers);
     if (teamPlayers) {

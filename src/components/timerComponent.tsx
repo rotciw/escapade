@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { createRef, useEffect, useRef, useState } from 'react';
 import Countdown, { calcTimeDelta } from 'react-countdown';
-import { CountdownTimeDeltaFn } from 'react-countdown/dist/Countdown';
+import { CountdownApi, CountdownTimeDeltaFn } from 'react-countdown/dist/Countdown';
 
 interface TimerProps {
   startTime: number;
@@ -9,8 +9,20 @@ interface TimerProps {
 const TimerComponent: React.FC<TimerProps> = ({ startTime }) => {
   const [timeLeft, setTimeLeft] = useState(0);
 
+  let countdownApi: CountdownApi | null = null;
+
   const handleOnTick: CountdownTimeDeltaFn = (timeDelta) => {
     setTimeLeft(timeDelta.minutes * 60 + timeDelta.seconds);
+  };
+
+  const handlePause = (): void => {
+    countdownApi && countdownApi.pause();
+  };
+
+  const setRef = (countdown: Countdown | null): void => {
+    if (countdown) {
+      countdownApi = countdown.getApi();
+    }
   };
 
   const renderer = ({ minutes, seconds, completed }: any) => {
@@ -24,6 +36,7 @@ const TimerComponent: React.FC<TimerProps> = ({ startTime }) => {
 
   return (
     <>
+      <button onClick={() => handlePause()}>pause</button>
       <p className='mb-1 text-lg font-semibold'>Tid igjen:</p>
       <div className='w-full h-10 mb-2 rounded outline-black outline bg-alice-blue-hover align-center'>
         <div
@@ -35,6 +48,8 @@ const TimerComponent: React.FC<TimerProps> = ({ startTime }) => {
             onTick={handleOnTick}
             date={startTime + 600000}
             renderer={renderer}
+            ref={setRef}
+            onPause={handlePause}
           />
         </div>
       </div>

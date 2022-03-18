@@ -30,6 +30,7 @@ const InGameView: React.FC = () => {
   const zoom = 1;
   const [chosenChoice, setChosenChoice] = useState<number>(-1);
   let [isOpen, setIsOpen] = useState(false);
+  let [isRoundOver, setIsRoundOver] = useState(false);
 
   let listener: () => void;
 
@@ -93,13 +94,6 @@ const InGameView: React.FC = () => {
     setMarkerLongitude(0);
   }, [round]);
 
-  // const handleTimer = () => {
-  //   const start = new Date(startTime);
-  //   const stopTime = new Date(start.getTime() + 10 * 60000);
-  //   console.log(stopTime);
-  // };
-  // handleTimer();
-
   const handleMultipleChoice = (index: number) => {
     setChosenChoice(index);
   };
@@ -125,6 +119,25 @@ const InGameView: React.FC = () => {
         <MapPin color='red' size={40} fill='white' />
       </div>
     );
+  };
+
+  const resetTimer = async () => {
+    const batch = writeBatch(db);
+    console.log(teamPlayers);
+    if (teamPlayers) {
+      const timeNow = Date.now();
+      for (let i = 0; i < teamPlayers.length; i++) {
+        batch.update(doc(db, 'games', value), {
+          [`participants.${teamPlayers[i].id}.startTime`]: timeNow,
+        });
+        console.log(teamPlayers[i].id);
+      }
+      await batch.commit();
+    }
+  };
+
+  const handleNextRound = async () => {
+    setIsRoundOver(false);
   };
 
   if (!gameData) return <>No data</>;
@@ -224,10 +237,38 @@ const InGameView: React.FC = () => {
                     )}
                   </GoogleMapReact>
                 </div>
+                <div className='mt-4 text-center'>
+                  <button
+                    className='px-4 py-2 mr-2 font-bold text-black transition-all rounded hover:bg-cameo-pink'
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Gå tilbake
+                  </button>
+                  <button className='btn-sm' onClick={() => setIsOpen(false)}>
+                    Velg sted
+                  </button>
+                </div>
               </PopUpComponent>
             </div>
             <div className='w-full mt-4 mb-6 border-t border-dotted border-independence'></div>
-            <button className='btn-lg'>Send svar</button>
+            <button onClick={() => setIsRoundOver(true)} className='btn-lg'>
+              Send svar
+            </button>
+            <PopUpComponent isOpen={isRoundOver} openFunction={setIsRoundOver}>
+              <h1 className='text-xl font-bold text-center'>Er dere sikre?</h1>
+              <p>&nbsp;</p>
+              <div className='mt-4 text-center'>
+                <button
+                  className='px-4 py-2 mr-2 font-bold text-black transition-all rounded hover:bg-cameo-pink'
+                  onClick={() => setIsRoundOver(false)}
+                >
+                  Avbryt
+                </button>
+                <button className='btn-sm' onClick={() => handleNextRound()}>
+                  Gå videre
+                </button>
+              </div>
+            </PopUpComponent>
           </div>
         </div>
       </div>
