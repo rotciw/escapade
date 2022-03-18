@@ -36,7 +36,6 @@ const TimerComponent: React.FC<TimerProps> = ({ startTime }) => {
 
   return (
     <>
-      <button onClick={() => handlePause()}>pause</button>
       <p className='mb-1 text-lg font-semibold'>Tid igjen:</p>
       <div className='w-full h-10 mb-2 rounded outline-black outline bg-alice-blue-hover align-center'>
         <div
@@ -49,7 +48,6 @@ const TimerComponent: React.FC<TimerProps> = ({ startTime }) => {
             date={startTime + 600000}
             renderer={renderer}
             ref={setRef}
-            onPause={handlePause}
           />
         </div>
       </div>
