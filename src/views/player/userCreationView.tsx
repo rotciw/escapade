@@ -26,6 +26,7 @@ const UserCreationView: React.FC = () => {
           id: newPlayerId,
           name: playerName,
           teamId: 0,
+          startTime: 0,
           isReady: false,
           role: 0,
           eyes: playerEyes,

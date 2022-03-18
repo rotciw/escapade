@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc, writeBatch } from 'firebase/firestore';
 import { db } from '../../helpers/firebase';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Header from '~/components/header';
@@ -11,12 +11,14 @@ import 'react-medium-image-zoom/dist/styles.css';
 import PopUpComponent from '~/components/PopUpComponent';
 import GoogleMapReact, { ClickEventValue } from 'google-map-react';
 import { ExternalLink, MapPin } from 'react-feather';
+import TimerComponent from '~/components/timerComponent';
 
 const InGameView: React.FC = () => {
   const [value, setValue] = useLocalStorage('gameCode', '');
   const [playerId, setPlayerId] = useLocalStorage('playerId', '');
   const [teamPlayers, setTeamPlayers] = useState<ICurrentGamePlayer[]>();
   const [player, setCurrentPlayer] = useState<ICurrentGamePlayer>();
+  const [startTime, setStartTime] = useState<number>(0);
   const [gameData, setGameData] = useState<SanityMapData>();
   const [theme, setTheme] = useState(0);
   const [round, setRound] = useState(0);
@@ -53,6 +55,7 @@ const InGameView: React.FC = () => {
             (player) => player.teamId == currentPlayer.teamId,
           ),
         );
+        setStartTime(currentPlayer.startTime);
         setTheme(gameData.theme);
       } else {
         console.error('no data');
@@ -90,6 +93,13 @@ const InGameView: React.FC = () => {
     setMarkerLongitude(0);
   }, [round]);
 
+  // const handleTimer = () => {
+  //   const start = new Date(startTime);
+  //   const stopTime = new Date(start.getTime() + 10 * 60000);
+  //   console.log(stopTime);
+  // };
+  // handleTimer();
+
   const handleMultipleChoice = (index: number) => {
     setChosenChoice(index);
   };
@@ -122,7 +132,10 @@ const InGameView: React.FC = () => {
   return (
     <>
       <Header />
-      <div className='flex flex-row flex-wrap justify-around pb-8 mt-8'>
+      <div className='w-[96vw] mx-auto flex flex-col justify-center'>
+        <TimerComponent key={startTime} startTime={startTime} />
+      </div>
+      <div className='flex flex-row flex-wrap justify-around pb-8 mt-2 '>
         <div className='w-7/12 p-2 text-center rounded h-fit bg-alice-blue'>
           <Zoom>
             <img src={urlFor(gameData.questionSet[round].images[0].asset).url()} />
@@ -130,17 +143,12 @@ const InGameView: React.FC = () => {
           <p className='italic text-black'>Klikk på bildet for å zoome!</p>
         </div>
         <div className='flex flex-col w-4/12'>
-          <p className='mb-1 text-lg font-semibold'>Tid igjen:</p>
-          <div className='flex items-center w-full h-10 mb-4 rounded bg-alice-blue-hover align-center'>
-            <div
-              className='h-10 p-3 my-auto text-sm font-semibold leading-none text-center text-black rounded bg-cameo-pink'
-              style={{ width: '5%' }}
-            >
-              09:85
-            </div>
-          </div>
           <div className='flex flex-col p-4 px-8 pb-8 text-black rounded bg-alice-blue'>
-            <h1 className='mb-2 text-xl font-semibold '>Runde {round + 1}/3</h1>
+            <div className='flex flex-row justify-between'>
+              <h1 className='mb-1 text-xl font-semibold '>Poeng: 0</h1>
+              <h1 className='mb-1 text-xl font-semibold '>Runde {round + 1}/3</h1>
+            </div>
+            <div className='w-full mb-2 border-t border-dotted border-independence'></div>
             <label className='mb-1 font-semibold'>
               1. {gameData.questionSet[round].multipleChoiceQuestion.question}
             </label>
@@ -197,8 +205,8 @@ const InGameView: React.FC = () => {
                   Åpne kartet <ExternalLink className='ml-2' />
                 </button>
               )}
-
               <PopUpComponent isOpen={isOpen} openFunction={setIsOpen}>
+                <TimerComponent key={startTime} startTime={startTime} />
                 <h1 className='mb-1 text-lg italic font-medium text-center'>
                   Trykk og velg cirka der du tror det er.
                 </h1>

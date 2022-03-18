@@ -27,6 +27,7 @@ export interface ICurrentGamePlayer {
   mouth: number;
   body: number;
   color: number;
+  startTime: number;
 }
 
 export interface ITeam {
