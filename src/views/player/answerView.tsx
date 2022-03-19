@@ -1,12 +1,7 @@
-import { ImageUrlBuilder } from '@sanity/image-url/lib/types/builder';
 import React, { useEffect, useState } from 'react';
-import { Fade } from 'react-awesome-reveal';
 import CountUp from 'react-countup';
-import Header from '~/components/header';
 import Zoom from 'react-medium-image-zoom';
-import TimerComponent from '~/components/timerComponent';
 import { QuestionSet, TeamAnswers } from '~/types';
-import GoogleMapReact from 'google-map-react';
 import { MapPin } from 'react-feather';
 import MapComponent from '~/components/mapComponent';
 
@@ -18,8 +13,6 @@ interface AnswerProps {
 }
 
 const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamAnswers }) => {
-  const center = { lat: 50, lng: 0 };
-
   useEffect(() => {
     console.log(teamAnswers);
   }, [teamAnswers]);
@@ -47,6 +40,8 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
       </div>
     );
   };
+
+  const calculatePoints = () => {};
 
   return (
     <>
@@ -119,7 +114,7 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
                 center={{
                   lat: questionSet.mapPointerQuestion.answer.lat,
                   lng: questionSet.mapPointerQuestion.answer.lng,
-                }}
+                }} // To-Do: Can calculate center to be between the two markers
                 zoom={1}
               >
                 {!teamAnswers?.mapPointerAnswer ? (

@@ -9,7 +9,7 @@ import { ICurrentGamePlayer, IGame, SanityMapData, TeamAnswers } from '~/types';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import PopUpComponent from '~/components/PopUpComponent';
-import GoogleMapReact, { ClickEventValue } from 'google-map-react';
+import { ClickEventValue } from 'google-map-react';
 import { ExternalLink, MapPin } from 'react-feather';
 import TimerComponent from '~/components/timerComponent';
 import AnswerView from './answerView';
@@ -38,6 +38,7 @@ const InGameView: React.FC = () => {
     stringDateAnswer: '1998-04-14',
     mapPointerAnswer: { lat: 0, lng: 0 },
   });
+  const [points, setPoints] = useState(0);
   let [isOpen, setIsOpen] = useState(false);
 
   let listener: () => void;
@@ -57,7 +58,8 @@ const InGameView: React.FC = () => {
           (player) => player.id === playerId,
         )[0];
         setCurrentPlayer(currentPlayer);
-        setRound(gameData.round - 1);
+        setRound(currentPlayer.round);
+        setAnswer(currentPlayer.answer);
         setTeamPlayers(
           Object.values(gameData.participants).filter(
             // Compare to your own player
@@ -131,27 +133,49 @@ const InGameView: React.FC = () => {
 
   const resetTimer = async () => {
     const batch = writeBatch(db);
-    console.log(teamPlayers);
     if (teamPlayers) {
       const timeNow = Date.now();
       for (let i = 0; i < teamPlayers.length; i++) {
         batch.update(doc(db, 'games', value), {
           [`participants.${teamPlayers[i].id}.startTime`]: timeNow,
+          [`participants.${teamPlayers[i].id}.round`]: round + 1,
         });
-        console.log(teamPlayers[i].id);
       }
       await batch.commit();
     }
   };
 
-  const handleNextRound = async () => {
+  const goToAnswers = async (bol: boolean) => {
+    const batch = writeBatch(db);
+    if (teamPlayers) {
+      for (let i = 0; i < teamPlayers.length; i++) {
+        batch.update(doc(db, 'games', value), {
+          [`participants.${teamPlayers[i].id}.answer`]: bol,
+        });
+      }
+      await batch.commit();
+    }
+  };
+
+  const handleAnswers = async () => {
     setConfirmation(false);
     setTeamAnswers({
       multipleChoiceAnswer: chosenChoice,
       stringDateAnswer: chosenDate,
       mapPointerAnswer: { lat: markerLatitude, lng: markerLongitude },
     });
-    setAnswer(true);
+    goToAnswers(true);
+  };
+
+  const handleNextRound = async () => {
+    // Reset answers
+    setTeamAnswers({
+      multipleChoiceAnswer: -1,
+      stringDateAnswer: '',
+      mapPointerAnswer: { lat: 0, lng: 0 },
+    });
+    goToAnswers(false);
+    resetTimer();
   };
 
   if (!gameData) return <>No data</>;
@@ -162,7 +186,7 @@ const InGameView: React.FC = () => {
       <div className='w-[96vw] mx-auto flex flex-col justify-center'>
         <TimerComponent key={startTime} startTime={startTime} />
       </div>
-      {answer ? (
+      {!answer ? (
         <div className='flex flex-row flex-wrap justify-around pb-8 mt-2 '>
           <div className='w-7/12 p-2 text-center rounded h-fit bg-alice-blue'>
             <Zoom>
@@ -238,7 +262,7 @@ const InGameView: React.FC = () => {
                     Trykk og velg cirka der du tror det er.
                   </h1>
                   <div className='h-[65vh] w-[85vw]'>
-                    <MapComponent center={center}>
+                    <MapComponent center={center} onMarkerClick={onMarkerClick}>
                       {markerLatitude !== 0 && markerLongitude !== 0 && (
                         <Marker lat={markerLatitude} lng={markerLongitude} />
                       )}
@@ -271,7 +295,7 @@ const InGameView: React.FC = () => {
                   >
                     Avbryt
                   </button>
-                  <button className='btn-sm' onClick={() => handleNextRound()}>
+                  <button className='btn-sm' onClick={() => handleAnswers()}>
                     Gå videre
                   </button>
                 </div>
@@ -280,12 +304,17 @@ const InGameView: React.FC = () => {
           </div>
         </div>
       ) : (
-        <AnswerView
-          round={round}
-          roundImg={urlFor(gameData.questionSet[round].images[0].asset).url()}
-          questionSet={gameData.questionSet[round]}
-          teamAnswers={teamAnswers}
-        />
+        <div className='text-center'>
+          <AnswerView
+            round={round}
+            roundImg={urlFor(gameData.questionSet[round].images[0].asset).url()}
+            questionSet={gameData.questionSet[round]}
+            teamAnswers={teamAnswers}
+          />
+          <button className='mt-2 btn-lg' onClick={() => handleNextRound()}>
+            Gå videre
+          </button>
+        </div>
       )}
     </>
   );

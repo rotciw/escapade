@@ -21,13 +21,15 @@ export interface ICurrentGamePlayer {
   id: string;
   name: string;
   teamId: number;
-  isReady: boolean;
   role: number;
   eyes: number;
   mouth: number;
   body: number;
   color: number;
   startTime: number;
+  points: number;
+  answer: boolean;
+  round: number;
 }
 
 export interface ITeam {

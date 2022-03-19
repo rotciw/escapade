@@ -27,11 +27,16 @@ const UserCreationView: React.FC = () => {
           name: playerName,
           teamId: 0,
           startTime: 0,
-          isReady: false,
           role: 0,
           eyes: playerEyes,
           mouth: playerMouth,
           color: playerColor,
+          points: 0,
+          answer: false,
+          round: 0,
+          multipleChoiceAnswer: -1,
+          dateStringAnswer: '',
+          mapPointerAnswer: { lat: 0, lng: 0 },
         },
       });
       navigate('/lobby');
