@@ -5,7 +5,7 @@ import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Header from '~/components/header';
 import imageUrlBuilder from '@sanity/image-url';
 import sanityClient from '~/sanityClient';
-import { ICurrentGamePlayer, IGame, SanityMapData } from '~/types';
+import { ICurrentGamePlayer, IGame, SanityMapData, TeamAnswers } from '~/types';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import PopUpComponent from '~/components/PopUpComponent';
@@ -13,6 +13,7 @@ import GoogleMapReact, { ClickEventValue } from 'google-map-react';
 import { ExternalLink, MapPin } from 'react-feather';
 import TimerComponent from '~/components/timerComponent';
 import AnswerView from './answerView';
+import MapComponent from '~/components/mapComponent';
 
 const InGameView: React.FC = () => {
   const [value, setValue] = useLocalStorage('gameCode', '');
@@ -32,6 +33,11 @@ const InGameView: React.FC = () => {
   const [chosenChoice, setChosenChoice] = useState<number>(-1);
   const [confirmation, setConfirmation] = useState(false);
   const [answer, setAnswer] = useState(false);
+  const [teamAnswers, setTeamAnswers] = useState<TeamAnswers>({
+    multipleChoiceAnswer: 0,
+    stringDateAnswer: '1998-04-14',
+    mapPointerAnswer: { lat: 0, lng: 0 },
+  });
   let [isOpen, setIsOpen] = useState(false);
 
   let listener: () => void;
@@ -140,6 +146,11 @@ const InGameView: React.FC = () => {
 
   const handleNextRound = async () => {
     setConfirmation(false);
+    setTeamAnswers({
+      multipleChoiceAnswer: chosenChoice,
+      stringDateAnswer: chosenDate,
+      mapPointerAnswer: { lat: markerLatitude, lng: markerLongitude },
+    });
     setAnswer(true);
   };
 
@@ -184,7 +195,6 @@ const InGameView: React.FC = () => {
                   </div>
                 );
               })}
-
               <div className='flex flex-col pb-2'>
                 <label className='mb-1 font-semibold'>
                   2. {gameData.questionSet[round].stringDateQuestion.question}
@@ -228,18 +238,11 @@ const InGameView: React.FC = () => {
                     Trykk og velg cirka der du tror det er.
                   </h1>
                   <div className='h-[65vh] w-[85vw]'>
-                    <GoogleMapReact
-                      yesIWantToUseGoogleMapApiInternals
-                      bootstrapURLKeys={{ key: 'AIzaSyCBtuU2hX_fJLSczcVSSbdze-KcyFhr0IY' }}
-                      defaultCenter={center}
-                      defaultZoom={zoom}
-                      onClick={(e) => onMarkerClick(e)}
-                      options={{ fullscreenControl: false }}
-                    >
+                    <MapComponent center={center}>
                       {markerLatitude !== 0 && markerLongitude !== 0 && (
                         <Marker lat={markerLatitude} lng={markerLongitude} />
                       )}
-                    </GoogleMapReact>
+                    </MapComponent>
                   </div>
                   <div className='mt-4 text-center'>
                     <button
@@ -277,7 +280,12 @@ const InGameView: React.FC = () => {
           </div>
         </div>
       ) : (
-        <AnswerView round={round} />
+        <AnswerView
+          round={round}
+          roundImg={urlFor(gameData.questionSet[round].images[0].asset).url()}
+          questionSet={gameData.questionSet[round]}
+          teamAnswers={teamAnswers}
+        />
       )}
     </>
   );
