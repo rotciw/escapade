@@ -47,6 +47,15 @@ const LobbyView: React.FC = () => {
     }
   };
 
+  const findTeamNumber = (playerNumber: number) => {
+    // the number of teams is floor(participants / 4), number of 5-man teams is participants % 4
+    // There should always be at least 12 players, but just in case there aren't, this function handles that too
+    if (playerNumber < 12) {
+      return Math.ceil(playerNumber / 5);
+    }
+    return Math.floor(playerNumber / 4);
+  };
+
   const removePlayer = async () => {
     await updateDoc(doc(db, 'games', value), {
       [`participants.${playerId}`]: deleteField(),
@@ -68,7 +77,11 @@ const LobbyView: React.FC = () => {
       <div className='flex flex-col items-center mt-16 justify-evenly'>
         {step === 0 && <LobbyComponent participants={participants} />}
         {step === 1 && (
-          <TeamSelectionComponent participants={participants} numberOfTeams={2} isHost={isHost} />
+          <TeamSelectionComponent
+            participants={participants}
+            numberOfTeams={findTeamNumber(Object.keys(participants).length)}
+            isHost={isHost}
+          />
         )}
         {step >= 2 && !isHost && <RoleSelectionComponent participants={participants} />}
         <div className='mt-4'>
