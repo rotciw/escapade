@@ -42,21 +42,30 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
 
   return (
     <>
-      <div className='w-5/6 p-5 rounded bg-alice-blue h-5/6'>
+      <div className='flex flex-wrap justify-around w-5/6 p-5 rounded gap-y-5 gap-x-16 bg-alice-blue'>
         {teams.map((team) => (
-          <div key={team.id}>
-            <h1 className='mb-2 text-xl font-bold text-independence'>
-              Lag {team.id} ({handleTeam(team.id).length}{' '}
-              {handleTeam(team.id).length === 1 ? 'spiller' : 'spillere'})
-            </h1>
-            ;
-            {!isHost && handleTeam(team.id).length !== 5 ? (
-              <button className='mb-2 btn-lg' onClick={() => chooseTeam(team.id)}>
-                Velg lag {team.id}
-              </button>
-            ) : (
-              <></>
-            )}
+          <div key={team.id} className='h-[178px] w-[368px]'>
+            <div className='flex'>
+              <h2 className='mb-2 text-xl font-bold w-44 text-independence'>
+                Lag {team.id} ({handleTeam(team.id).length}{' '}
+                {handleTeam(team.id).length === 1 ? 'spiller' : 'spillere'})
+              </h2>
+              ;
+              {!isHost && handleTeam(team.id).length !== 5 && playerTeam !== team.id ? (
+                <button className='py-1 mb-2 ml-3 btn-sm' onClick={() => chooseTeam(team.id)}>
+                  Velg lag {team.id}
+                </button>
+              ) : (
+                <></>
+              )}
+              {!isHost && playerTeam === team.id ? (
+                <button className='py-1 mb-2 ml-3 btn-sm' onClick={() => chooseTeam(0)}>
+                  Gå ut av lag {team.id}
+                </button>
+              ) : (
+                <></>
+              )}
+            </div>
             <div className='flex flex-row gap-3 mb-4'>
               {handleTeam(team.id).map((participant) => (
                 <Avatar
