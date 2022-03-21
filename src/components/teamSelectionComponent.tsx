@@ -18,8 +18,12 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
   const [value, setValue] = useLocalStorage('gameCode', '');
   const [playerId, setPlayerId] = useLocalStorage('playerId', '');
   const [teams, setTeams] = useState<ITeam[]>([]);
+  const [playerTeam, setPlayerTeam] = useState(
+    Object.values(participants).filter((participant) => participant.id === playerId)[0].teamId,
+  );
 
   const chooseTeam = async (teamId: number) => {
+    setPlayerTeam(teamId);
     await updateDoc(doc(db, 'games', value), {
       [`participants.${playerId}.teamId`]: teamId,
     });
