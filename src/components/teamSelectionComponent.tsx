@@ -85,21 +85,26 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
           </div>
         ))}
       </div>
-      <div className='p-5 mt-8 rounded bg-alice-blue'>
-        <h1 className='text-xl font-bold text-center text-independence'>Ikke valgt lag</h1>
-        <div className='flex flex-row gap-3'>
-          {handleTeam(0).map((player) => (
-            <Avatar
-              eyes={player.eyes}
-              mouth={player.mouth}
-              color={player.color}
-              name={player.name}
-              currentPlayer={playerId === player.id}
-              key={player.id}
-            />
-          ))}
-        </div>
-      </div>
+      {
+        // Box of players with no team is hidden if everyone is in a team
+        handleTeam(0).length !== 0 && (
+          <div className='p-5 mt-8 rounded bg-alice-blue max-w-[83.3%]'>
+            <h1 className='mb-3 text-xl font-bold text-center text-independence'>Ikke valgt lag</h1>
+            <div className='flex flex-row flex-wrap gap-3'>
+              {handleTeam(0).map((player) => (
+                <Avatar
+                  eyes={player.eyes}
+                  mouth={player.mouth}
+                  color={player.color}
+                  name={player.name}
+                  currentPlayer={playerId === player.id}
+                  key={player.id}
+                />
+              ))}
+            </div>
+          </div>
+        )
+      }
     </>
   );
 };
