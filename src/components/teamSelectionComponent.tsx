@@ -38,7 +38,7 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
     setTeams(placeholderTeams);
   }, []);
 
-  if (teams.length === 0) return <></>;
+  if (teams.length === 0) return <p>Spillet ble startet før noen spillere kunne bli med.</p>;
 
   return (
     <>
