@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { deleteField, doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { deleteField, doc, onSnapshot, updateDoc, writeBatch } from 'firebase/firestore';
 import { db } from '../../helpers/firebase';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { ICurrentGamePlayer, IGame } from '../../types';
@@ -15,6 +15,8 @@ const LobbyView: React.FC = () => {
   const [value, setValue] = useLocalStorage('gameCode', '');
   const [gameHostId, setGameHostId] = useLocalStorage('hostId', '');
   const [participants, setParticipants] = useState<ICurrentGamePlayer[]>([]);
+  const [teamPlayers, setTeamPlayers] = useState<ICurrentGamePlayer[]>();
+  const [player, setCurrentPlayer] = useState<ICurrentGamePlayer>();
   const [playerId, setPlayerId] = useLocalStorage('playerId', '');
   const [step, setStep] = useState(0);
   const [isHost, setIsHost] = useState(false);
@@ -33,6 +35,16 @@ const LobbyView: React.FC = () => {
         if (step !== gameData.selectionStep) {
           setStep(gameData.selectionStep);
         }
+        const currentPlayer = Object.values(gameData.participants).filter(
+          (player) => player.id === playerId,
+        )[0];
+        setCurrentPlayer(currentPlayer);
+        setTeamPlayers(
+          Object.values(gameData.participants).filter(
+            // Compare to your own player
+            (player) => player.teamId == currentPlayer.teamId,
+          ),
+        );
       } else {
         console.error('no data');
       }
@@ -51,6 +63,21 @@ const LobbyView: React.FC = () => {
     await updateDoc(doc(db, 'games', value), {
       [`participants.${playerId}`]: deleteField(),
     });
+  };
+
+  const startTime = async () => {
+    const batch = writeBatch(db);
+    console.log(teamPlayers);
+    if (teamPlayers) {
+      const timeNow = Date.now();
+      for (let i = 0; i < teamPlayers.length; i++) {
+        batch.update(doc(db, 'games', value), {
+          [`participants.${teamPlayers[i].id}.startTime`]: timeNow,
+        });
+        console.log(teamPlayers[i].id);
+      }
+      await batch.commit();
+    }
   };
 
   useEffect(() => {
@@ -80,7 +107,13 @@ const LobbyView: React.FC = () => {
           {!isHost && step < 2 && <p>Venter på at verten starter spillet..</p>}
           {!isHost && step === 2 && <p>Venter på at alle spillere har valgt en rolle..</p>}
           {!isHost && step === 3 && (
-            <button className='btn-lg' onClick={() => navigate('/game')}>
+            <button
+              className='btn-lg'
+              onClick={() => {
+                navigate('/game');
+                startTime();
+              }}
+            >
               Start spillet
             </button>
           )}

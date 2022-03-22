@@ -21,12 +21,15 @@ export interface ICurrentGamePlayer {
   id: string;
   name: string;
   teamId: number;
-  isReady: boolean;
   role: number;
   eyes: number;
   mouth: number;
   body: number;
   color: number;
+  startTime: number;
+  points: number;
+  answer: boolean;
+  round: number;
 }
 
 export interface ITeam {
@@ -52,11 +55,17 @@ export interface SanityMapData {
   questionSet: QuestionSet[];
 }
 
-interface QuestionSet {
+export interface QuestionSet {
   images: Image[];
   multipleChoiceQuestion: MultipleChoiceQuestion;
   stringDateQuestion: StringDateQuestion;
   mapPointerQuestion: MapPointerQuestion;
+}
+
+export interface TeamAnswers {
+  multipleChoiceAnswer: number;
+  stringDateAnswer: string;
+  mapPointerAnswer: MapData;
 }
 
 interface MultipleChoiceQuestion {
@@ -80,7 +89,6 @@ interface MapPointerQuestion {
 }
 
 interface MapData {
-  alt: number;
   lat: number;
   lng: number;
 }
@@ -90,7 +98,7 @@ interface Image {
   alt: string;
 }
 
-type Asset = {
+export type Asset = {
   url: string;
   _id: string;
 };

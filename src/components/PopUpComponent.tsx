@@ -25,20 +25,7 @@ const PopUpComponent = ({ isOpen, openFunction, children }: IPopUp) => {
       >
         <div className='flex items-center justify-center min-h-screen'>
           <Dialog.Overlay className='fixed inset-0 bg-black opacity-30' />
-          <div className='relative h-full px-5 py-3 mx-auto bg-white rounded'>
-            {children}
-            <div className='mt-4 text-center'>
-              <button
-                className='px-4 py-2 font-bold text-black transition-all rounded hover:bg-cameo-pink mr-2'
-                onClick={() => openFunction(false)}
-              >
-                Gå tilbake
-              </button>
-              <button className='btn-sm' onClick={() => openFunction(false)}>
-                Velg sted
-              </button>
-            </div>
-          </div>
+          <div className='relative px-5 py-3 mx-auto bg-white rounded'>{children}</div>
         </div>
       </Dialog>
     </Transition>
