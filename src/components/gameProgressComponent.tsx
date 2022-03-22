@@ -1,0 +1,99 @@
+import React, { useEffect, useState } from 'react';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../helpers/firebase';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+import { ICurrentGamePlayer, ITeam } from '../types';
+import Avatar from './avatar';
+
+interface IProps {
+  participants: ICurrentGamePlayer[];
+}
+
+const GameProgressComponent: React.FC<IProps> = (props: IProps) => {
+  const { participants } = props;
+  const [value, setValue] = useLocalStorage('gameCode', '');
+  const [playerId, setPlayerId] = useLocalStorage('playerId', '');
+  const [teams, setTeams] = useState<ITeam[]>([]);
+
+  const handleTeam = (teamId: number) => {
+    return Object.values(participants).filter((participant) => participant.teamId === teamId);
+  };
+
+  const getRoleName = (roleId: number) => {
+    switch (roleId) {
+      case 0:
+        return 'Ingen rolle';
+      case 2:
+        return 'Geografi og flagg';
+      case 3:
+        return 'Politikk og mote';
+      case 4:
+        return 'Teknologi og fotografi';
+      default:
+        return 'Utforsker';
+    }
+  };
+
+  useEffect(() => {
+    const placeholderTeams: ITeam[] = [];
+    const teamsAdded: number[] = [];
+
+    //Iterates through every participant and sorts them into teams
+    for (let i = 0; i < Object.values(participants).length; i++) {
+      const participant = Object.values(participants)[i];
+      const tId: number = participant.teamId;
+
+      if (!teamsAdded.includes(participant.teamId)) {
+        // If team has not been created, creates team and adds player as first participant
+        teamsAdded.push(participant.teamId);
+        placeholderTeams.push({ id: participant.teamId, participants: [participant] });
+      } else {
+        // If team has already been created, adds player as participant
+        placeholderTeams.filter((team) => team.id === tId)[0].participants.push(participant);
+      }
+    }
+
+    placeholderTeams.sort((a, b) => (a.id > b.id ? 1 : -1)); // Sorts array of teams by team ID
+    setTeams(placeholderTeams);
+  }, []);
+
+  if (teams.length === 0) return <p>Game has no teams in it.</p>;
+
+  return (
+    <>
+      <div className='flex flex-wrap justify-center gap-10 p-5 sm:w-5/6'>
+        {teams.map((team) => (
+          <div
+            key={team.id}
+            className='max-w-2xl px-8 py-4 text-black shadow-lg shadow-cameo-pink grow border-base bg-alice-blue basis-1/3 sm:min-w-max'
+          >
+            <h2 className='w-full text-2xl font-bold'>Lag {team.id}</h2>
+            <div className='flex justify-between'>
+              <div className='flex flex-col mr-8'>
+                {team.participants.map((participant) => (
+                  <p key={participant.id}>
+                    <strong>{participant.name}</strong> - {getRoleName(participant.role)}
+                  </p>
+                ))}
+              </div>
+              <div className='flex flex-col text-right'>
+                <p>
+                  Runde: <strong>{team.participants[0].round}1/3</strong>
+                </p>
+                <p>
+                  Gjenstående tid: <strong>{team.participants[0].startTime}13:37</strong>
+                </p>
+                <p>
+                  Poeng så langt: <strong>{team.participants[0].points}9118</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+        {Object.values(teams).length % 2 === 1 && <div className='max-w-2xl grow basis-1/3' />}
+      </div>
+    </>
+  );
+};
+
+export default GameProgressComponent;
