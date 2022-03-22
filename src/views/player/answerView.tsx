@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import CountUp from 'react-countup';
 import Zoom from 'react-medium-image-zoom';
-import { QuestionSet, TeamAnswers } from '~/types';
+import { MapData, QuestionSet, TeamAnswers } from '~/types';
 import { MapPin } from 'react-feather';
 import MapComponent from '~/components/mapComponent';
+import { convertDate } from '~/helpers/lobbyHelpers';
 
 interface AnswerProps {
   round: number;
@@ -13,18 +14,6 @@ interface AnswerProps {
 }
 
 const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamAnswers }) => {
-  useEffect(() => {
-    console.log(teamAnswers);
-  }, [teamAnswers]);
-
-  const convertDate = () => {
-    var pattern = /(\d{4})\-(\d{2})\-(\d{2})/;
-    if (!teamAnswers?.stringDateAnswer || !teamAnswers.stringDateAnswer.match(pattern)) {
-      return null;
-    }
-    return teamAnswers.stringDateAnswer.replace(pattern, '$3/$2/$1');
-  };
-
   const Marker = (lat: any, lng: any) => {
     return (
       <div className='-mx-5 -my-12'>
@@ -41,7 +30,15 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
     );
   };
 
-  const calculatePoints = () => {};
+  const addPointsUp = () => {
+    if (teamAnswers) {
+      const multipleChoicePoints = teamAnswers?.multipleChoiceAnswer.points;
+      const dateStringPoints = teamAnswers?.dateStringAnswer.points;
+      const mapPoints = teamAnswers?.mapPointerAnswer.points;
+      return multipleChoicePoints + dateStringPoints + mapPoints;
+    }
+    return 0;
+  };
 
   return (
     <>
@@ -49,7 +46,7 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
         <p className='font-semibold'>Runde: {round + 1}/3</p>
         <div className='my-2'>
           <p className='mb-2'>Poeng dere fikk denne runden</p>
-          <CountUp className='text-5xl font-bold' end={2030} duration={2} />
+          <CountUp className='text-5xl font-bold' end={addPointsUp()} duration={2} />
         </div>
         {/* <Fade delay={2200} duration={2000}> */}
         <div className='flex flex-col items-center'>
@@ -69,10 +66,9 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
               return (
                 <div
                   key={index}
-                  className={`${choice.isCorrect ? 'bg-magic-mint' : ''}
+                  className={`${choice.isCorrect ? 'bg-magic-mint z-10' : ''}
                     ${
-                      teamAnswers?.multipleChoiceAnswer != choice.isCorrect &&
-                      teamAnswers?.multipleChoiceAnswer == index
+                      !choice.isCorrect && teamAnswers?.multipleChoiceAnswer.answer == index
                         ? 'bg-red bg-opacity-30'
                         : ''
                     }
@@ -91,12 +87,13 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
             </label>
             <input
               className={`${
-                convertDate() == questionSet.stringDateQuestion.answer
+                convertDate(teamAnswers?.dateStringAnswer.answer.toString()) ==
+                questionSet.stringDateQuestion.answer
                   ? 'bg-magic-mint'
                   : 'bg-red bg-opacity-30'
-              } w-full mt-2 text-center cursor-text text-black input-main`}
+              } w-full mt-2 text-center cursor-text input-main`}
               type='text'
-              value={convertDate() || ''}
+              value={convertDate(teamAnswers?.dateStringAnswer.answer.toString()) || ''}
               disabled={true}
             />
             <div className='flex justify-between mt-2 mb-4'>
@@ -121,8 +118,8 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
                   <></>
                 ) : (
                   <Marker
-                    lat={teamAnswers?.mapPointerAnswer.lat}
-                    lng={teamAnswers?.mapPointerAnswer.lng}
+                    lat={(teamAnswers?.mapPointerAnswer.answer as MapData).lat}
+                    lng={(teamAnswers?.mapPointerAnswer.answer as MapData).lng}
                   />
                 )}
                 <CorrectMarker

@@ -36,8 +36,8 @@ const TimerComponent: React.FC<TimerProps> = ({ startTime }) => {
 
   return (
     <>
-      <p className='mb-1 text-lg font-semibold'>Tid igjen:</p>
-      <div className='w-full h-10 mb-2 rounded outline-black outline bg-alice-blue-hover align-center'>
+      <p className='mb-1 text-lg font-semibold'>Tid igjen for denne runden:</p>
+      <div className='w-full h-10 mb-2 rounded outline-independence outline outline-1 bg-alice-blue-hover align-center'>
         <div
           className='flex-row h-10 p-3 my-auto text-sm font-semibold leading-none text-center text-black transition-all rounded bg-cameo-pink'
           style={{ width: `${100 - (timeLeft * 100) / 600}%` }}

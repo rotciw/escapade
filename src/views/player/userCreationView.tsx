@@ -31,12 +31,23 @@ const UserCreationView: React.FC = () => {
           eyes: playerEyes,
           mouth: playerMouth,
           color: playerColor,
-          points: 0,
           answer: false,
           round: 0,
-          multipleChoiceAnswer: -1,
-          dateStringAnswer: '',
-          mapPointerAnswer: { lat: 0, lng: 0 },
+          round1: {
+            multipleChoiceAnswer: { answer: -1, points: 0 },
+            dateStringAnswer: { answer: '', points: 0 },
+            mapPointerAnswer: { answer: { lat: 0, lng: 0 }, points: 0 },
+          },
+          round2: {
+            multipleChoiceAnswer: { answer: -1, points: 0 },
+            dateStringAnswer: { answer: '', points: 0 },
+            mapPointerAnswer: { answer: { lat: 0, lng: 0 }, points: 0 },
+          },
+          round3: {
+            multipleChoiceAnswer: { answer: -1, points: 0 },
+            dateStringAnswer: { answer: '', points: 0 },
+            mapPointerAnswer: { answer: { lat: 0, lng: 0 }, points: 0 },
+          },
         },
       });
       navigate('/lobby');
