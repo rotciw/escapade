@@ -48,7 +48,7 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
     <>
       <div className='flex flex-wrap justify-around w-5/6 p-5 rounded gap-y-5 gap-x-16 bg-alice-blue'>
         {teams.map((team) => (
-          <div key={team.id} className='h-[178px] w-[368px]'>
+          <div key={team.id} className='sm:h-[178px] sm:w-[368px] w-full min-h-[178px]'>
             <div className='flex'>
               <h2 className='mb-2 text-xl font-bold w-44 text-independence'>
                 Lag {team.id} ({handleTeam(team.id).length}{' '}
@@ -70,7 +70,7 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
                 <></>
               )}
             </div>
-            <div className='flex flex-row gap-3 mb-4'>
+            <div className='flex flex-row flex-wrap gap-3 mb-4'>
               {handleTeam(team.id).map((participant) => (
                 <Avatar
                   eyes={participant.eyes}
