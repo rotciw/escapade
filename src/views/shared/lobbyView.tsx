@@ -20,6 +20,7 @@ const LobbyView: React.FC = () => {
   const [playerId, setPlayerId] = useLocalStorage('playerId', '');
   const [step, setStep] = useState(0);
   const [isHost, setIsHost] = useState(false);
+  const [startedGame, setIsStartedGame] = useState(false);
   const [leaving, setIsLeaving] = useState(false);
   let listener: () => void;
 
@@ -38,6 +39,7 @@ const LobbyView: React.FC = () => {
         const currentPlayer = Object.values(gameData.participants).filter(
           (player) => player.id === playerId,
         )[0];
+        setIsStartedGame(currentPlayer.startedGame);
         setCurrentPlayer(currentPlayer);
         setTeamPlayers(
           Object.values(gameData.participants).filter(
@@ -56,6 +58,8 @@ const LobbyView: React.FC = () => {
       await updateDoc(doc(db, 'games', value), { selectionStep: 1, canJoin: false });
     } else if (step === 1) {
       await updateDoc(doc(db, 'games', value), { selectionStep: 2 });
+    } else if (step === 3) {
+      await updateDoc(doc(db, 'games', value), { selectionStep: 4 });
     }
   };
 
@@ -67,18 +71,24 @@ const LobbyView: React.FC = () => {
 
   const startTime = async () => {
     const batch = writeBatch(db);
-    console.log(teamPlayers);
     if (teamPlayers) {
       const timeNow = Date.now();
       for (let i = 0; i < teamPlayers.length; i++) {
         batch.update(doc(db, 'games', value), {
           [`participants.${teamPlayers[i].id}.startTime`]: timeNow,
+          [`participants.${teamPlayers[i].id}.startedGame`]: true,
         });
-        console.log(teamPlayers[i].id);
       }
       await batch.commit();
     }
   };
+
+  useEffect(() => {
+    // To start the game for everyone
+    if (!isHost && step === 4 && startedGame) {
+      navigate('/game');
+    }
+  }, [step]);
 
   useEffect(() => {
     subscribeToListener();
@@ -110,7 +120,7 @@ const LobbyView: React.FC = () => {
             <button
               className='btn-lg'
               onClick={() => {
-                navigate('/game');
+                handleNextStep();
                 startTime();
               }}
             >

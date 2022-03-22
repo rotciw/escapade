@@ -33,6 +33,7 @@ const UserCreationView: React.FC = () => {
           color: playerColor,
           answer: false,
           round: 0,
+          startedGame: false,
           round1: {
             multipleChoiceAnswer: { answer: -1, points: 0 },
             dateStringAnswer: { answer: '', points: 0 },

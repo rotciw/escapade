@@ -30,6 +30,7 @@ export interface ICurrentGamePlayer {
   points: number;
   answer: boolean;
   round: number;
+  startedGame: boolean;
   round1: TeamAnswers;
   round2: TeamAnswers;
   round3: TeamAnswers;
