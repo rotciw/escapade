@@ -131,15 +131,15 @@ const InGameView: React.FC = () => {
   return (
     <>
       <Header />
+      <div className='w-[96vw] mx-auto'>
+        <TimerComponent startTime={startTime} />
+      </div>
       {!answer ? (
         <>
           {role != 1 ? (
             <ExpertComponent role={role}></ExpertComponent>
           ) : (
             <>
-              <div className='w-[96vw] mx-auto'>
-                <TimerComponent startTime={startTime} />
-              </div>
               <ExplorerComponent
                 teamPlayers={teamPlayers}
                 startTime={startTime}
