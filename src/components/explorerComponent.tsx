@@ -125,18 +125,21 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
       if (convertDate(chosenDate) == correctDate) {
         dateStringPoints = 600;
       }
-      const chosenDay = convertDate(chosenDate)?.split('/')[0];
-      const chosenMonth = convertDate(chosenDate)?.split('/')[1];
-      const chosenYear = convertDate(chosenDate)?.split('/')[2];
-      const correctDay = correctDate.split('/')[0];
-      const correctMonth = correctDate.split('/')[1];
-      const correctYear = correctDate.split('/')[2];
-      const newestDate = [
-        `${chosenYear}-${chosenMonth}-${chosenDay}`,
-        `${correctYear}-${correctMonth}-${correctDay}`,
+      const chosenDateArray = convertDate(chosenDate)!.split('/');
+      const correctDateArray = correctDate.split('/');
+
+      const sortedDateStrings = [
+        `${chosenDateArray[2]}/${chosenDateArray[1]}/${chosenDateArray[0]}`,
+        `${correctDateArray[2]}/${correctDateArray[1]}/${correctDateArray[0]}`,
       ].sort();
-      console.log(newestDate);
-      // if (convertDate(chosenDate)) dateStringPoints = 300 + 300 * (timeInSecondsLeft / 360);
+
+      const sortedDates = [sortedDateStrings[0].split('/'), sortedDateStrings[1].split('/')];
+      const dayDifference =
+        (+sortedDates[1][0] - +sortedDates[0][0]) * 365.25 +
+        (+sortedDates[1][1] - +sortedDates[0][1]) * 30.42 +
+        (+sortedDates[1][2] - +sortedDates[0][2]);
+
+      dateStringPoints = 600 / (dayDifference / 1000 + 1);
     }
     const correctMap = sanityData?.questionSet[round].mapPointerQuestion.answer;
     if (markerLatitude == correctMap?.lat && markerLongitude == correctMap.lng) {
