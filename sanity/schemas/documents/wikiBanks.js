@@ -23,7 +23,7 @@ export default {
       name: 'description',
       title: 'Description',
       description: 'Beskrivelse av rollen',
-      type: 'string',
+      type: 'text',
     },
     {
       title: 'Table of contents',
