@@ -16,7 +16,7 @@ const TimerComponent: React.FC<TimerProps> = ({ startTime }) => {
     const timeInSeconds = timeDelta.minutes * 60 + timeDelta.seconds;
     if (timeInSeconds <= 10 && timeInSeconds > 0) {
       setAnimate(true);
-    } else if (animate == true) {
+    } else if (timeInSeconds == 0) {
       setAnimate(false);
     }
     setTimeLeft(timeInSeconds);
