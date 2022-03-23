@@ -139,11 +139,44 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
         (+sortedDates[1][1] - +sortedDates[0][1]) * 30.42 +
         (+sortedDates[1][2] - +sortedDates[0][2]);
 
-      dateStringPoints = 600 / (dayDifference / 1000 + 1);
+      // Gives full points on exact date, roughly 75% at 1 year away, 35% points at 5 years, 20% at 10 years.
+      dateStringPoints = Math.round(600 / (dayDifference / 1000 + 1));
     }
+
     const correctMap = sanityData?.questionSet[round].mapPointerQuestion.answer;
-    if (markerLatitude == correctMap?.lat && markerLongitude == correctMap.lng) {
-      mapPoints = 300;
+
+    // markerLatitude, markerLongitude | correctLatitude, correctLongitude
+    const correctLatitude = correctMap?.lat;
+    const correctLongitude = correctMap?.lng;
+
+    const earthRadius = 6371; // Given in kilometers
+
+    const lat1 = (correctLatitude * Math.PI) / 180;
+    const lon1 = (correctLongitude * Math.PI) / 180;
+    const lat2 = (markerLatitude * Math.PI) / 180;
+    const lon2 = (markerLongitude * Math.PI) / 180;
+
+    // Great circle distance between guess and correct spot, given in kilometers
+    const distance =
+      2 *
+      earthRadius *
+      Math.asin(
+        Math.sqrt(
+          Math.pow(Math.sin((lat2 - lat1) / 2), 2) +
+            Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin((lon2 - lon1) / 2), 2),
+        ),
+      );
+
+    if (distance <= 30) {
+      // Full points at 30 km or closer
+      mapPoints = 600;
+    } else if (distance > 8000) {
+      // Zero points at further than 8000 km
+      mapPoints = 0;
+    } else {
+      // Gradual graph between the two extremes: a - b*log(distance)
+      // a=965.28, b=107.4 gives roughly 75% points at 120 km distance, 50% at 500 km
+      mapPoints = Math.round(965.28 - 107.4 * Math.log(distance));
     }
 
     return { multipleChoicePoints, dateStringPoints, mapPoints };
