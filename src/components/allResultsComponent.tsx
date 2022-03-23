@@ -52,8 +52,6 @@ const AllResultsComponent: React.FC<PlayerResultsProps> = ({
     );
   }, 300);
 
-  console.log(teamPlayers);
-
   return (
     <div className='w-[85vw] mt-8 mx-auto text-center'>
       <div className='flex flex-row justify-center mx-auto mt-6 text-black rounded bg-alice-blue'>

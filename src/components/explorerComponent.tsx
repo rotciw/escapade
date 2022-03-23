@@ -203,9 +203,8 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
         </div>
         <div className='flex flex-col w-4/12'>
           <div className='flex flex-col p-4 px-8 pb-8 text-black rounded bg-alice-blue'>
-            <div className='flex flex-row justify-between'>
-              <h1 className='mb-1 text-xl font-semibold '>Poeng: 0</h1>
-              <h1 className='mb-1 text-xl font-semibold '>Runde {round + 1}/3</h1>
+            <div className='flex flex-row justify-center'>
+              <h1 className='mb-1 text-xl font-semibold'>Runde {round + 1}/3</h1>
             </div>
             <div className='w-full mb-2 border-t border-dotted border-independence'></div>
             <label className='mb-1 font-semibold'>
