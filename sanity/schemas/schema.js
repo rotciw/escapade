@@ -11,6 +11,7 @@ import choice from './objects/choice';
 import round from './objects/round';
 import stringDateQuestion from './objects/stringDateQuestion';
 import mapPointerQuestion from './objects/mapPointerQuestion';
+import wikiBanks from './documents/wikiBanks';
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -26,5 +27,6 @@ export default createSchema({
     multipleChoiceQuestion,
     stringDateQuestion,
     mapPointerQuestion,
+    wikiBanks,
   ]),
 });

@@ -30,6 +30,10 @@ export interface ICurrentGamePlayer {
   points: number;
   answer: boolean;
   round: number;
+  startedGame: boolean;
+  round1: TeamAnswers;
+  round2: TeamAnswers;
+  round3: TeamAnswers;
 }
 
 export interface ITeam {
@@ -55,6 +59,14 @@ export interface SanityMapData {
   questionSet: QuestionSet[];
 }
 
+export interface SanityWikiBankData {
+  _type: any;
+  role: string;
+  id: number;
+  description: string;
+  text: any[];
+}
+
 export interface QuestionSet {
   images: Image[];
   multipleChoiceQuestion: MultipleChoiceQuestion;
@@ -63,9 +75,14 @@ export interface QuestionSet {
 }
 
 export interface TeamAnswers {
-  multipleChoiceAnswer: number;
-  stringDateAnswer: string;
-  mapPointerAnswer: MapData;
+  multipleChoiceAnswer: AnswerDetail;
+  dateStringAnswer: AnswerDetail;
+  mapPointerAnswer: AnswerDetail;
+}
+
+interface AnswerDetail {
+  answer: MapData | number | string;
+  points: number;
 }
 
 interface MultipleChoiceQuestion {
@@ -88,12 +105,12 @@ interface MapPointerQuestion {
   answer: MapData;
 }
 
-interface MapData {
+export interface MapData {
   lat: number;
   lng: number;
 }
 
-interface Image {
+export interface Image {
   asset: Asset;
   alt: string;
 }
