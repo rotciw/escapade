@@ -1,5 +1,5 @@
-import React, { createRef, useEffect, useRef, useState } from 'react';
-import Countdown, { calcTimeDelta } from 'react-countdown';
+import React, { useState } from 'react';
+import Countdown from 'react-countdown';
 import { CountdownApi, CountdownTimeDeltaFn } from 'react-countdown/dist/Countdown';
 
 interface TimerProps {
@@ -8,11 +8,18 @@ interface TimerProps {
 
 const TimerComponent: React.FC<TimerProps> = ({ startTime }) => {
   const [timeLeft, setTimeLeft] = useState(0);
+  const [animate, setAnimate] = useState(false);
 
   let countdownApi: CountdownApi | null = null;
 
   const handleOnTick: CountdownTimeDeltaFn = (timeDelta) => {
-    setTimeLeft(timeDelta.minutes * 60 + timeDelta.seconds);
+    const timeInSeconds = timeDelta.minutes * 60 + timeDelta.seconds;
+    if (timeInSeconds <= 10 && timeInSeconds > 0) {
+      setAnimate(true);
+    } else if (animate == true) {
+      setAnimate(false);
+    }
+    setTimeLeft(timeInSeconds);
   };
 
   const handlePause = (): void => {
@@ -42,13 +49,15 @@ const TimerComponent: React.FC<TimerProps> = ({ startTime }) => {
           className='flex-row h-10 p-3 my-auto text-sm font-semibold leading-none text-center text-black transition-all rounded bg-cameo-pink'
           style={{ width: `${100 - (timeLeft * 100) / 600}%` }}
         >
-          <Countdown
-            onMount={handleOnTick}
-            onTick={handleOnTick}
-            date={startTime + 600000}
-            renderer={renderer}
-            ref={setRef}
-          />
+          <div className={`${animate ? 'animate-pulse-fast' : ''}`}>
+            <Countdown
+              onMount={handleOnTick}
+              onTick={handleOnTick}
+              date={startTime + 600000}
+              renderer={renderer}
+              ref={setRef}
+            />
+          </div>
         </div>
       </div>
     </>
