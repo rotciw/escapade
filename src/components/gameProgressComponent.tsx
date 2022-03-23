@@ -62,34 +62,40 @@ const GameProgressComponent: React.FC<IProps> = (props: IProps) => {
   return (
     <>
       <div className='flex flex-wrap justify-center gap-10 p-5 sm:w-5/6'>
-        {teams.map((team) => (
-          <div
-            key={team.id}
-            className='max-w-2xl px-8 py-4 text-black shadow-lg shadow-cameo-pink grow border-base bg-alice-blue basis-1/3 sm:min-w-max'
-          >
-            <h2 className='w-full text-2xl font-bold'>Lag {team.id}</h2>
-            <div className='flex justify-between'>
-              <div className='flex flex-col mr-8'>
-                {team.participants.map((participant) => (
-                  <p key={participant.id}>
-                    <strong>{participant.name}</strong> - {getRoleName(participant.role)}
+        {teams
+          .filter((t) => t.id !== 0) // Excludes team 0 from view
+          .map((team) => (
+            <div
+              key={team.id}
+              className={
+                Math.floor(team.id / 2) % 2 != 0 // Makes colors of team boxes alternate
+                  ? 'team-progress-box shadow-magic-mint'
+                  : 'team-progress-box shadow-cameo-pink'
+              }
+            >
+              <h2 className='w-full text-2xl font-bold'>Lag {team.id}</h2>
+              <div className='flex justify-between'>
+                <div className='flex flex-col mr-8'>
+                  {team.participants.map((participant) => (
+                    <p key={participant.id}>
+                      <strong>{participant.name}</strong> - {getRoleName(participant.role)}
+                    </p>
+                  ))}
+                </div>
+                <div className='flex flex-col text-right'>
+                  <p>
+                    Runde: <strong>{team.participants[0].round}/3</strong>
                   </p>
-                ))}
-              </div>
-              <div className='flex flex-col text-right'>
-                <p>
-                  Runde: <strong>{team.participants[0].round}1/3</strong>
-                </p>
-                <p>
-                  Gjenstående tid: <strong>{team.participants[0].startTime}13:37</strong>
-                </p>
-                <p>
-                  Poeng så langt: <strong>{team.participants[0].points}9118</strong>
-                </p>
+                  <p>
+                    Gjenstående tid: <strong>{team.participants[0].startTime}13:37</strong>
+                  </p>
+                  <p>
+                    Poeng så langt: <strong>{team.participants[0].points}9118</strong>
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
         {Object.values(teams).length % 2 === 1 && <div className='max-w-2xl grow basis-1/3' />}
       </div>
     </>
