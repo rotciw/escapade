@@ -59,6 +59,14 @@ export interface SanityMapData {
   questionSet: QuestionSet[];
 }
 
+export interface SanityWikiBankData {
+  _type: any;
+  role: string;
+  id: number;
+  description: string;
+  text: any[];
+}
+
 export interface QuestionSet {
   images: Image[];
   multipleChoiceQuestion: MultipleChoiceQuestion;
@@ -102,7 +110,7 @@ export interface MapData {
   lng: number;
 }
 
-interface Image {
+export interface Image {
   asset: Asset;
   alt: string;
 }
