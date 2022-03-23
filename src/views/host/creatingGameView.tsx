@@ -30,7 +30,6 @@ const CreatingGameView: React.FC = () => {
       await setDoc(doc(db, 'games', gameCode), {
         created: Date.now(),
         finished: false,
-        round: 1,
         participants: [],
         theme: selectedTheme,
         canJoin: true,
@@ -57,7 +56,6 @@ const CreatingGameView: React.FC = () => {
       `,
       )
       .then((data) => {
-        console.log(data);
         setMaps(data);
       });
   }, []);

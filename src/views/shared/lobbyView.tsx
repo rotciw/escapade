@@ -21,6 +21,7 @@ const LobbyView: React.FC = () => {
   const [playerId, setPlayerId] = useLocalStorage('playerId', '');
   const [step, setStep] = useState(0);
   const [isHost, setIsHost] = useState(false);
+  const [startedGame, setIsStartedGame] = useState(false);
   const [leaving, setIsLeaving] = useState(false);
   let listener: () => void;
 
@@ -39,6 +40,7 @@ const LobbyView: React.FC = () => {
         const currentPlayer = Object.values(gameData.participants).filter(
           (player) => player.id === playerId,
         )[0];
+        setIsStartedGame(currentPlayer.startedGame);
         setCurrentPlayer(currentPlayer);
         setTeamPlayers(
           Object.values(gameData.participants).filter(
@@ -57,7 +59,18 @@ const LobbyView: React.FC = () => {
       await updateDoc(doc(db, 'games', value), { selectionStep: 1, canJoin: false });
     } else if (step === 1) {
       await updateDoc(doc(db, 'games', value), { selectionStep: 2 });
+    } else if (step === 3) {
+      await updateDoc(doc(db, 'games', value), { selectionStep: 4 });
     }
+  };
+
+  const findTeamNumber = (playerNumber: number) => {
+    // the number of teams is floor(participants / 4), number of 5-man teams is participants % 4
+    // There should always be at least 12 players, but just in case there aren't, this function handles that too
+    if (playerNumber < 12) {
+      return Math.ceil(playerNumber / 5);
+    }
+    return Math.floor(playerNumber / 4);
   };
 
   const removePlayer = async () => {
@@ -68,18 +81,24 @@ const LobbyView: React.FC = () => {
 
   const startTime = async () => {
     const batch = writeBatch(db);
-    console.log(teamPlayers);
     if (teamPlayers) {
       const timeNow = Date.now();
       for (let i = 0; i < teamPlayers.length; i++) {
         batch.update(doc(db, 'games', value), {
           [`participants.${teamPlayers[i].id}.startTime`]: timeNow,
+          [`participants.${teamPlayers[i].id}.startedGame`]: true,
         });
-        console.log(teamPlayers[i].id);
       }
       await batch.commit();
     }
   };
+
+  useEffect(() => {
+    // To start the game for everyone
+    if (!isHost && step === 4 && startedGame) {
+      navigate('/game');
+    }
+  }, [step]);
 
   useEffect(() => {
     subscribeToListener();
@@ -96,7 +115,11 @@ const LobbyView: React.FC = () => {
       <div className='flex flex-col items-center mt-16 justify-evenly'>
         {step === 0 && <LobbyComponent participants={participants} />}
         {step === 1 && (
-          <TeamSelectionComponent participants={participants} numberOfTeams={2} isHost={isHost} />
+          <TeamSelectionComponent
+            participants={participants}
+            numberOfTeams={findTeamNumber(Object.keys(participants).length)}
+            isHost={isHost}
+          />
         )}
         {step >= 2 && !isHost && <RoleSelectionComponent participants={participants} />}
         {step >= 2 && isHost && <GameProgressComponent participants={participants} />}
@@ -112,7 +135,7 @@ const LobbyView: React.FC = () => {
             <button
               className='btn-lg'
               onClick={() => {
-                navigate('/game');
+                handleNextStep();
                 startTime();
               }}
             >
