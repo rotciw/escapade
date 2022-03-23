@@ -132,7 +132,7 @@ const InGameView: React.FC = () => {
     <>
       <Header />
       <div className='w-[96vw] mx-auto'>
-        <TimerComponent startTime={startTime} />
+        <TimerComponent key={startTime} startTime={startTime} />
       </div>
       {!answer ? (
         <>
