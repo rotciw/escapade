@@ -4,6 +4,8 @@ import { db } from '../helpers/firebase';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { ICurrentGamePlayer, ITeam } from '../types';
 import Avatar from './avatar';
+import { convertDate } from '~/helpers/lobbyHelpers';
+import Countdown from 'react-countdown';
 
 interface IProps {
   participants: ICurrentGamePlayer[];
@@ -32,6 +34,15 @@ const GameProgressComponent: React.FC<IProps> = (props: IProps) => {
       default:
         return 'Utforsker';
     }
+  };
+
+  const renderer = ({ minutes, seconds, completed }: any) => {
+    // Render a countdown
+    return (
+      <span>
+        {minutes}:{seconds < 10 ? '0' + seconds : seconds}
+      </span>
+    );
   };
 
   useEffect(() => {
@@ -87,10 +98,16 @@ const GameProgressComponent: React.FC<IProps> = (props: IProps) => {
                     Runde: <strong>{team.participants[0].round}/3</strong>
                   </p>
                   <p>
-                    Gjenstående tid: <strong>{team.participants[0].startTime}13:37</strong>
+                    Gjenstående rundetid:{' '}
+                    <strong>
+                      <Countdown
+                        date={team.participants[0].startTime + 360000}
+                        renderer={renderer}
+                      />
+                    </strong>
                   </p>
                   <p>
-                    Poeng så langt: <strong>{team.participants[0].points}9118</strong>
+                    Poeng så langt: <strong>{team.participants[0].totalPoints}</strong>
                   </p>
                 </div>
               </div>
