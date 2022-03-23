@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { doc, writeBatch } from 'firebase/firestore';
+import { doc, FieldValue, increment, writeBatch } from 'firebase/firestore';
 import { db } from '../helpers/firebase';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import imageUrlBuilder from '@sanity/image-url';
@@ -85,6 +85,9 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
       for (let i = 0; i < teamPlayers.length; i++) {
         batch.update(doc(db, 'games', value), {
           [`participants.${teamPlayers[i].id}.answer`]: bol,
+          [`participants.${teamPlayers[i].id}.totalPoints`]: increment(
+            roundPoints.multipleChoicePoints + roundPoints.mapPoints + roundPoints.dateStringPoints,
+          ),
           [`participants.${teamPlayers[i].id}.round${round + 1}.multipleChoiceAnswer`]: {
             answer: chosenChoice,
             points: roundPoints.multipleChoicePoints,
@@ -224,7 +227,7 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
               );
             })}
             <div className='flex flex-col pb-2'>
-              <label className='mb-1 font-semibold'>
+              <label className='mt-2 mb-1 font-semibold'>
                 2. {sanityData.questionSet[round].stringDateQuestion.question}
               </label>
               <input
@@ -263,7 +266,7 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
               <PopUpComponent isOpen={isOpen} openFunction={setIsOpen}>
                 <TimerComponent key={startTime} startTime={startTime} />
                 <h1 className='mb-1 text-lg italic font-medium text-center'>
-                  Trykk og velg cirka der du tror det er.
+                  Trykk for å velge cirka der du tror det er. Trykk og dra for å bevege kartet.
                 </h1>
                 <div className='h-[65vh] w-[85vw]'>
                   <MapComponent center={center} onMarkerClick={onMarkerClick}>
@@ -272,14 +275,20 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
                     )}
                   </MapComponent>
                 </div>
-                <div className='mt-4 text-center'>
+                <div className='mt-4 mb-2 text-center'>
                   <button
-                    className='px-4 py-2 mr-2 font-bold text-black transition-all rounded hover:bg-cameo-pink'
+                    className='px-4 py-2 mr-2 font-bold text-black transition-all rounded border-base hover:bg-independence hover:bg-opacity-70 hover:text-white'
                     onClick={() => setIsOpen(false)}
                   >
                     Gå tilbake
                   </button>
-                  <button className='btn-sm' onClick={() => setIsOpen(false)}>
+                  <button
+                    className={`${
+                      markerLatitude != 0 && markerLongitude != 0 ? 'btn-sm' : 'btn-sm-disabled'
+                    }`}
+                    onClick={() => setIsOpen(false)}
+                    disabled={markerLatitude == 0 && markerLongitude == 0}
+                  >
                     Velg sted
                   </button>
                 </div>

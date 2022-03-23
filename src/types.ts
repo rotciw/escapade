@@ -27,7 +27,7 @@ export interface ICurrentGamePlayer {
   body: number;
   color: number;
   startTime: number;
-  points: number;
+  totalPoints: number;
   answer: boolean;
   round: number;
   startedGame: boolean;

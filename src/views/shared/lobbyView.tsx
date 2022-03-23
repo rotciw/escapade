@@ -39,14 +39,17 @@ const LobbyView: React.FC = () => {
         const currentPlayer = Object.values(gameData.participants).filter(
           (player) => player.id === playerId,
         )[0];
-        setIsStartedGame(currentPlayer.startedGame);
+        if (gameHostId !== gameData.hostId) {
+          // Check if is host or not since these values are not available for hosts
+          setIsStartedGame(currentPlayer.startedGame);
+          setTeamPlayers(
+            Object.values(gameData.participants).filter(
+              // Compare to your own player
+              (player) => player.teamId == currentPlayer.teamId,
+            ),
+          );
+        }
         setCurrentPlayer(currentPlayer);
-        setTeamPlayers(
-          Object.values(gameData.participants).filter(
-            // Compare to your own player
-            (player) => player.teamId == currentPlayer.teamId,
-          ),
-        );
       } else {
         console.error('no data');
       }
@@ -61,6 +64,15 @@ const LobbyView: React.FC = () => {
     } else if (step === 3) {
       await updateDoc(doc(db, 'games', value), { selectionStep: 4 });
     }
+  };
+
+  const findTeamNumber = (playerNumber: number) => {
+    // the number of teams is floor(participants / 4), number of 5-man teams is participants % 4
+    // There should always be at least 12 players, but just in case there aren't, this function handles that too
+    if (playerNumber < 12) {
+      return Math.ceil(playerNumber / 5);
+    }
+    return Math.floor(playerNumber / 4);
   };
 
   const removePlayer = async () => {
@@ -105,7 +117,11 @@ const LobbyView: React.FC = () => {
       <div className='flex flex-col items-center mt-16 justify-evenly'>
         {step === 0 && <LobbyComponent participants={participants} />}
         {step === 1 && (
-          <TeamSelectionComponent participants={participants} numberOfTeams={2} isHost={isHost} />
+          <TeamSelectionComponent
+            participants={participants}
+            numberOfTeams={findTeamNumber(Object.keys(participants).length)}
+            isHost={isHost}
+          />
         )}
         {step >= 2 && !isHost && <RoleSelectionComponent participants={participants} />}
         <div className='mt-4'>

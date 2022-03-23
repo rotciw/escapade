@@ -28,6 +28,7 @@ const UserCreationView: React.FC = () => {
           teamId: 0,
           startTime: 0,
           role: 0,
+          totalPoints: 0,
           eyes: playerEyes,
           mouth: playerMouth,
           color: playerColor,

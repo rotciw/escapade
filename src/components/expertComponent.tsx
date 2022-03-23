@@ -69,10 +69,10 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
 
   return (
     <div className='flex flex-row mt-6 w-[99vw] mx-auto md:w-[95vw] flex-wrap md:flex-nowrap'>
-      <div className='md:w-1/4 mx-auto w-[85vw] h-[10vh] mb-4 md:mr-4 overflow-y-auto md:h-[85vh]'>
+      <div className='md:w-1/4 mx-auto w-[95vw] mb-4 md:mr-4 md:h-[85vh]'>
         <TableOfContents tableOfContents={tableOfContents} />
       </div>
-      <div className='md:w-3/4 w-[85vw] overflow-y-auto flex flex-col pt-5 px-8 pb-8 bg-alice-blue mx-auto rounded text-black h-[75vh] md:h-[85vh]'>
+      <div className='md:w-3/4 w-[95vw] overflow-y-auto flex flex-col pt-5 px-8 pb-8 bg-alice-blue mx-auto rounded text-black h-[68vh] md:h-[85vh]'>
         <PortableText value={text} components={components} />
       </div>
     </div>
