@@ -131,11 +131,11 @@ const InGameView: React.FC = () => {
   return (
     <>
       <Header />
-      <div className='w-[96vw] mx-auto'>
-        <TimerComponent key={startTime} startTime={startTime} />
-      </div>
       {!answer ? (
         <>
+          <div className='w-[96vw] mx-auto'>
+            <TimerComponent key={startTime} startTime={startTime} />
+          </div>
           {role != 1 ? (
             <ExpertComponent role={role}></ExpertComponent>
           ) : (

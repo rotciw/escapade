@@ -13,6 +13,7 @@ import { ExternalLink, MapPin } from 'react-feather';
 import TimerComponent from '~/components/timerComponent';
 import MapComponent from '~/components/mapComponent';
 import { convertDate } from '~/helpers/lobbyHelpers';
+import { useTimeContext } from '~/contexts/timerContext';
 
 interface GameViewProps {
   teamPlayers: ICurrentGamePlayer[] | undefined;
@@ -36,7 +37,7 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
   const [chosenChoice, setChosenChoice] = useState<number>(-1);
   const [confirmation, setConfirmation] = useState(false);
   let [isOpen, setIsOpen] = useState(false);
-
+  const { timeInSecondsLeft } = useTimeContext();
   const builder = imageUrlBuilder(sanityClient);
 
   function urlFor(source: any) {
@@ -106,6 +107,7 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
   };
 
   const calculatePoints = () => {
+    // console.log(timeInSecondsLeft);
     let multipleChoicePoints = 0;
     let dateStringPoints = 0;
     let mapPoints = 0;
@@ -114,13 +116,27 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
     );
     if (correctChoice) {
       if (chosenChoice === correctChoice.indexOf(true)) {
-        multipleChoicePoints = 300;
+        multipleChoicePoints = 600;
       }
     }
 
     const correctDate = sanityData?.questionSet[round].stringDateQuestion.answer;
-    if (convertDate(chosenDate) === correctDate) {
-      dateStringPoints = 300;
+    if (convertDate(chosenDate)) {
+      if (convertDate(chosenDate) == correctDate) {
+        dateStringPoints = 600;
+      }
+      const chosenDay = convertDate(chosenDate)?.split('/')[0];
+      const chosenMonth = convertDate(chosenDate)?.split('/')[1];
+      const chosenYear = convertDate(chosenDate)?.split('/')[2];
+      const correctDay = correctDate.split('/')[0];
+      const correctMonth = correctDate.split('/')[1];
+      const correctYear = correctDate.split('/')[2];
+      const newestDate = [
+        `${chosenYear}-${chosenMonth}-${chosenDay}`,
+        `${correctYear}-${correctMonth}-${correctDay}`,
+      ].sort();
+      console.log(newestDate);
+      // if (convertDate(chosenDate)) dateStringPoints = 300 + 300 * (timeInSecondsLeft / 360);
     }
     const correctMap = sanityData?.questionSet[round].mapPointerQuestion.answer;
     if (markerLatitude == correctMap?.lat && markerLongitude == correctMap.lng) {
