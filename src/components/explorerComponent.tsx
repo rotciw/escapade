@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { doc, writeBatch } from 'firebase/firestore';
+import { doc, FieldValue, increment, writeBatch } from 'firebase/firestore';
 import { db } from '../helpers/firebase';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import imageUrlBuilder from '@sanity/image-url';
@@ -84,6 +84,9 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
       for (let i = 0; i < teamPlayers.length; i++) {
         batch.update(doc(db, 'games', value), {
           [`participants.${teamPlayers[i].id}.answer`]: bol,
+          [`participants.${teamPlayers[i].id}.totalPoints`]: increment(
+            roundPoints.multipleChoicePoints + roundPoints.mapPoints + roundPoints.dateStringPoints,
+          ),
           [`participants.${teamPlayers[i].id}.round${round + 1}.multipleChoiceAnswer`]: {
             answer: chosenChoice,
             points: roundPoints.multipleChoicePoints,

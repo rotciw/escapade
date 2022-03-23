@@ -11,6 +11,7 @@ import TimerComponent from '~/components/timerComponent';
 import AnswerView from '../../components/answerComponent';
 import ExpertComponent from '~/components/expertComponent';
 import ExplorerComponent from '~/components/explorerComponent';
+import AllResultsComponent from '~/components/allResultsComponent';
 
 const InGameView: React.FC = () => {
   const [value, setValue] = useLocalStorage('gameCode', '');
@@ -21,6 +22,7 @@ const InGameView: React.FC = () => {
   const [gameData, setGameData] = useState<SanityMapData>();
   const [theme, setTheme] = useState(0);
   const [round, setRound] = useState(0);
+  const [totalPoints, setTotalPoints] = useState(0);
   const [role, setRole] = useState(0);
   const [answer, setAnswer] = useState(false);
   const [teamAnswers, setTeamAnswers] = useState<TeamAnswers>({
@@ -65,6 +67,9 @@ const InGameView: React.FC = () => {
         }
         if (currentPlayer.round === 2) {
           setTeamAnswers(currentPlayer.round3);
+        }
+        if (currentPlayer.round === 3) {
+          setTotalPoints(currentPlayer.totalPoints);
         }
       } else {
         console.error('no data');
@@ -128,39 +133,51 @@ const InGameView: React.FC = () => {
 
   if (!gameData) return <>No data</>;
 
+  if (!teamPlayers || !player) return <>No players</>;
+
   return (
     <>
       <Header />
-      <div className='w-[96vw] mx-auto'>
-        <TimerComponent key={startTime} startTime={startTime} />
-      </div>
-      {!answer ? (
+      {round !== 3 ? (
         <>
-          {role != 1 ? (
-            <ExpertComponent role={role}></ExpertComponent>
-          ) : (
+          <div className='w-[96vw] mx-auto'>
+            <TimerComponent key={startTime} startTime={startTime} />
+          </div>
+          {!answer ? (
             <>
-              <ExplorerComponent
-                teamPlayers={teamPlayers}
-                startTime={startTime}
-                sanityData={gameData}
-                round={round}
-              />
+              {role != 1 ? (
+                <ExpertComponent role={role}></ExpertComponent>
+              ) : (
+                <>
+                  <ExplorerComponent
+                    teamPlayers={teamPlayers}
+                    startTime={startTime}
+                    sanityData={gameData}
+                    round={round}
+                  />
+                </>
+              )}
             </>
+          ) : (
+            <div className='text-center'>
+              <AnswerView
+                round={round}
+                roundImg={urlFor(gameData.questionSet[round].images[0].asset).url()}
+                questionSet={gameData.questionSet[round]}
+                teamAnswers={teamAnswers}
+              />
+              <button className='mt-2 btn-lg' onClick={() => handleNextRound()}>
+                Gå videre
+              </button>
+            </div>
           )}
         </>
       ) : (
-        <div className='text-center'>
-          <AnswerView
-            round={round}
-            roundImg={urlFor(gameData.questionSet[round].images[0].asset).url()}
-            questionSet={gameData.questionSet[round]}
-            teamAnswers={teamAnswers}
-          />
-          <button className='mt-2 btn-lg' onClick={() => handleNextRound()}>
-            Gå videre
-          </button>
-        </div>
+        <AllResultsComponent
+          teamPlayers={teamPlayers}
+          totalPoints={totalPoints}
+          currentPlayer={player}
+        />
       )}
     </>
   );
