@@ -1,11 +1,12 @@
 import { PortableText } from '@portabletext/react';
-import React from 'react';
+import React, { useState } from 'react';
 
 interface ToCProps {
   tableOfContents: any;
 }
 
 const TableOfContents: React.FC<ToCProps> = ({ tableOfContents }) => {
+  const [clickedContent, setClickedContent] = useState();
   const components = {
     block: {
       h1: ({ children }: any) => {
@@ -25,16 +26,21 @@ const TableOfContents: React.FC<ToCProps> = ({ tableOfContents }) => {
       bullet: ({ children }: any) => (
         <li style={{ listStyleType: 'disclosure-closed' }}>{children}</li>
       ),
-      number: ({ children }: any) => <li className='mt-1 ml-6 list-decimal'>{children}</li>,
+      number: ({ children }: any) => {
+        return <li className={`list-decimal mt-1 ml-6`}>{children}</li>;
+      },
     },
     marks: {
       id: ({ children, value }: any) => {
         // Give the ToC element a id to scroll to
         return (
           <a
-            className='cursor-pointer'
+            className={`${
+              clickedContent == children ? 'font-bold text-independence' : ''
+            } cursor-pointer hover:text-independence`}
             onClick={(e) => {
               e.preventDefault();
+              setClickedContent(children[0]);
               document.querySelector(`#${value.divId}`)?.scrollIntoView({ behavior: 'smooth' });
             }}
           >
