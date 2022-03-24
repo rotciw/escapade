@@ -58,7 +58,7 @@ const CharacterCreation: React.FC<{
   ]);
 
   return (
-    <div className='box-border flex flex-col max-w-md px-20 py-8 mx-auto text-black border border-black rounded bg-alice-blue'>
+    <div className='box-border flex flex-col max-w-md p-8 mx-auto text-black border border-black rounded sm:px-16 bg-alice-blue'>
       <input
         className='p-2 text-center text-black uppercase transition-all border rounded placeholder-normal border-independence focus:shadow-sm focus:ring-magic-mint'
         type='text'
