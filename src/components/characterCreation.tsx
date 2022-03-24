@@ -123,11 +123,10 @@ const CharacterCreation: React.FC<{
         <RefreshCw className='inline mr-3' />
         Tilfeldig
       </div>
-      <button className='btn-lg' onClick={() => joinFunction(playerName)}>
+      <button className='select-none btn-lg' onClick={() => joinFunction(playerName)}>
         Bli med
       </button>
-
-      <p className='mt-2 text-sm'>{errorMsg} &nbsp;</p>
+      {errorMsg ? <p className='mt-2 text-sm'>{errorMsg} &nbsp;</p> : <></>}
     </div>
   );
 };
