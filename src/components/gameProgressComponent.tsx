@@ -85,7 +85,7 @@ const GameProgressComponent: React.FC<IProps> = (props: IProps) => {
                 </div>
                 <div className='flex flex-col text-right'>
                   <p>
-                    Runde: <strong>{team.participants[0].round}/3</strong>
+                    Runde: <strong>{team.participants[0].round + 1}/3</strong>
                   </p>
                   <p>
                     Gjenstående rundetid:{' '}

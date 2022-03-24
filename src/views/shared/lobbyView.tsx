@@ -116,7 +116,7 @@ const LobbyView: React.FC = () => {
   return (
     <>
       <Header />
-      <div className='flex flex-col items-center mt-14 justify-evenly'>
+      <div className='flex flex-col items-center mt-6 justify-evenly'>
         {step === 0 && <LobbyComponent participants={participants} />}
         {step === 1 && (
           <TeamSelectionComponent

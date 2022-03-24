@@ -28,7 +28,7 @@ const BaseGameView: React.FC = () => {
   };
 
   const onInputChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setGameCode(event.currentTarget.value);
+    setGameCode(event.currentTarget.value.toUpperCase());
   };
 
   const handleEnterPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -53,7 +53,11 @@ const BaseGameView: React.FC = () => {
           <button className='btn-sm' onClick={() => joinGameLobby()}>
             Bli med
           </button>
-          {errorMessage ? <p>{errorMessage}</p> : <p>&nbsp;</p>}
+          {errorMessage ? (
+            <p className='mt-1 ml-1'>{errorMessage}</p>
+          ) : (
+            <p className='mt-1 ml-1'>&nbsp;</p>
+          )}
         </div>
         <div className='flex flex-col items-center justify-center'>
           <p className='mb-2'>Lag din egen Escapade</p>
