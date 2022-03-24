@@ -15,6 +15,8 @@ interface AnswerProps {
 }
 
 const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamAnswers }) => {
+  const maxPoints = 600;
+
   const Marker = (lat: any, lng: any) => {
     return (
       <div className='-mx-5 -my-12'>
@@ -31,6 +33,27 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
     );
   };
 
+  const calculateDistance = () => {
+    const earthRadius = 6371; // Given in kilometers
+
+    const lat1 = (questionSet.mapPointerQuestion.answer.lat * Math.PI) / 180;
+    const lon1 = (questionSet.mapPointerQuestion.answer.lng * Math.PI) / 180;
+    const lat2 = ((teamAnswers?.mapPointerAnswer.answer as MapData).lat * Math.PI) / 180;
+    const lon2 = ((teamAnswers?.mapPointerAnswer.answer as MapData).lng * Math.PI) / 180;
+
+    // Great circle distance between guess and correct spot, given in kilometers
+    const distance =
+      2 *
+      earthRadius *
+      Math.asin(
+        Math.sqrt(
+          Math.pow(Math.sin((lat2 - lat1) / 2), 2) +
+            Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin((lon2 - lon1) / 2), 2),
+        ),
+      );
+    return Math.round(distance);
+  };
+
   const addPointsUp = () => {
     if (teamAnswers) {
       const multipleChoicePoints = teamAnswers?.multipleChoiceAnswer.points;
@@ -43,7 +66,7 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
 
   return (
     <>
-      <div className='overflow-y-auto flex flex-col p-5 text-center pb-8 mt-4 bg-alice-blue w-[80vw] mx-auto rounded text-black h-[70vh]'>
+      <div className='overflow-y-auto flex flex-col p-5 text-center pb-8 mt-6 mb-2 bg-alice-blue w-[80vw] mx-auto rounded text-black h-[75vh]'>
         <p className='font-semibold'>Runde: {round + 1}/3</p>
         <div className='my-2'>
           <p className='mb-2'>Poeng dere fikk denne runden</p>
@@ -80,7 +103,9 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
                 );
               })}
               <div className='flex justify-end mt-2 mb-4'>
-                <p className='font-bold'>/ 300 poeng</p>
+                <p className='font-bold'>
+                  {teamAnswers?.multipleChoiceAnswer.points} / {maxPoints} poeng
+                </p>
               </div>
               <div className='w-full my-2 border-t border-dotted border-independence'></div>
               <label className='mt-3 text-lg font-semibold'>
@@ -101,7 +126,9 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
                 <p>
                   Fasit: <b>{questionSet.stringDateQuestion.answer}</b>
                 </p>
-                <p className='font-bold'>/ 300 poeng</p>
+                <p className='font-bold'>
+                  {teamAnswers?.dateStringAnswer.points} / {maxPoints} poeng
+                </p>
               </div>
               <div className='w-full my-2 border-t border-dotted border-independence'></div>
               <label className='my-2 text-lg font-semibold'>
@@ -130,8 +157,10 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
                 </MapComponent>
               </div>
               <div className='flex justify-between mt-2 mb-4'>
-                <p>x km unna</p>
-                <p className='font-bold'>/ 300 poeng</p>
+                <p>{calculateDistance()} km unna</p>
+                <p className='font-bold'>
+                  {teamAnswers?.mapPointerAnswer.points} / {maxPoints} poeng
+                </p>
               </div>
             </div>
           </div>

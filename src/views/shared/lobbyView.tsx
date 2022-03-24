@@ -39,14 +39,17 @@ const LobbyView: React.FC = () => {
         const currentPlayer = Object.values(gameData.participants).filter(
           (player) => player.id === playerId,
         )[0];
-        setIsStartedGame(currentPlayer.startedGame);
+        if (gameHostId !== gameData.hostId) {
+          // Check if is host or not since these values are not available for hosts
+          setIsStartedGame(currentPlayer.startedGame);
+          setTeamPlayers(
+            Object.values(gameData.participants).filter(
+              // Compare to your own player
+              (player) => player.teamId == currentPlayer.teamId,
+            ),
+          );
+        }
         setCurrentPlayer(currentPlayer);
-        setTeamPlayers(
-          Object.values(gameData.participants).filter(
-            // Compare to your own player
-            (player) => player.teamId == currentPlayer.teamId,
-          ),
-        );
       } else {
         console.error('no data');
       }

@@ -18,9 +18,7 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
   const [value, setValue] = useLocalStorage('gameCode', '');
   const [playerId, setPlayerId] = useLocalStorage('playerId', '');
   const [teams, setTeams] = useState<ITeam[]>([]);
-  const [playerTeam, setPlayerTeam] = useState(
-    Object.values(participants).filter((participant) => participant.id === playerId)[0].teamId,
-  );
+  const [playerTeam, setPlayerTeam] = useState(0);
 
   const chooseTeam = async (teamId: number) => {
     setPlayerTeam(teamId);
@@ -38,6 +36,11 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
     for (let i = 1; i <= numberOfTeams; i++) {
       const teamObject: ITeam = { id: i, participants: [] };
       placeholderTeams.push(teamObject);
+    }
+    if (!isHost) {
+      setPlayerTeam(
+        Object.values(participants).filter((participant) => participant.id === playerId)[0].teamId,
+      );
     }
     setTeams(placeholderTeams);
   }, []);
@@ -71,16 +74,18 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
               )}
             </div>
             <div className='flex flex-row flex-wrap gap-3 mb-4'>
-              {handleTeam(team.id).map((participant) => (
-                <Avatar
-                  eyes={participant.eyes}
-                  mouth={participant.mouth}
-                  color={participant.color}
-                  name={participant.name}
-                  currentPlayer={playerId === participant.id}
-                  key={participant.id}
-                />
-              ))}
+              {handleTeam(team.id)
+                .sort((a, b) => (a.id > b.id ? 1 : -1))
+                .map((participant) => (
+                  <Avatar
+                    eyes={participant.eyes}
+                    mouth={participant.mouth}
+                    color={participant.color}
+                    name={participant.name}
+                    currentPlayer={playerId === participant.id}
+                    key={participant.id}
+                  />
+                ))}
             </div>
           </div>
         ))}

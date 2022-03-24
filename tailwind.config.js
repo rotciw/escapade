@@ -23,7 +23,7 @@ module.exports = {
     fontFamily: {
       inter: 'Inter, sans-serif',
     },
-    extend: {},
+    extend: { animation: { 'pulse-fast': 'pulse 1s linear infinite' } },
   },
   variants: {
     extend: {},
