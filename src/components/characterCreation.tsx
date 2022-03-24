@@ -137,7 +137,7 @@ const CharacterCreation: React.FC<{
         </tbody>
       </table>
       <div
-        className='mx-auto mb-10 font-bold cursor-pointer select-none'
+        className='p-1 mx-auto mb-10 font-bold transition-all rounded cursor-pointer select-none hover:bg-alice-blue-hover'
         onClick={() => randomizeCharacter()}
       >
         <RefreshCw className='inline mr-3' />
