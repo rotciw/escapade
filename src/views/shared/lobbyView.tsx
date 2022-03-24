@@ -11,6 +11,7 @@ import TeamSelectionComponent from '../../components/teamSelectionComponent';
 import RoleSelectionComponent from '../../components/roleSelection/roleSelectionComponent';
 import GameProgressComponent from '~/components/gameProgressComponent';
 import { PacmanLoader } from 'react-spinners';
+import PopUpComponent from '~/components/PopUpComponent';
 
 const LobbyView: React.FC = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const LobbyView: React.FC = () => {
   const [step, setStep] = useState(0);
   const [isHost, setIsHost] = useState(false);
   const [startedGame, setIsStartedGame] = useState(false);
-  const [leaving, setIsLeaving] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
   let listener: () => void;
 
   const subscribeToListener = () => {
@@ -116,7 +117,7 @@ const LobbyView: React.FC = () => {
   return (
     <>
       <Header />
-      <div className='flex flex-col items-center mt-6 justify-evenly'>
+      <div className='flex flex-col items-center mt-4 justify-evenly'>
         {step === 0 && <LobbyComponent participants={participants} />}
         {step === 1 && (
           <TeamSelectionComponent
@@ -141,17 +142,41 @@ const LobbyView: React.FC = () => {
               </div>
             </div>
           )}
-          {!isHost && step === 2 && <p>Venter på at alle spillere har valgt en rolle..</p>}
+          {!isHost && step === 2 && (
+            <p className='mb-2'>Venter på at alle spillere har valgt en rolle..</p>
+          )}
           {!isHost && step === 3 && (
-            <button
-              className='btn-lg'
-              onClick={() => {
-                handleNextStep();
-                startTime();
-              }}
-            >
-              Start spillet
-            </button>
+            <>
+              <button
+                className='btn-lg'
+                onClick={() => {
+                  setConfirmation(true);
+                }}
+              >
+                Start spillet
+              </button>
+              <PopUpComponent isOpen={confirmation} openFunction={setConfirmation}>
+                <h1 className='text-xl font-bold text-center'>Er alle klare?</h1>
+                <p>Spillet starter om dere går videre.</p>
+                <div className='mt-4 text-center'>
+                  <button
+                    className='px-4 py-2 mr-2 font-bold text-black transition-all rounded hover:bg-cameo-pink'
+                    onClick={() => setConfirmation(false)}
+                  >
+                    Avbryt
+                  </button>
+                  <button
+                    className='btn-sm'
+                    onClick={() => {
+                      handleNextStep();
+                      startTime();
+                    }}
+                  >
+                    Gå videre
+                  </button>
+                </div>
+              </PopUpComponent>
+            </>
           )}
         </div>
       </div>
