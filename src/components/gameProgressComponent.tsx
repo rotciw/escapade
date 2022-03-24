@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../helpers/firebase';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { ICurrentGamePlayer, ITeam } from '../types';
-import Avatar from './avatar';
-import { convertDate } from '~/helpers/lobbyHelpers';
 import Countdown from 'react-countdown';
 
 interface IProps {
@@ -13,13 +9,7 @@ interface IProps {
 
 const GameProgressComponent: React.FC<IProps> = (props: IProps) => {
   const { participants } = props;
-  const [value, setValue] = useLocalStorage('gameCode', '');
-  const [playerId, setPlayerId] = useLocalStorage('playerId', '');
   const [teams, setTeams] = useState<ITeam[]>([]);
-
-  const handleTeam = (teamId: number) => {
-    return Object.values(participants).filter((participant) => participant.teamId === teamId);
-  };
 
   const getRoleName = (roleId: number) => {
     switch (roleId) {
