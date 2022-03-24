@@ -15,21 +15,25 @@ const LobbyComponent: React.FC<IProps> = (props: IProps) => {
   return (
     <>
       <h2 className='mb-4 text-xl'>
-        Kode for spillet er: <b>{value}</b>
+        Kode for spillet: <b>{value}</b>
       </h2>
-      <div className='w-3/5 p-5 rounded min-h-96 h-fit bg-alice-blue'>
-        <h1 className='text-xl font-bold text-center text-independence'>Disse spillerne er inne</h1>
+      <div className='w-3/5 p-5 rounded min-h-[50vh] h-fit bg-alice-blue overflow-y-auto border border-independence shadow-cameo-pink shadow-lg'>
+        <h1 className='mb-4 text-xl font-bold text-center text-independence'>
+          Disse spillerne er inne
+        </h1>
         <div className='flex flex-row flex-wrap gap-5'>
-          {Object.values(participants).map((player) => (
-            <Avatar
-              eyes={player.eyes}
-              mouth={player.mouth}
-              color={player.color}
-              name={player.name}
-              currentPlayer={playerId === player.id}
-              key={player.id}
-            />
-          ))}
+          {Object.values(participants)
+            .sort((a, b) => (a.id > b.id ? 1 : -1))
+            .map((player) => (
+              <Avatar
+                eyes={player.eyes}
+                mouth={player.mouth}
+                color={player.color}
+                name={player.name}
+                currentPlayer={playerId === player.id}
+                key={player.id}
+              />
+            ))}
         </div>
       </div>
     </>

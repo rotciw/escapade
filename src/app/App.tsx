@@ -11,7 +11,7 @@ import { TimeContextProvider } from '~/contexts/timerContext';
 
 const App: React.FC = () => {
   return (
-    <div className='min-h-screen text-alice-blue font-inter bg-colorful-blue selection:bg-[#6BDBA5]'>
+    <div className='h-screen overflow-auto text-alice-blue font-inter bg-colorful-blue selection:bg-[#6BDBA5]'>
       <GameContextProvider>
         <TimeContextProvider>
           <Routes>

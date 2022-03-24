@@ -216,7 +216,7 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
                   key={index}
                   className={`${
                     chosenChoice === index
-                      ? 'bg-alice-blue-hover'
+                      ? 'bg-independence text-white'
                       : 'bg-white hover:bg-alice-blue-hover'
                   } px-1 py-3 my-1 text-center transition-all  border rounded  border-independence hover:cursor-pointer`}
                   onClick={() => handleMultipleChoice(index)}
@@ -232,7 +232,7 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
               <input
                 className={`${
                   chosenDate && !dateErrorMsg
-                    ? 'bg-alice-blue-hover'
+                    ? 'bg-independence text-white'
                     : 'bg-white hover:bg-alice-blue-hover'
                 } text-center cursor-text text-independence input-main`}
                 type='date'
@@ -249,7 +249,7 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
 
               {!isOpen && markerLatitude !== 0 && markerLatitude !== 0 ? (
                 <button
-                  className='flex justify-center p-2 italic transition-all border rounded bg-alice-blue-hover'
+                  className='flex justify-center p-2 italic text-white transition-all border rounded bg-independence'
                   onClick={() => setIsOpen(true)}
                 >
                   Trykk igjen for å endre sted <ExternalLink className='ml-2' />
