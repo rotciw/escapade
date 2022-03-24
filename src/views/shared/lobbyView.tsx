@@ -9,6 +9,7 @@ import Header from '../../components/header';
 import LobbyComponent from '../../components/lobbyComponent';
 import TeamSelectionComponent from '../../components/teamSelectionComponent';
 import RoleSelectionComponent from '../../components/roleSelection/roleSelectionComponent';
+import GameProgressComponent from '~/components/gameProgressComponent';
 
 const LobbyView: React.FC = () => {
   const navigate = useNavigate();
@@ -124,8 +125,9 @@ const LobbyView: React.FC = () => {
           />
         )}
         {step >= 2 && !isHost && <RoleSelectionComponent participants={participants} />}
+        {step >= 2 && isHost && <GameProgressComponent participants={participants} />}
         <div className='mt-4'>
-          {isHost && (
+          {isHost && step < 2 && (
             <button className='btn-lg' onClick={() => handleNextStep()}>
               Fortsett
             </button>
