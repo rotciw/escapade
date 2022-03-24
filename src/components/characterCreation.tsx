@@ -66,7 +66,7 @@ const CharacterCreation: React.FC<{
         value={playerName}
         onChange={onInputChange}
       />
-      <div className='flex justify-center'>
+      <div className='flex justify-center gap-2'>
         <div className='flex flex-col justify-end'>
           <ArrowLeft
             className='float-right icon-clickable'
@@ -79,7 +79,7 @@ const CharacterCreation: React.FC<{
             onClick={() => setMouthNumber(findPreviousNumber(+mouthNumber, totalMouths).toString())}
           />
           <ArrowLeft
-            className='float-right icon-clickable'
+            className='float-right mb-2 icon-clickable'
             size={36}
             onClick={() => setColorNumber(findPreviousNumber(+colorNumber, totalColors).toString())}
           />
@@ -110,14 +110,14 @@ const CharacterCreation: React.FC<{
             onClick={() => setMouthNumber(findNextNumber(+mouthNumber, totalMouths).toString())}
           />
           <ArrowRight
-            className='icon-clickable'
+            className='mb-2 icon-clickable'
             size={36}
             onClick={() => setColorNumber(findNextNumber(+colorNumber, totalColors).toString())}
           />
         </div>
       </div>
       <div
-        className='p-1 mx-auto mb-10 font-bold transition-all rounded cursor-pointer select-none hover:bg-alice-blue-hover'
+        className='p-2 mx-auto mb-10 font-bold transition-all cursor-pointer select-none rounded-xl hover:bg-alice-blue-hover'
         onClick={() => randomizeCharacter()}
       >
         <RefreshCw className='inline mr-3' />
