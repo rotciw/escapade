@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../helpers/firebase';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { ICurrentGamePlayer, IRoleInfo } from '../../types';
 import Avatar from '../avatar';

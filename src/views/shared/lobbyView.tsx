@@ -121,7 +121,7 @@ const LobbyView: React.FC = () => {
         {step === 1 && (
           <TeamSelectionComponent
             participants={participants}
-            numberOfTeams={findTeamNumber(Object.keys(participants).length + 30)}
+            numberOfTeams={findTeamNumber(Object.keys(participants).length)}
             isHost={isHost}
           />
         )}

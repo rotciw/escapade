@@ -45,7 +45,7 @@ const BaseGameView: React.FC = () => {
           <input
             className='input-main'
             type='text'
-            value={gameCode}
+            value={gameCode.toUpperCase()}
             onKeyPress={handleEnterPress}
             onChange={onInputChange}
             placeholder='Kode for spillet'
