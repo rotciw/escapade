@@ -66,76 +66,56 @@ const CharacterCreation: React.FC<{
         value={playerName}
         onChange={onInputChange}
       />
-      <table className='my-8'>
-        <tbody>
-          <tr>
-            <td>
-              <ArrowLeft
-                className='float-right icon-clickable'
-                size={36}
-                onClick={() => setEyeNumber(findPreviousNumber(+eyeNumber, totalEyes).toString())}
-              />
-            </td>
-            <td className='relative h-40 align-top w-36' rowSpan={3}>
-              <img
-                className='absolute select-none t-0'
-                src={`./images/characters/color/${colorNumber}.svg`}
-              />
-              <img
-                className='absolute select-none t-0'
-                src={`./images/characters/eyes/${eyeNumber}.svg`}
-              />
-              <img
-                className='absolute select-none t-0'
-                src={`./images/characters/mouth/${mouthNumber}.svg`}
-              />
-            </td>
-            <td>
-              <ArrowRight
-                className='icon-clickable'
-                size={36}
-                onClick={() => setEyeNumber(findNextNumber(+eyeNumber, totalEyes).toString())}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <ArrowLeft
-                className='float-right icon-clickable'
-                size={36}
-                onClick={() =>
-                  setMouthNumber(findPreviousNumber(+mouthNumber, totalMouths).toString())
-                }
-              />
-            </td>
-            <td>
-              <ArrowRight
-                className='icon-clickable'
-                size={36}
-                onClick={() => setMouthNumber(findNextNumber(+mouthNumber, totalMouths).toString())}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <ArrowLeft
-                className='float-right icon-clickable'
-                size={36}
-                onClick={() =>
-                  setColorNumber(findPreviousNumber(+colorNumber, totalColors).toString())
-                }
-              />
-            </td>
-            <td>
-              <ArrowRight
-                className='icon-clickable'
-                size={36}
-                onClick={() => setColorNumber(findNextNumber(+colorNumber, totalColors).toString())}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div className='flex justify-center'>
+        <div className='flex flex-col justify-end'>
+          <ArrowLeft
+            className='float-right icon-clickable'
+            size={36}
+            onClick={() => setEyeNumber(findPreviousNumber(+eyeNumber, totalEyes).toString())}
+          />
+          <ArrowLeft
+            className='float-right icon-clickable'
+            size={36}
+            onClick={() => setMouthNumber(findPreviousNumber(+mouthNumber, totalMouths).toString())}
+          />
+          <ArrowLeft
+            className='float-right icon-clickable'
+            size={36}
+            onClick={() => setColorNumber(findPreviousNumber(+colorNumber, totalColors).toString())}
+          />
+        </div>
+        <div className='relative h-40 align-top w-36'>
+          <img
+            className='absolute select-none t-0'
+            src={`./images/characters/color/${colorNumber}.svg`}
+          />
+          <img
+            className='absolute select-none t-0'
+            src={`./images/characters/eyes/${eyeNumber}.svg`}
+          />
+          <img
+            className='absolute select-none t-0'
+            src={`./images/characters/mouth/${mouthNumber}.svg`}
+          />
+        </div>
+        <div className='flex flex-col justify-end'>
+          <ArrowRight
+            className='icon-clickable'
+            size={36}
+            onClick={() => setEyeNumber(findNextNumber(+eyeNumber, totalEyes).toString())}
+          />
+          <ArrowRight
+            className='icon-clickable'
+            size={36}
+            onClick={() => setMouthNumber(findNextNumber(+mouthNumber, totalMouths).toString())}
+          />
+          <ArrowRight
+            className='icon-clickable'
+            size={36}
+            onClick={() => setColorNumber(findNextNumber(+colorNumber, totalColors).toString())}
+          />
+        </div>
+      </div>
       <div
         className='p-1 mx-auto mb-10 font-bold transition-all rounded cursor-pointer select-none hover:bg-alice-blue-hover'
         onClick={() => randomizeCharacter()}
