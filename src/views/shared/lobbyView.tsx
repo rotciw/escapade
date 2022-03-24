@@ -10,6 +10,7 @@ import LobbyComponent from '../../components/lobbyComponent';
 import TeamSelectionComponent from '../../components/teamSelectionComponent';
 import RoleSelectionComponent from '../../components/roleSelection/roleSelectionComponent';
 import GameProgressComponent from '~/components/gameProgressComponent';
+import { PacmanLoader } from 'react-spinners';
 
 const LobbyView: React.FC = () => {
   const navigate = useNavigate();
@@ -115,12 +116,12 @@ const LobbyView: React.FC = () => {
   return (
     <>
       <Header />
-      <div className='flex flex-col items-center mt-16 justify-evenly'>
+      <div className='flex flex-col items-center mt-14 justify-evenly'>
         {step === 0 && <LobbyComponent participants={participants} />}
         {step === 1 && (
           <TeamSelectionComponent
             participants={participants}
-            numberOfTeams={findTeamNumber(Object.keys(participants).length)}
+            numberOfTeams={findTeamNumber(Object.keys(participants).length + 30)}
             isHost={isHost}
           />
         )}
@@ -132,7 +133,14 @@ const LobbyView: React.FC = () => {
               Fortsett
             </button>
           )}
-          {!isHost && step < 2 && <p>Venter på at verten starter spillet..</p>}
+          {!isHost && step < 2 && (
+            <div className='flex flex-col'>
+              <p className='mb-2'>Venter på at verten starter spillet</p>
+              <div className='ml-20'>
+                <PacmanLoader color={'#EFBCD5'} />
+              </div>
+            </div>
+          )}
           {!isHost && step === 2 && <p>Venter på at alle spillere har valgt en rolle..</p>}
           {!isHost && step === 3 && (
             <button

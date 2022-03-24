@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../helpers/firebase';
@@ -17,13 +17,24 @@ const UserCreationView: React.FC = () => {
   const [playerId, setPlayerId] = useLocalStorage('playerId', '');
   const [errorMsg, setErrorMsg] = useState('');
 
+  useEffect(() => {
+    console.log(playerId);
+  }, []);
+
   const joinGame = async (name: string) => {
     if (name !== '') {
-      const newPlayerId = generatePlayerId();
-      setPlayerId(newPlayerId);
+      let validPlayerId = '';
+      console.log(playerId);
+      if (playerId == '') {
+        validPlayerId = generatePlayerId();
+        setPlayerId(validPlayerId);
+      } else {
+        validPlayerId = playerId;
+      }
+      console.log(playerId);
       await updateDoc(doc(db, 'games', value), {
-        [`participants.${newPlayerId}`]: {
-          id: newPlayerId,
+        [`participants.${validPlayerId}`]: {
+          id: validPlayerId,
           name: playerName,
           teamId: 0,
           startTime: 0,

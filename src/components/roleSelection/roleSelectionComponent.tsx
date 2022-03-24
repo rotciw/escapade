@@ -68,26 +68,30 @@ const RoleSelectionComponent: React.FC<IProps> = (props: IProps) => {
           </div>
         ))}
       </div>
-      <div className='p-5 mt-2 rounded bg-alice-blue'>
-        <h1 className='text-xl font-bold text-center text-independence'>
-          Disse spillerne har ikke valgt rolle
-        </h1>
-        <div className='flex flex-row gap-4 mt-2'>
-          {currentTeam
-            .filter((player) => player.teamId === teamId && player.role === 0)
-            .sort((a, b) => (a.id > b.id ? 1 : -1))
-            .map((player) => (
-              <Avatar
-                eyes={player.eyes}
-                mouth={player.mouth}
-                color={player.color}
-                name={player.name}
-                currentPlayer={playerId === player.id}
-                key={player.id}
-              />
-            ))}
+      {currentTeam.filter((player) => player.teamId === teamId && player.role === 0).length > 0 ? (
+        <div className='p-5 mt-2 rounded bg-alice-blue'>
+          <h1 className='text-xl font-bold text-center text-independence'>
+            Disse spillerne har ikke valgt rolle
+          </h1>
+          <div className='flex flex-row gap-4 mt-2'>
+            {currentTeam
+              .filter((player) => player.teamId === teamId && player.role === 0)
+              .sort((a, b) => (a.id > b.id ? 1 : -1))
+              .map((player) => (
+                <Avatar
+                  eyes={player.eyes}
+                  mouth={player.mouth}
+                  color={player.color}
+                  name={player.name}
+                  currentPlayer={playerId === player.id}
+                  key={player.id}
+                />
+              ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        ''
+      )}
     </>
   );
 };

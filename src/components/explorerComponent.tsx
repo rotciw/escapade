@@ -202,7 +202,7 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
           <p className='italic text-black'>Klikk på bildet for å zoome!</p>
         </div>
         <div className='flex flex-col w-4/12'>
-          <div className='flex flex-col p-4 px-8 pb-8 text-black rounded bg-alice-blue'>
+          <div className='flex flex-col p-2 pb-8 text-black rounded sm:p-3 bg-alice-blue'>
             <div className='flex flex-row justify-center'>
               <h1 className='mb-1 text-xl font-semibold'>Runde {round + 1}/3</h1>
             </div>
@@ -216,9 +216,9 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
                   key={index}
                   className={`${
                     chosenChoice === index
-                      ? 'bg-alice-blue-hover'
+                      ? 'bg-independence text-white'
                       : 'bg-white hover:bg-alice-blue-hover'
-                  } px-1 py-3 my-1 text-center transition-all  border rounded  border-independence hover:cursor-pointer`}
+                  } px-2 py-3 my-1 text-center transition-all  border rounded  border-independence hover:cursor-pointer`}
                   onClick={() => handleMultipleChoice(index)}
                 >
                   {choice.alternative}
@@ -232,7 +232,7 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
               <input
                 className={`${
                   chosenDate && !dateErrorMsg
-                    ? 'bg-alice-blue-hover'
+                    ? 'bg-independence text-white'
                     : 'bg-white hover:bg-alice-blue-hover'
                 } text-center cursor-text text-independence input-main`}
                 type='date'
@@ -249,7 +249,7 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
 
               {!isOpen && markerLatitude !== 0 && markerLatitude !== 0 ? (
                 <button
-                  className='flex justify-center p-2 italic transition-all border rounded bg-alice-blue-hover'
+                  className='flex justify-center p-2 italic text-white transition-all border rounded bg-independence'
                   onClick={() => setIsOpen(true)}
                 >
                   Trykk igjen for å endre sted <ExternalLink className='ml-2' />
