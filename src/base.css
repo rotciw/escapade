@@ -4,10 +4,10 @@
 
 @layer components {
   .btn-lg {
-    @apply px-8 py-2 font-bold text-black transition-all shadow-lg border-base hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cameo-pink-hover bg-cameo-pink;
+    @apply px-8 py-2 font-bold text-black transition-all shadow-lg whitespace-nowrap border-base hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cameo-pink-hover bg-cameo-pink;
   }
   .btn-sm {
-    @apply px-4 py-2 font-bold text-black transition-all shadow-sm border-base hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cameo-pink-hover bg-cameo-pink;
+    @apply px-4 py-2 font-bold text-black transition-all shadow-sm whitespace-nowrap border-base hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cameo-pink-hover bg-cameo-pink;
   }
   .btn-sm-disabled {
     @apply px-4 py-2 font-semibold text-white transition-all bg-opacity-70 border-base hover:shadow-none bg-independence;

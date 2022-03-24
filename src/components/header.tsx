@@ -6,7 +6,7 @@ const Header: React.FC = () => {
   return (
     <>
       <header className='top-0 flex justify-center '>
-        <h1 className='py-1 mt-5 text-5xl font-bold text-alice-blue w-fit'>Escapade</h1>
+        <h1 className='py-1 mt-4 text-5xl font-bold text-alice-blue w-fit'>Escapade</h1>
       </header>
     </>
   );

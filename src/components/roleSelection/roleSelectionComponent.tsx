@@ -54,8 +54,7 @@ const RoleSelectionComponent: React.FC<IProps> = (props: IProps) => {
 
   return (
     <>
-      <h1 className='mb-1 text-xl font-bold'>Lag {teamId}</h1>
-      <h1 className='text-xl'>Velg din rolle</h1>
+      <h1 className='text-xl font-bold'>Lag {teamId}</h1>
       <div className='flex flex-row flex-wrap justify-center p-1'>
         {roles.map((role, index) => (
           <div key={index}>
@@ -69,8 +68,8 @@ const RoleSelectionComponent: React.FC<IProps> = (props: IProps) => {
         ))}
       </div>
       {currentTeam.filter((player) => player.teamId === teamId && player.role === 0).length > 0 ? (
-        <div className='p-5 mt-2 rounded bg-alice-blue'>
-          <h1 className='text-xl font-bold text-center text-independence'>
+        <div className='px-5 py-2 mt-2 rounded bg-alice-blue'>
+          <h1 className='text-lg font-bold text-center text-independence'>
             Disse spillerne har ikke valgt rolle
           </h1>
           <div className='flex flex-row gap-4 mt-2'>

@@ -80,10 +80,10 @@ const RoleComponent: React.FC<IProps> = (props: IProps) => {
 
   return (
     <>
-      <div className='flex flex-col items-center h-[420px] p-5 m-1 border rounded w-60 border-independence text-independence bg-alice-blue'>
+      <div className='flex flex-col items-center h-[400px] p-5 m-1 border rounded w-60 border-independence text-independence bg-alice-blue'>
         <h1 className='text-xl font-bold text-center'>{roleInfo.title}</h1>
-        <h2 className='mb-2 italic text-center text-l'>{roleInfo.subtitle}</h2>
-        <p className='mb-4 grow'>{roleInfo.description}</p>
+        <h2 className='mb-2 text-sm italic text-center'>{roleInfo.subtitle}</h2>
+        <p className='grow'>{roleInfo.description}</p>
         {currentPlayer ? (
           <Avatar
             eyes={currentPlayer.eyes}

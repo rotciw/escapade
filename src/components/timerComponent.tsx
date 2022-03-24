@@ -48,7 +48,7 @@ const TimerComponent: React.FC<TimerProps> = ({ startTime }) => {
       <div className='w-full h-10 mb-2 rounded outline-independence outline outline-1 bg-alice-blue-hover align-center'>
         <div
           className='flex-row h-10 p-3 my-auto text-sm font-semibold leading-none text-center text-black transition-all rounded bg-cameo-pink'
-          style={{ width: `${100 - (timeInSecondsLeft * 100) / 360}%` }}
+          style={{ width: `${(timeInSecondsLeft * 100) / 360}%` }}
         >
           <div className={`${animate ? 'animate-pulse-fast' : ''}`}>
             <Countdown
