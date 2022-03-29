@@ -11,8 +11,8 @@ interface AnswerProps {
 
 const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
   const [wikiBankData, setWikiBankData] = useState<SanityWikiBankData[]>();
-  const [text, setText] = useState();
-  const [tableOfContents, setTableOfContents] = useState();
+  const [text, setText] = useState(null);
+  const [tableOfContents, setTableOfContents] = useState(null);
   useEffect(() => {
     sanityClient
       .fetch(
@@ -33,6 +33,10 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
         }
       })
       .catch((error) => console.error(error));
+    return () => {
+      setText(null);
+      setTableOfContents(null);
+    };
   }, [role]);
 
   const builder = imageUrlBuilder(sanityClient);
