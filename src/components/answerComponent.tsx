@@ -51,7 +51,7 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
             Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin((lon2 - lon1) / 2), 2),
         ),
       );
-    return Math.round(distance);
+    return distance;
   };
 
   const addPointsUp = () => {
@@ -157,7 +157,11 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
                 </MapComponent>
               </div>
               <div className='flex justify-between mt-2 mb-4'>
-                <p>{calculateDistance()} km unna</p>
+                {calculateDistance() >= 1 ? (
+                  <p>{Math.round(calculateDistance())} km unna</p>
+                ) : (
+                  <p>{Math.round(calculateDistance() * 1000)} meter unna, wow!</p>
+                )}
                 <p className='font-bold'>
                   {teamAnswers?.mapPointerAnswer.points} / {maxPoints} poeng
                 </p>

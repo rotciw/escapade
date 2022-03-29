@@ -199,7 +199,7 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
           <Zoom>
             <img src={urlFor(sanityData.questionSet[round].images[0].asset).url()} />
           </Zoom>
-          <p className='italic text-black'>Klikk på bildet for å zoome!</p>
+          <p className='italic text-black'>Klikk på bildet for å vise det i fullskjerm</p>
         </div>
         <div className='flex flex-col w-4/12'>
           <div className='flex flex-col p-2 pb-8 text-black rounded sm:p-3 bg-alice-blue'>

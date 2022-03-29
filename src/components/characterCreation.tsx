@@ -58,7 +58,7 @@ const CharacterCreation: React.FC<{
   ]);
 
   return (
-    <div className='box-border flex flex-col max-w-md px-20 py-8 mx-auto text-black border border-black rounded bg-alice-blue'>
+    <div className='box-border flex flex-col max-w-md p-8 mx-auto text-black border border-black rounded sm:px-16 bg-alice-blue'>
       <input
         className='p-2 text-center text-black uppercase transition-all border rounded placeholder-normal border-independence focus:shadow-sm focus:ring-magic-mint'
         type='text'
@@ -66,88 +66,67 @@ const CharacterCreation: React.FC<{
         value={playerName}
         onChange={onInputChange}
       />
-      <table className='my-8'>
-        <tbody>
-          <tr>
-            <td>
-              <ArrowLeft
-                className='float-right icon-clickable'
-                size={36}
-                onClick={() => setEyeNumber(findPreviousNumber(+eyeNumber, totalEyes).toString())}
-              />
-            </td>
-            <td className='relative h-40 align-top w-36' rowSpan={3}>
-              <img
-                className='absolute select-none t-0'
-                src={`./images/characters/color/${colorNumber}.svg`}
-              />
-              <img
-                className='absolute select-none t-0'
-                src={`./images/characters/eyes/${eyeNumber}.svg`}
-              />
-              <img
-                className='absolute select-none t-0'
-                src={`./images/characters/mouth/${mouthNumber}.svg`}
-              />
-            </td>
-            <td>
-              <ArrowRight
-                className='icon-clickable'
-                size={36}
-                onClick={() => setEyeNumber(findNextNumber(+eyeNumber, totalEyes).toString())}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <ArrowLeft
-                className='float-right icon-clickable'
-                size={36}
-                onClick={() =>
-                  setMouthNumber(findPreviousNumber(+mouthNumber, totalMouths).toString())
-                }
-              />
-            </td>
-            <td>
-              <ArrowRight
-                className='icon-clickable'
-                size={36}
-                onClick={() => setMouthNumber(findNextNumber(+mouthNumber, totalMouths).toString())}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <ArrowLeft
-                className='float-right icon-clickable'
-                size={36}
-                onClick={() =>
-                  setColorNumber(findPreviousNumber(+colorNumber, totalColors).toString())
-                }
-              />
-            </td>
-            <td>
-              <ArrowRight
-                className='icon-clickable'
-                size={36}
-                onClick={() => setColorNumber(findNextNumber(+colorNumber, totalColors).toString())}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div className='flex justify-center gap-2'>
+        <div className='flex flex-col justify-end'>
+          <ArrowLeft
+            className='float-right icon-clickable'
+            size={36}
+            onClick={() => setEyeNumber(findPreviousNumber(+eyeNumber, totalEyes).toString())}
+          />
+          <ArrowLeft
+            className='float-right icon-clickable'
+            size={36}
+            onClick={() => setMouthNumber(findPreviousNumber(+mouthNumber, totalMouths).toString())}
+          />
+          <ArrowLeft
+            className='float-right mb-2 icon-clickable'
+            size={36}
+            onClick={() => setColorNumber(findPreviousNumber(+colorNumber, totalColors).toString())}
+          />
+        </div>
+        <div className='relative h-40 align-top w-36'>
+          <img
+            className='absolute select-none t-0'
+            src={`./images/characters/color/${colorNumber}.svg`}
+          />
+          <img
+            className='absolute select-none t-0'
+            src={`./images/characters/eyes/${eyeNumber}.svg`}
+          />
+          <img
+            className='absolute select-none t-0'
+            src={`./images/characters/mouth/${mouthNumber}.svg`}
+          />
+        </div>
+        <div className='flex flex-col justify-end'>
+          <ArrowRight
+            className='icon-clickable'
+            size={36}
+            onClick={() => setEyeNumber(findNextNumber(+eyeNumber, totalEyes).toString())}
+          />
+          <ArrowRight
+            className='icon-clickable'
+            size={36}
+            onClick={() => setMouthNumber(findNextNumber(+mouthNumber, totalMouths).toString())}
+          />
+          <ArrowRight
+            className='mb-2 icon-clickable'
+            size={36}
+            onClick={() => setColorNumber(findNextNumber(+colorNumber, totalColors).toString())}
+          />
+        </div>
+      </div>
       <div
-        className='mx-auto mb-10 font-bold cursor-pointer select-none'
+        className='p-2 mx-auto mb-10 font-bold transition-all cursor-pointer select-none rounded-xl hover:bg-alice-blue-hover'
         onClick={() => randomizeCharacter()}
       >
         <RefreshCw className='inline mr-3' />
         Tilfeldig
       </div>
-      <button className='btn-lg' onClick={() => joinFunction(playerName)}>
+      <button className='select-none btn-lg' onClick={() => joinFunction(playerName)}>
         Bli med
       </button>
-
-      <p className='mt-2 text-sm'>{errorMsg} &nbsp;</p>
+      {errorMsg ? <p className='mt-2 text-sm'>{errorMsg} &nbsp;</p> : <></>}
     </div>
   );
 };

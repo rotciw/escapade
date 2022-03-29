@@ -17,7 +17,7 @@ const MapComponent: React.FC<MapProps> = ({ children, center, zoom, onMarkerClic
         center={center}
         defaultZoom={zoom || 1}
         onClick={onMarkerClick}
-        options={{ fullscreenControl: false }}
+        options={{ fullscreenControl: false, clickableIcons: false }}
       >
         {children}
       </GoogleMapReact>

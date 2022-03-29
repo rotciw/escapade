@@ -16,7 +16,7 @@
     @apply p-2 font-bold text-black break-words transition-all shadow-lg border-base w-28 h-28 hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cameo-pink bg-alice-blue;
   }
   .icon-clickable {
-    @apply transition-all rounded-full cursor-pointer hover:bg-alice-blue-hover;
+    @apply my-1 transition-all rounded-full cursor-pointer hover:bg-alice-blue-hover;
   }
   .border-base {
     @apply border rounded border-independence;
