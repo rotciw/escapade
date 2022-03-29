@@ -169,17 +169,20 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
             Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin((lon2 - lon1) / 2), 2),
         ),
       );
-
-    if (distance <= 30) {
-      // Full points at 30 km or closer
-      mapPoints = 600;
-    } else if (distance > 8000) {
-      // Zero points at further than 8000 km
+    if (markerLatitude == 0 && markerLongitude == 0) {
       mapPoints = 0;
     } else {
-      // Gradual graph between the two extremes: a - b*log(distance)
-      // a=965.28, b=107.4 gives roughly 75% points at 120 km distance, 50% at 500 km
-      mapPoints = Math.round(965.28 - 107.4 * Math.log(distance));
+      if (distance <= 30) {
+        // Full points at 30 km or closer
+        mapPoints = 600;
+      } else if (distance > 8000) {
+        // Zero points at further than 8000 km
+        mapPoints = 0;
+      } else {
+        // Gradual graph between the two extremes: a - b*log(distance)
+        // a=965.28, b=107.4 gives roughly 75% points at 120 km distance, 50% at 500 km
+        mapPoints = Math.round(965.28 - 107.4 * Math.log(distance));
+      }
     }
 
     return { multipleChoicePoints, dateStringPoints, mapPoints };

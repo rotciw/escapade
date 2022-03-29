@@ -51,7 +51,35 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
             Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin((lon2 - lon1) / 2), 2),
         ),
       );
+    if (lat2 == 0 && lon2 == 0) {
+      return -1;
+    }
     return distance;
+  };
+
+  const feedbackMessage = () => {
+    if (addPointsUp() < 300) {
+      return 'Dette har dere neste gang! 🤩';
+    }
+    if (addPointsUp() < 900) {
+      return 'Godt jobbet! 🔥';
+    }
+    if (addPointsUp() < 1500) {
+      return 'Veldig bra jobbet 🥳';
+    }
+    if (addPointsUp() < 1800) {
+      return 'Mesterlig gjort, nesten på topp! 🥳';
+    }
+    if (addPointsUp() == 1800) {
+      return 'Perfekt! Alt riktig 🙌';
+    }
+  };
+
+  const calculateFade = () => {
+    if (addPointsUp() < 300) {
+      return 0;
+    }
+    return 2500;
   };
 
   const addPointsUp = () => {
@@ -72,10 +100,10 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
           <p className='mb-2'>Poeng dere fikk denne runden</p>
           <CountUp className='text-5xl font-bold' end={addPointsUp()} duration={2} />
         </div>
-        <Fade delay={2500} duration={1500}>
+        <Fade delay={calculateFade()} duration={1500}>
           <div className='flex flex-col items-center'>
-            <p className='text-lg font-bold'>Bra jobbet!</p> Bla ned for å se svarene for denne
-            runden 🙌
+            <p className='text-lg font-bold'>{feedbackMessage()}</p> Bla ned for å se svarene for
+            denne runden
             <div className='mt-5'>
               <Zoom>
                 <img src={roundImg} className='w-80' />
@@ -157,7 +185,9 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
                 </MapComponent>
               </div>
               <div className='flex justify-between mt-2 mb-4'>
-                {calculateDistance() >= 1 ? (
+                {calculateDistance() < 0 ? (
+                  <p>Ingen svar</p>
+                ) : calculateDistance() >= 1 ? (
                   <p>{Math.round(calculateDistance())} km unna</p>
                 ) : (
                   <p>{Math.round(calculateDistance() * 1000)} meter unna, wow!</p>

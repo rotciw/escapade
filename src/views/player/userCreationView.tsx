@@ -76,7 +76,7 @@ const UserCreationView: React.FC = () => {
           errorMsg={errorMsg}
         />
         <button
-          className='mt-3 select-none btn-sm'
+          className='mt-3 select-none btn-sm-secondary'
           onClick={() => {
             navigate('/');
           }}
