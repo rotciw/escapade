@@ -73,7 +73,7 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
                 <></>
               )}
             </div>
-            <div className='flex flex-row flex-wrap gap-3'>
+            <div className='flex flex-row gap-3'>
               {handleTeam(team.id)
                 .sort((a, b) => (a.id > b.id ? 1 : -1))
                 .map((participant) => (
