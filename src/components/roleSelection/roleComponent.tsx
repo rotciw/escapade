@@ -24,14 +24,14 @@ const RoleComponent: React.FC<IProps> = (props: IProps) => {
     title: 'Utforsker',
     subtitle: 'Tid og sted',
     description:
-      'Du vil beskrive bilder til ekspertene på laget ditt så dere sammen kan finne ut av hva bildene skildrer. Passer dersom du er flink til å se detaljer.',
+      'Du får se bilder og må jobbe med laget ditt for å finne ut hva bildene er av. Passer dersom du er flink til å se detaljer.',
   };
 
   const geographyExpert = {
     title: 'Ekspert',
     subtitle: 'Geografi og flagg',
     description:
-      'Du vil ha tilgang til alt du måtte trenge av flagg og kart. Dersom laget trenger å vite hvor et sted er eller hvilket land et flagg tilhører så bør de spørre deg.',
+      'Du vil ha tilgang til mange forskjellige flagg og kart. Dersom laget trenger å vite hvor et sted er eller hvilket land et flagg tilhører så bør de spørre deg.',
   };
 
   const politicsExpert = {

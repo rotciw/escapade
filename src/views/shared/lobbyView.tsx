@@ -142,9 +142,6 @@ const LobbyView: React.FC = () => {
               </div>
             </div>
           )}
-          {!isHost && step === 2 && (
-            <p className='mb-2'>Venter på at alle spillere har valgt en rolle..</p>
-          )}
           {!isHost && step === 3 && (
             <>
               <button
