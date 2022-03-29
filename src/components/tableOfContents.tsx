@@ -52,7 +52,7 @@ const TableOfContents: React.FC<ToCProps> = ({ tableOfContents }) => {
   };
   return (
     <nav
-      className='sticky px-4 pt-1 pb-1 overflow-y-auto h-[15vh] md:h-[85vh] text-black rounded md:px-5 md:pt-4 md:pb-4 bg-alice-blue'
+      className='sticky px-4 pt-1 pb-1 overflow-y-auto md:h-[75vh] text-black rounded md:px-5 md:pt-4 md:pb-4 bg-alice-blue'
       aria-label='Table of contents'
     >
       <PortableText value={tableOfContents} components={components} />
