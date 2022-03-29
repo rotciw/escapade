@@ -84,7 +84,7 @@ const AllResultsComponent: React.FC<PlayerResultsProps> = ({
           <h1 className='text-xl font-bold text-center'>poeng</h1>
         </div>
       </div>
-      <Fade delay={2500} duration={1000}>
+      {/* <Fade delay={2500} duration={1000}>
         <div className='flex flex-row justify-center mt-6 text-black rounded bg-alice-blue'>
           <div className='p-5 mx-auto text-center w-fit'>
             <h1 className='text-xl font-bold text-center'>Som gjorde at dere kom på:</h1>
@@ -92,7 +92,7 @@ const AllResultsComponent: React.FC<PlayerResultsProps> = ({
             <h1 className='text-xl font-bold text-center'>plass</h1>
           </div>
         </div>
-      </Fade>
+      </Fade> */}
       <button className='mt-8 btn-lg' onClick={() => navigate('/')}>
         Gå til hjemskjermen
       </button>

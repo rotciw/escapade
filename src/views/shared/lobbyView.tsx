@@ -73,7 +73,7 @@ const LobbyView: React.FC = () => {
     // the number of teams is floor(participants / 4), number of 5-man teams is participants % 4
     // There should always be at least 12 players, but just in case there aren't, this function handles that too
     if (playerNumber < 12) {
-      return Math.ceil(playerNumber / 5);
+      return Math.ceil(playerNumber / 4);
     }
     return Math.floor(playerNumber / 4);
   };
