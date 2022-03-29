@@ -9,6 +9,9 @@
   .btn-sm {
     @apply px-4 py-2 font-bold text-black transition-all shadow-sm whitespace-nowrap border-base hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cameo-pink-hover bg-cameo-pink;
   }
+  .btn-sm-secondary {
+    @apply px-4 py-2 font-bold text-black transition-all shadow-sm whitespace-nowrap border-base hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-alice-blue-hover bg-alice-blue;
+  }
   .btn-sm-disabled {
     @apply px-4 py-2 font-semibold text-white transition-all bg-opacity-70 border-base hover:shadow-none bg-independence;
   }
