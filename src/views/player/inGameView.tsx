@@ -25,6 +25,7 @@ const InGameView: React.FC = () => {
   const [totalPoints, setTotalPoints] = useState(0);
   const [role, setRole] = useState(0);
   const [answer, setAnswer] = useState(false);
+  const [teamPlace, setPlace] = useState(0);
   const [teamAnswers, setTeamAnswers] = useState<TeamAnswers>({
     multipleChoiceAnswer: { answer: 0, points: 0 },
     dateStringAnswer: { answer: '1998-04-14', points: 0 },
@@ -71,10 +72,23 @@ const InGameView: React.FC = () => {
         if (currentPlayer.round === 3) {
           setTotalPoints(currentPlayer.totalPoints);
         }
+        setPlace(calculatePlace(gameData.participants, currentPlayer.teamId));
       } else {
         console.error('no data');
       }
     });
+  };
+
+  const calculatePlace = (participants: ICurrentGamePlayer[], currentTeamId: number) => {
+    let res: any = {};
+    const result = Object.values(participants).reduce((result: any, player) => {
+      if (!res[player.teamId]) {
+        res[player.teamId] = player.totalPoints;
+      }
+      return [...result, res];
+    }, [])[0];
+    const sortedResult = Object.keys(result).sort((a, b) => result[b] - result[a]);
+    return sortedResult.indexOf(currentTeamId.toString()) + 1;
   };
 
   useEffect(() => {
@@ -177,6 +191,7 @@ const InGameView: React.FC = () => {
           teamPlayers={teamPlayers}
           totalPoints={totalPoints}
           currentPlayer={player}
+          teamPlace={teamPlace}
         />
       )}
     </>
