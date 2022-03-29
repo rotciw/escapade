@@ -8,6 +8,7 @@ const BaseGameView: React.FC = () => {
   const navigate = useNavigate();
   const [gameCode, setGameCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [shakeAnimation, setShakeAnimation] = useState(false);
   const [localStorageValue, setLocalStorageValue] = useLocalStorage('gameCode', '');
 
   const joinGameLobby = async () => {
@@ -21,9 +22,11 @@ const BaseGameView: React.FC = () => {
       } else {
         console.error('Invalid game code');
         setErrorMessage('Koden er ikke gyldig.');
+        setShakeAnimation(true);
       }
     } else {
       setErrorMessage('Du må oppgi en kode.');
+      setShakeAnimation(true);
     }
   };
 
@@ -43,18 +46,24 @@ const BaseGameView: React.FC = () => {
         <div className='my-4'>
           <h1 className='my-12 text-6xl font-bold text-center text-alice-blue'>Escapade</h1>
           <input
-            className='input-main'
+            className={`${shakeAnimation ? 'animate-shake' : ''} input-main`}
             type='text'
             value={gameCode.toUpperCase()}
             onKeyPress={handleEnterPress}
             onChange={onInputChange}
+            onAnimationEnd={() => setShakeAnimation(false)}
             placeholder='Kode for spillet'
           />
-          <button className='btn-sm' onClick={() => joinGameLobby()}>
+          <button
+            className='btn-sm'
+            onClick={() => {
+              joinGameLobby();
+            }}
+          >
             Bli med
           </button>
           {errorMessage ? (
-            <p className='mt-1 ml-1'>{errorMessage}</p>
+            <p className={`${shakeAnimation ? 'animate-shake' : ''} mt-1 ml-1`}>{errorMessage}</p>
           ) : (
             <p className='mt-1 ml-1'>&nbsp;</p>
           )}

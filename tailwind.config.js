@@ -23,7 +23,16 @@ module.exports = {
     fontFamily: {
       inter: 'Inter, sans-serif',
     },
-    extend: { animation: { 'pulse-fast': 'pulse 1s linear infinite' } },
+    extend: {
+      animation: { 'pulse-fast': 'pulse 1s linear infinite', shake: 'shake 0.1s ease-in-out' },
+      keyframes: {
+        shake: {
+          '0%, 100%': { transform: 'translateX(0px)' },
+          '20%': { transform: 'translateX(4px)' },
+          '80%': { transform: 'translateX(-4px)' },
+        },
+      },
+    },
   },
   variants: {
     extend: {},
