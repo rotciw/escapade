@@ -17,21 +17,15 @@ const UserCreationView: React.FC = () => {
   const [playerId, setPlayerId] = useLocalStorage('playerId', '');
   const [errorMsg, setErrorMsg] = useState('');
 
-  useEffect(() => {
-    console.log(playerId);
-  }, []);
-
   const joinGame = async (name: string) => {
     if (name !== '') {
       let validPlayerId = '';
-      console.log(playerId);
       if (playerId == '') {
         validPlayerId = generatePlayerId();
         setPlayerId(validPlayerId);
       } else {
         validPlayerId = playerId;
       }
-      console.log(playerId);
       await updateDoc(doc(db, 'games', value), {
         [`participants.${validPlayerId}`]: {
           id: validPlayerId,
