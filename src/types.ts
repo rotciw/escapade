@@ -72,6 +72,7 @@ export interface QuestionSet {
   multipleChoiceQuestion: MultipleChoiceQuestion;
   stringDateQuestion: StringDateQuestion;
   mapPointerQuestion: MapPointerQuestion;
+  roundTime: number;
 }
 
 export interface TeamAnswers {

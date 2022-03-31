@@ -12,6 +12,12 @@ export default {
       type: 'number',
     },
     {
+      name: 'roundTime',
+      title: 'Rundetid (i minutter)',
+      type: 'number',
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: 'images',
       title: 'Bilder',
       type: 'array',

@@ -5,26 +5,29 @@ import { useTimeContext } from '~/contexts/timerContext';
 
 interface TimerProps {
   startTime: number;
+  roundTime: number;
 }
 
-const TimerComponent: React.FC<TimerProps> = ({ startTime }) => {
-  const { timeInSecondsLeft, setTimeInSecondsLeft } = useTimeContext();
+const TimerComponent: React.FC<TimerProps> = ({ startTime, roundTime }) => {
+  const { timeInSecondsLeft, setTimeInSecondsLeft, isRoundOver, setIsRoundOver } = useTimeContext();
   const [animate, setAnimate] = useState(false);
 
   let countdownApi: CountdownApi | null = null;
 
   const handleOnTick: CountdownTimeDeltaFn = (timeDelta) => {
-    setTimeInSecondsLeft(timeDelta.minutes * 60 + timeDelta.seconds);
     const timeInSeconds = timeDelta.minutes * 60 + timeDelta.seconds;
+    setTimeInSecondsLeft(timeInSeconds);
+    if (isRoundOver) {
+      setIsRoundOver(false);
+    }
     if (timeInSeconds <= 10 && timeInSeconds > 0) {
       setAnimate(true);
-    } else if (timeInSeconds == 0) {
-      setAnimate(false);
     }
   };
 
-  const handlePause = (): void => {
-    countdownApi && countdownApi.pause();
+  const handleOnComplete: CountdownTimeDeltaFn = () => {
+    setAnimate(false);
+    setIsRoundOver(true);
   };
 
   const setRef = (countdown: Countdown | null): void => {
@@ -48,13 +51,14 @@ const TimerComponent: React.FC<TimerProps> = ({ startTime }) => {
       <div className='w-full h-10 mb-2 rounded outline-independence outline outline-1 bg-alice-blue-hover align-center'>
         <div
           className='flex-row h-10 p-3 my-auto text-sm font-semibold leading-none text-center text-black transition-all rounded bg-cameo-pink'
-          style={{ width: `${(timeInSecondsLeft * 100) / 360}%` }}
+          style={{ width: `${(timeInSecondsLeft * 100) / (roundTime * 60)}%` }}
         >
           <div className={`${animate ? 'animate-pulse-fast' : ''}`}>
             <Countdown
               onMount={handleOnTick}
               onTick={handleOnTick}
-              date={startTime + 360000}
+              onComplete={handleOnComplete}
+              date={startTime + roundTime * 60000}
               renderer={renderer}
               ref={setRef}
             />
