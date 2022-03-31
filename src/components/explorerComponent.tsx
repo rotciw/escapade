@@ -37,7 +37,7 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
   const [chosenChoice, setChosenChoice] = useState<number>(-1);
   const [confirmation, setConfirmation] = useState(false);
   let [isOpen, setIsOpen] = useState(false);
-  const { timeInSecondsLeft } = useTimeContext();
+  const { isRoundOver } = useTimeContext();
   const builder = imageUrlBuilder(sanityClient);
 
   function urlFor(source: any) {
@@ -188,6 +188,12 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
     return { multipleChoicePoints, dateStringPoints, mapPoints };
   };
 
+  useEffect(() => {
+    if (isRoundOver) {
+      handleAnswers();
+    }
+  }, [isRoundOver]);
+
   const handleAnswers = async () => {
     setConfirmation(false);
     goToAnswers(true);
@@ -200,7 +206,10 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
       <div className='flex flex-row flex-wrap justify-around pb-8 mt-2 '>
         <div className='w-7/12 p-2 text-center rounded h-fit bg-alice-blue'>
           <Zoom>
-            <img src={urlFor(sanityData.questionSet[round].images[0].asset).url()} />
+            <img
+              className='object-contain max-h-[60vh]'
+              src={urlFor(sanityData.questionSet[round].images[0].asset).url()}
+            />
           </Zoom>
           <p className='italic text-black'>Klikk på bildet for å vise det i fullskjerm</p>
         </div>
@@ -266,7 +275,11 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
                 </button>
               )}
               <PopUpComponent isOpen={isOpen} openFunction={setIsOpen}>
-                <TimerComponent key={startTime} startTime={startTime} />
+                <TimerComponent
+                  key={startTime}
+                  startTime={startTime}
+                  roundTime={sanityData.questionSet[round].roundTime}
+                />
                 <h1 className='mb-1 text-lg italic font-medium text-center'>
                   Trykk for å velge cirka der du tror det er. Trykk og dra for å bevege kartet.
                 </h1>

@@ -66,6 +66,7 @@ const LobbyView: React.FC = () => {
       await updateDoc(doc(db, 'games', value), { selectionStep: 2 });
     } else if (step === 3) {
       await updateDoc(doc(db, 'games', value), { selectionStep: 4 });
+      startTime();
     }
   };
 
@@ -166,7 +167,6 @@ const LobbyView: React.FC = () => {
                     className='btn-sm'
                     onClick={() => {
                       handleNextStep();
-                      startTime();
                     }}
                   >
                     Gå videre

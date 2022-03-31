@@ -157,7 +157,11 @@ const InGameView: React.FC = () => {
           {!answer ? (
             <>
               <div className='w-[96vw] mx-auto'>
-                <TimerComponent key={startTime} startTime={startTime} />
+                <TimerComponent
+                  key={startTime}
+                  startTime={startTime}
+                  roundTime={gameData.questionSet[round].roundTime}
+                />
               </div>
               {role != 1 ? (
                 <ExpertComponent role={role}></ExpertComponent>
