@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
 import { ICurrentGamePlayer, ITeam, QuestionSet } from '../types';
-import Countdown from 'react-countdown';
 import sanityClient from '~/sanityClient';
 
 interface IProps {
