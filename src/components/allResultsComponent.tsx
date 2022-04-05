@@ -5,7 +5,6 @@ import { ICurrentGamePlayer } from '~/types';
 import CountUp from 'react-countup';
 import Avatar from './avatar';
 import { useLocalStorage } from '~/hooks/useLocalStorage';
-import { Fade } from 'react-awesome-reveal';
 import { useNavigate } from 'react-router-dom';
 
 interface PlayerResultsProps {

@@ -25,6 +25,7 @@ const LobbyView: React.FC = () => {
   const [isHost, setIsHost] = useState(false);
   const [startedGame, setIsStartedGame] = useState(false);
   const [confirmation, setConfirmation] = useState(false);
+  const [theme, setTheme] = useState(0);
   let listener: () => void;
 
   const subscribeToListener = () => {
@@ -42,6 +43,7 @@ const LobbyView: React.FC = () => {
         const currentPlayer = Object.values(gameData.participants).filter(
           (player) => player.id === playerId,
         )[0];
+        setTheme(gameData.theme);
         if (gameHostId !== gameData.hostId) {
           // Check if is host or not since these values are not available for hosts
           setIsStartedGame(currentPlayer.startedGame);
@@ -66,7 +68,7 @@ const LobbyView: React.FC = () => {
       await updateDoc(doc(db, 'games', value), { selectionStep: 2 });
     } else if (step === 3) {
       await updateDoc(doc(db, 'games', value), { selectionStep: 4 });
-      startTime();
+      await startTime();
     }
   };
 
@@ -128,7 +130,7 @@ const LobbyView: React.FC = () => {
           />
         )}
         {step >= 2 && !isHost && <RoleSelectionComponent participants={participants} />}
-        {step >= 2 && isHost && <GameProgressComponent participants={participants} />}
+        {step >= 2 && isHost && <GameProgressComponent participants={participants} theme={theme} />}
         <div className='mt-4'>
           {isHost && step < 2 && (
             <button className='btn-lg' onClick={() => handleNextStep()}>

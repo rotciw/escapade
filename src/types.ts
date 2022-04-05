@@ -73,6 +73,7 @@ export interface QuestionSet {
   stringDateQuestion: StringDateQuestion;
   mapPointerQuestion: MapPointerQuestion;
   roundTime: number;
+  isActive: boolean;
 }
 
 export interface TeamAnswers {

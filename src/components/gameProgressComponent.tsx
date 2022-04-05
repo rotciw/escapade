@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { ICurrentGamePlayer, ITeam } from '../types';
+import { ICurrentGamePlayer, ITeam, QuestionSet } from '../types';
 import Countdown from 'react-countdown';
+import sanityClient from '~/sanityClient';
 
 interface IProps {
   participants: ICurrentGamePlayer[];
+  theme: number;
 }
 
 const GameProgressComponent: React.FC<IProps> = (props: IProps) => {
-  const { participants } = props;
+  const { participants, theme } = props;
   const [teams, setTeams] = useState<ITeam[]>([]);
+  const [totalRounds, setTotalRounds] = useState(0);
 
   const getRoleName = (roleId: number) => {
     switch (roleId) {
@@ -34,6 +37,24 @@ const GameProgressComponent: React.FC<IProps> = (props: IProps) => {
       </span>
     );
   };
+
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `*[_type == "gameMaps" && id == ${theme}]{
+            title,
+            id,
+            description,
+            questionSet,
+          }
+      `,
+      )
+      .then((data) => {
+        setTotalRounds(
+          data[0].questionSet.filter((questionSet: QuestionSet) => questionSet.isActive).length,
+        );
+      });
+  }, [theme]);
 
   useEffect(() => {
     const placeholderTeams: ITeam[] = [];
@@ -84,10 +105,19 @@ const GameProgressComponent: React.FC<IProps> = (props: IProps) => {
                   ))}
                 </div>
                 <div className='flex flex-col text-right'>
-                  <p>
-                    Runde: <strong>{team.participants[0].round + 1}/3</strong>
-                  </p>
-                  <p>
+                  {team.participants[0].round + 1 > totalRounds ? (
+                    <p>
+                      <strong>Ferdig</strong>
+                    </p>
+                  ) : (
+                    <p>
+                      Runde:{' '}
+                      <strong>
+                        {team.participants[0].round + 1}/{totalRounds}
+                      </strong>
+                    </p>
+                  )}
+                  {/* <p>
                     Gjenstående rundetid:{' '}
                     <strong>
                       <Countdown
@@ -95,7 +125,7 @@ const GameProgressComponent: React.FC<IProps> = (props: IProps) => {
                         renderer={renderer}
                       />
                     </strong>
-                  </p>
+                  </p> */}
                   <p>
                     Poeng så langt: <strong>{team.participants[0].totalPoints}</strong>
                   </p>
