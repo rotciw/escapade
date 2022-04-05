@@ -12,9 +12,16 @@ interface AnswerProps {
   roundImg: string;
   questionSet: QuestionSet;
   teamAnswers: TeamAnswers | undefined;
+  totalRounds: number;
 }
 
-const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamAnswers }) => {
+const AnswerView: React.FC<AnswerProps> = ({
+  round,
+  roundImg,
+  questionSet,
+  teamAnswers,
+  totalRounds,
+}) => {
   const maxPoints = 600;
 
   const Marker = (lat: any, lng: any) => {
@@ -95,7 +102,9 @@ const AnswerView: React.FC<AnswerProps> = ({ round, roundImg, questionSet, teamA
   return (
     <>
       <div className='overflow-y-auto flex flex-col p-5 text-center pb-8 mt-6 mb-2 bg-alice-blue w-[80vw] mx-auto rounded text-black h-[75vh]'>
-        <p className='font-semibold'>Runde: {round + 1}/3</p>
+        <p className='font-semibold'>
+          Runde: {round + 1}/{totalRounds}
+        </p>
         <div className='my-2'>
           <p className='mb-2'>Poeng dere fikk denne runden</p>
           <CountUp className='text-5xl font-bold' end={addPointsUp()} duration={2} />

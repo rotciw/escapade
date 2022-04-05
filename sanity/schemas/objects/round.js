@@ -12,6 +12,11 @@ export default {
       type: 'number',
     },
     {
+      name: 'isActive',
+      title: 'Er aktiv',
+      type: 'boolean',
+    },
+    {
       name: 'roundTime',
       title: 'Rundetid (i minutter)',
       type: 'number',
@@ -53,4 +58,7 @@ export default {
       validation: (Rule) => Rule.required(),
     },
   ],
+  initialValue: {
+    isActive: true,
+  },
 };

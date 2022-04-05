@@ -20,6 +20,7 @@ interface GameViewProps {
   startTime: number;
   sanityData: SanityMapData;
   round: number;
+  totalRounds: number;
 }
 
 const ExplorerComponent: React.FC<GameViewProps> = ({
@@ -27,6 +28,7 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
   startTime,
   sanityData,
   round,
+  totalRounds,
 }) => {
   const [value, setValue] = useLocalStorage('gameCode', '');
   const [dateErrorMsg, setDateErrorMsg] = useState('');
@@ -216,7 +218,9 @@ const ExplorerComponent: React.FC<GameViewProps> = ({
         <div className='flex flex-col w-4/12'>
           <div className='flex flex-col p-2 pb-8 text-black rounded sm:p-3 bg-alice-blue'>
             <div className='flex flex-row justify-center'>
-              <h1 className='mb-1 text-xl font-semibold'>Runde {round + 1}/3</h1>
+              <h1 className='mb-1 text-xl font-semibold'>
+                Runde {round + 1}/{totalRounds}
+              </h1>
             </div>
             <div className='w-full mb-2 border-t border-dotted border-independence'></div>
             <label className='mb-1 font-semibold'>

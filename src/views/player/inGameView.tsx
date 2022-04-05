@@ -5,7 +5,7 @@ import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Header from '~/components/header';
 import imageUrlBuilder from '@sanity/image-url';
 import sanityClient from '~/sanityClient';
-import { ICurrentGamePlayer, IGame, SanityMapData, TeamAnswers } from '~/types';
+import { ICurrentGamePlayer, IGame, QuestionSet, SanityMapData, TeamAnswers } from '~/types';
 import 'react-medium-image-zoom/dist/styles.css';
 import TimerComponent from '~/components/timerComponent';
 import AnswerView from '../../components/answerComponent';
@@ -22,6 +22,7 @@ const InGameView: React.FC = () => {
   const [gameData, setGameData] = useState<SanityMapData>();
   const [theme, setTheme] = useState(0);
   const [round, setRound] = useState(0);
+  const [totalRounds, setTotalRounds] = useState(0);
   const [totalPoints, setTotalPoints] = useState(0);
   const [role, setRole] = useState(0);
   const [answer, setAnswer] = useState(false);
@@ -69,9 +70,7 @@ const InGameView: React.FC = () => {
         if (currentPlayer.round === 2) {
           setTeamAnswers(currentPlayer.round3);
         }
-        if (currentPlayer.round === 3) {
-          setTotalPoints(currentPlayer.totalPoints);
-        }
+        setTotalPoints(currentPlayer.totalPoints);
         setPlace(calculatePlace(gameData.participants, currentPlayer.teamId));
       } else {
         console.error('no data');
@@ -111,20 +110,25 @@ const InGameView: React.FC = () => {
       )
       .then((data) => {
         setGameData(data[0]);
+        setTotalRounds(
+          data[0].questionSet.filter((questionSet: QuestionSet) => questionSet.isActive).length,
+        );
       });
   }, [theme]);
 
   const resetTimer = async () => {
     const batch = writeBatch(db);
-    if (teamPlayers) {
-      const timeNow = Date.now();
-      for (let i = 0; i < teamPlayers.length; i++) {
-        batch.update(doc(db, 'games', value), {
-          [`participants.${teamPlayers[i].id}.startTime`]: timeNow,
-          [`participants.${teamPlayers[i].id}.round`]: round + 1,
-        });
+    if (round < totalRounds) {
+      if (teamPlayers) {
+        const timeNow = Date.now();
+        for (let i = 0; i < teamPlayers.length; i++) {
+          batch.update(doc(db, 'games', value), {
+            [`participants.${teamPlayers[i].id}.startTime`]: timeNow,
+            [`participants.${teamPlayers[i].id}.round`]: round + 1,
+          });
+        }
+        await batch.commit();
       }
-      await batch.commit();
     }
   };
 
@@ -152,7 +156,7 @@ const InGameView: React.FC = () => {
   return (
     <>
       <Header />
-      {round !== 3 ? (
+      {round < totalRounds ? (
         <>
           {!answer ? (
             <>
@@ -172,6 +176,7 @@ const InGameView: React.FC = () => {
                     startTime={startTime}
                     sanityData={gameData}
                     round={round}
+                    totalRounds={totalRounds}
                   />
                 </>
               )}
@@ -183,6 +188,7 @@ const InGameView: React.FC = () => {
                 roundImg={urlFor(gameData.questionSet[round].images[0].asset).url()}
                 questionSet={gameData.questionSet[round]}
                 teamAnswers={teamAnswers}
+                totalRounds={totalRounds}
               />
               <button className='mt-2 btn-lg' onClick={() => handleNextRound()}>
                 Gå videre

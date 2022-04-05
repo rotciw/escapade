@@ -87,18 +87,26 @@ const CreatingGameView: React.FC = () => {
           <div className='flex-grow w-28 lg:hidden'></div>
         </div>
         <h2 className='mt-8 mb-2 text-xl font-medium'>Bilder som vil vises</h2>
-        <div className='flex flex-wrap w-full p-2 mb-3 bg-alice-blue'>
-          {maps[selectedTheme].questionSet.map((map, index) => {
-            return (
-              <div
-                key={index}
-                className='box-border flex-grow w-32 m-2 overflow-hidden border-base'
-              >
-                <img className='object-cover w-64 h-32' src={urlFor(map.images[0].asset).url()} />
-              </div>
-            );
-          })}
-          <div className='flex-grow w-32 mx-2 md:hidden'></div>
+        <div className='flex flex-wrap justify-center w-full p-2 mb-3 bg-alice-blue'>
+          {maps[selectedTheme].questionSet
+            .filter((map) => map.isActive)
+            .map((map, index) => {
+              return (
+                <div key={index} className='box-border m-2 border-base'>
+                  <img className='object-cover w-48 h-32' src={urlFor(map.images[0].asset).url()} />
+                </div>
+              );
+            })}
+          {maps[selectedTheme].questionSet
+            .filter((map) => !map.isActive)
+            .map((map, index) => {
+              return (
+                <div
+                  key={index}
+                  className='box-border flex-grow invisible hidden w-32 h-32 m-2 lg:inline-block'
+                ></div>
+              );
+            })}
         </div>
         {/* <div className='flex items-center'>
           <h1 className='my-4 text-2xl font-bold'>Flere innstillinger</h1>
@@ -173,9 +181,9 @@ const CreatingGameView: React.FC = () => {
             </div>
           </div>
         )} */}
-        <div className='mt-8 text-center'>
+        <div className='mt-6 text-center'>
           <button
-            className='mx-4 btn-lg w-44'
+            className='mx-4 mb-2 btn-lg w-44'
             onClick={() => {
               navigate('/');
             }}
