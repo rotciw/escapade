@@ -17,7 +17,7 @@ const LobbyComponent: React.FC<IProps> = (props: IProps) => {
       <h2 className='mb-4 text-xl'>
         Kode for spillet: <b>{value}</b>
       </h2>
-      <div className='w-3/5 p-5 rounded min-h-[50vh] h-fit bg-alice-blue overflow-y-auto border border-independence shadow-cameo-pink shadow-lg'>
+      <div className='w-4/6 p-5 rounded h-[65vh] bg-alice-blue overflow-y-auto border border-independence shadow-cameo-pink shadow-lg'>
         <h1 className='mb-4 text-xl font-bold text-center text-independence'>
           Disse spillerne er inne
         </h1>

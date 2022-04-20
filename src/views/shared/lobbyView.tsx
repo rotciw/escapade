@@ -136,7 +136,7 @@ const LobbyView: React.FC = () => {
         {step >= 2 && isHost && <GameProgressComponent participants={participants} theme={theme} />}
         <div className='mt-4'>
           {isHost && step < 2 && (
-            <button className='btn-lg' onClick={() => handleNextStep()}>
+            <button className='mb-4 btn-lg' onClick={() => handleNextStep()}>
               Fortsett
             </button>
           )}

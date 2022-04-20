@@ -49,9 +49,9 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
 
   return (
     <>
-      <div className='grid w-5/6 gap-4 xl:h-[50vh] h-[40vh] overflow-y-auto rounded lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 bg-alice-blue'>
+      <div className='grid w-5/6 gap-4 xl:h-[55vh] h-[45vh] overflow-y-auto rounded lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 bg-alice-blue'>
         {teams.map((team) => (
-          <div key={team.id} className='p-5 h-[13vh]'>
+          <div key={team.id} className='m-5 h-[13vh]'>
             <div className='flex'>
               <h2 className='mb-2 text-xl font-bold w-44 text-independence'>
                 Lag {team.id} ({handleTeam(team.id).length}{' '}
@@ -93,7 +93,7 @@ const TeamSelectionComponent: React.FC<IProps> = (props: IProps) => {
       {
         // Box of players with no team is hidden if everyone is in a team
         handleTeam(0).length !== 0 && (
-          <div className='p-5 pt-2 mt-4 rounded bg-alice-blue max-w-[83.3%] min-w-[50%]'>
+          <div className='p-5 pt-2 mt-4 rounded bg-alice-blue max-w-[83.3%] min-w-[50%] h-[25vh] overflow-y-auto'>
             <h1 className='mb-2 text-lg font-bold text-center text-independence'>Ikke valgt lag</h1>
             <div className='flex flex-row flex-wrap gap-3'>
               {handleTeam(0).map((player) => (
