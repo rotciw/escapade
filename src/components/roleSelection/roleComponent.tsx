@@ -34,9 +34,9 @@ const RoleComponent: React.FC<IProps> = (props: IProps) => {
       'Du vil ha tilgang til mange forskjellige flagg og kart. Dersom laget trenger å vite hvor et sted er eller hvilket land et flagg tilhører så bør de spørre deg.',
   };
 
-  const politicsExpert = {
+  const historyExpert = {
     title: 'Ekspert',
-    subtitle: 'Politikk og mote',
+    subtitle: 'Historie og mote',
     description:
       'Du får oversikt over viktige historiske hendelser. I tillegg kan du gi informasjon om antrekk og mote gjennom tiårene.',
   };
@@ -57,10 +57,10 @@ const RoleComponent: React.FC<IProps> = (props: IProps) => {
         setRoleInfo(geographyExpert);
         break;
       case 3:
-        setRoleInfo(politicsExpert);
+        setRoleInfo(historyExpert);
         break;
       case 4:
-        setRoleInfo(technologyExpert);
+        setRoleInfo(explorer);
         break;
       case 5:
         setRoleInfo(explorer);
