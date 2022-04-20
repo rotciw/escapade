@@ -68,7 +68,7 @@ const LobbyView: React.FC = () => {
       await updateDoc(doc(db, 'games', value), { selectionStep: 2 });
     } else if (step === 3) {
       await updateDoc(doc(db, 'games', value), { selectionStep: 4 });
-      await startTime();
+      startTime();
     }
   };
 

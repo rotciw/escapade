@@ -156,7 +156,7 @@ const InGameView: React.FC = () => {
   return (
     <>
       <Header />
-      {round < totalRounds ? (
+      {round < totalRounds && (
         <>
           {!answer ? (
             <>
@@ -196,7 +196,8 @@ const InGameView: React.FC = () => {
             </div>
           )}
         </>
-      ) : (
+      )}
+      {round == totalRounds && totalRounds !== 0 && (
         <AllResultsComponent
           teamPlayers={teamPlayers}
           totalPoints={totalPoints}
