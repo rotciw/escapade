@@ -11,10 +11,10 @@ interface AnswerProps {
 }
 
 const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
+  const center = { lat: 50, lng: 0 };
   const [wikiBankData, setWikiBankData] = useState<SanityWikiBankData[]>();
   const [text, setText] = useState(null);
   const [tableOfContents, setTableOfContents] = useState(null);
-  const center = { lat: 50, lng: 0 };
   useEffect(() => {
     sanityClient
       .fetch(
@@ -57,6 +57,7 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
         return <h1 className='mt-2 text-2xl font-bold'>{children}</h1>;
       },
       h2: ({ children }: any) => <h1 className='mt-2 text-xl font-bold'>{children}</h1>,
+      h3: ({ children }: any) => <h1 className='mt-1 font-bold text-l'>{children}</h1>,
       normal: ({ children }: any) => <p className='my-2'>{children}</p>,
     },
     types: {
@@ -80,17 +81,23 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
       </div>
       <div className='md:w-3/4 w-[95vw] overflow-y-auto flex flex-col pt-5 px-8 pb-8 bg-alice-blue mx-auto max-h-full rounded text-black md:h-[75vh]'>
         {role == 2 && (
-          <iframe
-            width='2544'
-            height='1128'
-            src='https://www.youtube.com/embed/vy3vMD-CgNY'
-            title='YouTube video player'
-            frameBorder='0'
-            allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-            allowFullScreen
-          ></iframe>
+          <>
+            <h1 className='text-2xl font-bold'>Kart for hvert år siden 1850</h1>
+            <iframe
+              src='https://www.youtube.com/embed/ta-RnGshilI'
+              title='YouTube video player'
+              frameBorder='0'
+              allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+              allowFullScreen
+            ></iframe>
+          </>
         )}
-        {role == 2 && <MapComponent center={center} onMarkerClick={() => {}} />}
+        {role == 2 && (
+          <>
+            <h1 className='text-2xl font-bold'>Kart for hvert år siden 1850</h1>
+            <MapComponent center={center} onMarkerClick={() => {}} />
+          </>
+        )}
         <PortableText value={text} components={components} />
       </div>
     </div>
