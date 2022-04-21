@@ -84,7 +84,7 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
           <>
             <h1 className='text-2xl font-bold'>Kart</h1>
             <MapComponent center={center} onMarkerClick={() => {}} />
-            <h1 className='text-2xl font-bold'>Kart for hvert år siden 1850</h1>
+            <h1 className='mt-4 text-2xl font-bold'>Kart for hvert år siden 1850</h1>
             <iframe
               src='https://www.youtube.com/embed/ta-RnGshilI'
               title='YouTube video player'
