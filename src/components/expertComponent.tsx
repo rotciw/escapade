@@ -4,6 +4,7 @@ import sanityClient from '~/sanityClient';
 import { SanityWikiBankData } from '~/types';
 import imageUrlBuilder from '@sanity/image-url';
 import TableOfContents from './tableOfContents';
+import MapComponent from './mapComponent';
 
 interface AnswerProps {
   role: number;
@@ -13,6 +14,7 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
   const [wikiBankData, setWikiBankData] = useState<SanityWikiBankData[]>();
   const [text, setText] = useState(null);
   const [tableOfContents, setTableOfContents] = useState(null);
+  const center = { lat: 50, lng: 0 };
   useEffect(() => {
     sanityClient
       .fetch(
@@ -77,6 +79,18 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
         <TableOfContents tableOfContents={tableOfContents} />
       </div>
       <div className='md:w-3/4 w-[95vw] overflow-y-auto flex flex-col pt-5 px-8 pb-8 bg-alice-blue mx-auto max-h-full rounded text-black md:h-[75vh]'>
+        {role == 2 && (
+          <iframe
+            width='2544'
+            height='1128'
+            src='https://www.youtube.com/embed/vy3vMD-CgNY'
+            title='YouTube video player'
+            frameBorder='0'
+            allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+            allowFullScreen
+          ></iframe>
+        )}
+        {role == 2 && <MapComponent center={center} onMarkerClick={() => {}} />}
         <PortableText value={text} components={components} />
       </div>
     </div>
