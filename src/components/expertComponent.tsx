@@ -90,10 +90,6 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
               allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
               allowFullScreen
             ></iframe>
-          </>
-        )}
-        {role == 2 && (
-          <>
             <h1 className='text-2xl font-bold'>Kart for hvert år siden 1850</h1>
             <MapComponent center={center} onMarkerClick={() => {}} />
           </>
