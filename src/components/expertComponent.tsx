@@ -82,6 +82,8 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
       <div className='md:w-3/4 w-[95vw] overflow-y-auto flex flex-col pt-5 px-8 pb-8 bg-alice-blue mx-auto max-h-full rounded text-black md:h-[75vh]'>
         {role == 2 && (
           <>
+            <h1 className='text-2xl font-bold'>Kart</h1>
+            <MapComponent center={center} onMarkerClick={() => {}} />
             <h1 className='text-2xl font-bold'>Kart for hvert år siden 1850</h1>
             <iframe
               src='https://www.youtube.com/embed/ta-RnGshilI'
@@ -90,8 +92,6 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
               allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
               allowFullScreen
             ></iframe>
-            <h1 className='text-2xl font-bold'>Kart for hvert år siden 1850</h1>
-            <MapComponent center={center} onMarkerClick={() => {}} />
           </>
         )}
         <PortableText value={text} components={components} />
