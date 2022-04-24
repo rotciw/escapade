@@ -90,7 +90,7 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
         {role == 2 && (
           <>
             <h1 className='text-2xl font-bold'>Kart</h1>
-            <div className='h-full mb-6'>
+            <div className='h-[20%] md:h-full mb-6 '>
               <MapComponent center={center} />
             </div>
           </>
