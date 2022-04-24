@@ -91,9 +91,7 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
           <>
             <h1 className='text-2xl font-bold'>Kart</h1>
             <div className='h-full mb-6'>
-              <MapComponent center={center}>
-                <>Test</>
-              </MapComponent>
+              <MapComponent center={center} />
             </div>
           </>
         )}
