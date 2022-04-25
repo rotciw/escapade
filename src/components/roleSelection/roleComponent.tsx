@@ -31,14 +31,14 @@ const RoleComponent: React.FC<IProps> = (props: IProps) => {
     title: 'Ekspert',
     subtitle: 'Geografi og flagg',
     description:
-      'Du vil ha tilgang til mange forskjellige flagg og kart. Dersom laget trenger å vite hvor et sted er eller hvilket land et flagg tilhører så bør de spørre deg.',
+      'Du vil ha tilgang til mange forskjellige flagg og kart. Dersom laget trenger å vite hvor et sted er så bør de spørre deg.',
   };
 
   const historyExpert = {
     title: 'Ekspert',
-    subtitle: 'Historie og mote',
+    subtitle: 'Historie og teknologi',
     description:
-      'Du får oversikt over viktige historiske hendelser. I tillegg kan du gi informasjon om antrekk og mote gjennom tiårene.',
+      'Du får oversikt over viktige historiske hendelser: når det skjedde, hvem som var involvert, og hva det gikk ut på.',
   };
 
   const technologyExpert = {
