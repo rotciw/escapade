@@ -50,7 +50,14 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
   }
 
   const SampleImageComponent = ({ value }: any) => {
-    return <img src={urlFor(value.asset).url()} alt={value.alt || ' '} loading='lazy' />;
+    return (
+      <img
+        className='max-w-[700px] mx-auto my-4'
+        src={urlFor(value.asset).url()}
+        alt={value.alt || ' '}
+        loading='lazy'
+      />
+    );
   };
 
   const components = {
@@ -67,7 +74,7 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
       youtube: ({ value }: any) => {
         const { url } = value;
         const id = getYouTubeId(url);
-        return <YouTube videoId={id as string} />;
+        return <YouTube className='mx-auto' videoId={id as string} />;
       },
     },
     marks: {
@@ -89,8 +96,8 @@ const ExpertComponent: React.FC<AnswerProps> = ({ role }) => {
       <div className='md:w-3/4 w-[95vw] overflow-y-auto pt-5 px-8 pb-8 bg-alice-blue mx-auto max-h-full rounded text-black md:h-[75vh]'>
         {role == 2 && (
           <>
-            <h1 className='text-2xl font-bold'>Kart</h1>
-            <div className='h-[20%] md:h-full mb-6 '>
+            <h1 className='mb-2 text-2xl font-bold'>Kart</h1>
+            <div className='h-[20%] md:h-[80%] mb-6 '>
               <MapComponent center={center} />
             </div>
           </>

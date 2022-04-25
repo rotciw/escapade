@@ -151,7 +151,7 @@ const LobbyView: React.FC = () => {
           {!isHost && step === 3 && (
             <>
               <button
-                className='btn-lg'
+                className='mb-6 btn-lg'
                 onClick={() => {
                   setConfirmation(true);
                 }}
