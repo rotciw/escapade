@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import '../base.css';
-import { GameContextProvider } from '../contexts/gameContext';
+import { GameContextProvider, useGameContext } from '../contexts/gameContext';
 import CreatingGameView from '../views/host/creatingGameView';
 import BaseGameView from '../views/shared/baseGameView';
 import LobbyView from '../views/shared/lobbyView';
@@ -10,6 +10,8 @@ import InGameView from '~/views/player/inGameView';
 import { TimeContextProvider } from '~/contexts/timerContext';
 
 const App: React.FC = () => {
+  const { globalGameCode } = useGameContext();
+
   return (
     <div className='h-screen overflow-auto text-alice-blue font-inter bg-colorful-blue selection:bg-[#6BDBA5]'>
       <GameContextProvider>
@@ -20,7 +22,7 @@ const App: React.FC = () => {
             <Route path='/customize' element={<UserCreationView />} />
             <Route path='/create' element={<CreatingGameView />} />
             <Route path='/lobby' element={<LobbyView />} />
-            <Route path='/game' element={<InGameView />} />
+            <Route path='/game' element={<InGameView key={globalGameCode} />} />
           </Routes>
         </TimeContextProvider>
       </GameContextProvider>
