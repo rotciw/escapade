@@ -5,7 +5,7 @@ import { ICurrentGamePlayer } from '~/types';
 import CountUp from 'react-countup';
 import Avatar from './avatar';
 import { useLocalStorage } from '~/hooks/useLocalStorage';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface PlayerResultsProps {
   teamPlayers: ICurrentGamePlayer[];
@@ -24,7 +24,6 @@ const AllResultsComponent: React.FC<PlayerResultsProps> = ({
   const duration = 5000;
   const animationEnd = Date.now() + duration;
   const defaults = { startVelocity: 10, spread: 360, ticks: 60, zIndex: 0 };
-  const navigate = useNavigate();
 
   function randomInRange(min: number, max: number) {
     return Math.random() * (max - min) + min;
@@ -92,8 +91,8 @@ const AllResultsComponent: React.FC<PlayerResultsProps> = ({
           </div>
         </div>
       </Fade> */}
-      <button className='mt-8 btn-lg' onClick={() => navigate('/')}>
-        Gå til hjemskjermen
+      <button className='mt-8 btn-lg'>
+        <Link to='/'>Gå til hjemskjermen</Link>
       </button>
     </div>
   );

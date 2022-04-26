@@ -75,7 +75,7 @@ const GameProgressComponent: React.FC<IProps> = (props: IProps) => {
 
     placeholderTeams.sort((a, b) => (a.id > b.id ? 1 : -1)); // Sorts array of teams by team ID
     setTeams(placeholderTeams);
-  }, []);
+  }, [teams]);
 
   if (teams.length === 0) return <p>Game has no teams in it.</p>;
 
@@ -96,11 +96,13 @@ const GameProgressComponent: React.FC<IProps> = (props: IProps) => {
               <h2 className='w-full text-2xl font-bold'>Lag {team.id}</h2>
               <div className='flex justify-between'>
                 <div className='flex flex-col mr-8'>
-                  {team.participants.map((participant) => (
-                    <p key={participant.id}>
-                      <strong>{participant.name}</strong> - {getRoleName(participant.role)}
-                    </p>
-                  ))}
+                  {team.participants
+                    .sort((a, b) => (a.id > b.id ? 1 : -1))
+                    .map((participant) => (
+                      <p key={participant.id}>
+                        <strong>{participant.name}</strong> - {getRoleName(participant.role)}
+                      </p>
+                    ))}
                 </div>
                 <div className='flex flex-col text-right'>
                   {team.participants[0].round + 1 > totalRounds ? (
