@@ -184,6 +184,7 @@ const InGameView: React.FC = () => {
           ) : (
             <div className='text-center'>
               <AnswerView
+                key={value}
                 round={round}
                 roundImg={urlFor(gameData.questionSet[round].images[0].asset).url()}
                 questionSet={gameData.questionSet[round]}
@@ -199,6 +200,7 @@ const InGameView: React.FC = () => {
       )}
       {round == totalRounds && totalRounds !== 0 && (
         <AllResultsComponent
+          key={value}
           teamPlayers={teamPlayers}
           totalPoints={totalPoints}
           currentPlayer={player}
