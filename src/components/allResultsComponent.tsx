@@ -91,8 +91,8 @@ const AllResultsComponent: React.FC<PlayerResultsProps> = ({
           </div>
         </div>
       </Fade> */}
-      <button className='mt-8 btn-lg'>
-        <Link to='/'>Gå til hjemskjermen</Link>
+      <button onClick={()=> window.location.replace('https://playescapade.com')} className='mt-8 btn-lg'>
+        Gå til hjemskjermen
       </button>
     </div>
   );
