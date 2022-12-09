@@ -1,5 +1,5 @@
 # Escapade
-Read the Master's Thesis here: [ntnuopen](https://ntnuopen.ntnu.no/ntnu-xmlui/handle/11250/3024672) for more detailed information around choices and background.
+Read the Master's Thesis here: [ntnuopen](https://ntnuopen.ntnu.no/ntnu-xmlui/handle/11250/3024672) for more detailed information around the game, studies, and technical aspects.
 
 ## Background
 
